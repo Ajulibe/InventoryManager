@@ -1,0 +1,19 @@
+input:focus,
+input:active {
+  box-shadow: none !important;
+  border: 1px solid #1070ca !important;
+  outline: none !important;
+  display: block;
+}
+
+.passwordDiv {
+  display: none;
+}
+
+/* #file-upload-button {
+  color: red !important;
+} */
+
+.fileChoice {
+  padding-top: 2px !important;
+}
