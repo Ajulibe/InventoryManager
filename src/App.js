@@ -1,4 +1,4 @@
-import "./App.css";
+import "./styles/App.scss";
 import SigninScreen from "./components/SigninScreen";
 import OverviewScreen from "./components/OverviewScreen";
 import {
@@ -8,6 +8,8 @@ import {
   Redirect,
 } from "react-router-dom";
 import SignupScreen from "./components/SignupScreen";
+import CreatebranchScreen from "./components/CreatebranchScreen";
+import AssignrolesScreen from "./components/AssignrolesScreen";
 
 function App() {
   return (
@@ -21,6 +23,12 @@ function App() {
         </Route>
         <Route exact path="/Overview">
           <OverviewScreen />
+        </Route>
+        <Route exact path="/createbranch">
+          <CreatebranchScreen />
+        </Route>
+        <Route exact path="/assignroles">
+          <AssignrolesScreen />
         </Route>
         <Redirect to="/Signup" />
       </Switch>

@@ -123,6 +123,25 @@ const SigninScreen = () => {
                       paddingBottom: "0.6rem",
                     }}
                   ></input>
+                  <div
+                    className="passwordDiv"
+                    style={{
+                      position: "absolute",
+                      top: "-20%",
+                      left: "5%",
+                      zIndex: "1000",
+                      fontSize: "0.5rem",
+                      color: "#1070CA",
+                      backgroundColor: "white",
+                      height: "0.8rem",
+                      paddingLeft: "3px",
+                      paddingRight: "3px",
+                    }}
+                  >
+                    <p>
+                      <b>Password</b>
+                    </p>
+                  </div>
                 </div>
 
                 {/* button */}

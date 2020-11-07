@@ -1,3 +1,7 @@
+.passwordDiv {
+  display: none;
+}
+
 input:focus,
 input:active {
   box-shadow: none !important;
@@ -6,13 +10,9 @@ input:active {
   display: block;
 }
 
-.passwordDiv {
-  display: none;
+input:focus + .passwordDiv {
+  display: block;
 }
-
-/* #file-upload-button {
-  color: red !important;
-} */
 
 .fileChoice {
   padding-top: 2px !important;

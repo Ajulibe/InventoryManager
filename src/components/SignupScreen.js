@@ -141,6 +141,18 @@ const SignupScreen = () => {
                   class="input-group input-group-sm mb-3 passwordGuy"
                   style={{ position: "relative" }}
                 >
+                  <input
+                    type="password"
+                    class="form-control passwordInput"
+                    aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-sm"
+                    placeholder="************"
+                    style={{
+                      fontSize: "0.7rem",
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6rem",
+                    }}
+                  ></input>
                   <div
                     className="passwordDiv"
                     style={{
@@ -160,19 +172,6 @@ const SignupScreen = () => {
                       <b>Password</b>
                     </p>
                   </div>
-
-                  <input
-                    type="password"
-                    class="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-sm"
-                    placeholder="************"
-                    style={{
-                      fontSize: "0.7rem",
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6rem",
-                    }}
-                  ></input>
                 </div>
 
                 {/* button */}

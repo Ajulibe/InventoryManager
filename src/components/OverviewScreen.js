@@ -111,8 +111,15 @@ const SigninScreen = () => {
                   marginTop: "1rem",
                 }}
               >
-                <Link className="linkTag">
-                  <div className="mt-2 text-center">
+                <Link to="overview" className="linkTag">
+                  <div
+                    className="mt-2 text-center"
+                    style={{
+                      borderLeft: "2px solid #006CF1",
+                      marginLeft: "-0.9rem",
+                      paddingLeft: "0.6rem",
+                    }}
+                  >
                     <img
                       src={all}
                       alt="all"
@@ -123,7 +130,7 @@ const SigninScreen = () => {
                   </div>
                 </Link>
 
-                <Link className="linkTag">
+                <Link to="assignroles" className="linkTag">
                   <div className="mt-4">
                     <img
                       src={roleswhite}
@@ -135,7 +142,7 @@ const SigninScreen = () => {
                   </div>
                 </Link>
 
-                <Link className="linkTag">
+                <Link to="createbranch" className="linkTag">
                   <div className="mt-4">
                     <img
                       src={brancheswhite}
@@ -150,7 +157,7 @@ const SigninScreen = () => {
 
               {/* second set */}
               <div style={{ marginTop: "8rem" }}>
-                <Link className="linkTag">
+                <Link to="/Signin" className="linkTag">
                   {" "}
                   <div>
                     <img
@@ -197,16 +204,16 @@ const SigninScreen = () => {
               className="col col-4 mr-auto ml-auto text-center mb-5"
               style={{
                 marginTop: "0.5rem",
-                height: "3rem",
-                width: "3rem",
+                height: "2rem",
+                width: "2rem",
               }}
             >
               <img
                 src={kadarko}
                 alt="Comapany-Logo"
-                style={{ height: "100%", marginBottom: "2%" }}
+                style={{ height: "100%", marginBottom: "1%" }}
               />
-              <p style={{ fontSize: "1rem" }}>
+              <p style={{ fontSize: "0.7rem" }}>
                 <b>INVENTORY OF ALL BRANCHES</b>
               </p>
             </div>
@@ -217,7 +224,7 @@ const SigninScreen = () => {
                 height: "20vh",
                 borderRadius: "13px",
                 // position: "fixed",
-                // mrginTop: "5rem",
+                marginTop: "-1rem",
               }}
             >
               <div className="col col-12 d-flex justify-content-between">
@@ -309,97 +316,196 @@ const SigninScreen = () => {
                     </p>
                   </div>
                 </div>
-                <div className="col col-2">
-                  <div
-                    className=" col col-1"
-                    style={{
-                      position: "relative",
-                    }}
-                  >
+                <div className="col col-2" style={{}}>
+                  <div className="row d-flex">
                     <div
-                      className="rounded-circle"
+                      className="col col-1"
                       style={{
-                        height: "0.8rem",
-                        width: "0.8rem",
-                        top: "0.5rem",
-                        position: "absolute",
-                        backgroundColor: "#4CD964",
-                      }}
-                    ></div>
-                  </div>
-                  <div className="col col-11">
-                    <p style={{ color: "#44434F", fontSize: "0.8rem" }}>
-                      Mouse
-                    </p>{" "}
-                    <p
-                      style={{
-                        color: "#f14b22",
-                        fontSize: "0.9rem",
-                        position: "absolute",
-                        top: "50%",
+                        position: "relative",
                       }}
                     >
-                      <b>581</b>
-                    </p>
+                      <div
+                        className="rounded-circle"
+                        style={{
+                          height: "0.8rem",
+                          width: "0.8rem",
+                          top: "0.5rem",
+                          position: "absolute",
+                          backgroundColor: "#007AFF",
+                          marginRight: "1rem",
+                        }}
+                      ></div>
+                    </div>
+                    <div className="col col-11" style={{ textAlign: "center" }}>
+                      <p
+                        style={{
+                          color: "#44434F",
+                          fontSize: "0.8rem",
+                        }}
+                      >
+                        Mouse
+                      </p>{" "}
+                      <p
+                        style={{
+                          color: "#f14b22",
+                          fontSize: "0.9rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "36%",
+                        }}
+                      >
+                        <b>581</b>
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div className="col col-2">
-                  <p style={{ color: "#44434F", fontSize: "0.8rem" }}>
-                    Desktop
-                  </p>
-                  <p
-                    style={{
-                      color: "#f14b22",
-                      fontSize: "0.9rem",
-                      position: "absolute",
-                      top: "50%",
-                    }}
-                  >
-                    <b>129</b>
-                  </p>
+                <div className="col col-2" style={{}}>
+                  <div className="row d-flex">
+                    <div
+                      className="col col-1"
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      <div
+                        className="rounded-circle"
+                        style={{
+                          height: "0.8rem",
+                          width: "0.8rem",
+                          top: "0.5rem",
+                          position: "absolute",
+                          backgroundColor: "#FF00C7",
+                          marginRight: "1rem",
+                        }}
+                      ></div>
+                    </div>
+                    <div className="col col-11" style={{ textAlign: "center" }}>
+                      <p
+                        style={{
+                          color: "#44434F",
+                          fontSize: "0.8rem",
+                        }}
+                      >
+                        Desktop
+                      </p>{" "}
+                      <p
+                        style={{
+                          color: "#f14b22",
+                          fontSize: "0.9rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "33%",
+                        }}
+                      >
+                        <b>129</b>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="col col-2">
-                  <p style={{ color: "#44434F", fontSize: "0.8rem" }}>
-                    Keyboard
-                  </p>
-                  <p
-                    style={{
-                      color: "#f14b22",
-                      fontSize: "0.9rem",
-                      position: "absolute",
-                      top: "50%",
-                    }}
-                  >
-                    <b>403</b>
-                  </p>
+                <div className="col col-2" style={{}}>
+                  <div className="row d-flex">
+                    <div
+                      className="col col-1"
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      <div
+                        className="rounded-circle"
+                        style={{
+                          height: "0.8rem",
+                          width: "0.8rem",
+                          top: "0.5rem",
+                          position: "absolute",
+                          backgroundColor: "#FFCC00",
+                          marginRight: "1rem",
+                        }}
+                      ></div>
+                    </div>
+                    <div className="col col-11" style={{ textAlign: "center" }}>
+                      <p
+                        style={{
+                          color: "#44434F",
+                          fontSize: "0.8rem",
+                        }}
+                      >
+                        Keyboard
+                      </p>{" "}
+                      <p
+                        style={{
+                          color: "#f14b22",
+                          fontSize: "0.9rem",
+                          position: "absolute",
+                          top: "50%",
+                          left: "30%",
+                        }}
+                      >
+                        <b>403</b>
+                      </p>
+                    </div>
+                  </div>
                 </div>
+
                 <div
-                  className="col col-2 d-flex justify-content-between"
-                  style={{ position: "relative" }}
+                  className="col col-2 d-flex justify-content-between lastOne"
+                  style={{
+                    position: "relative",
+                    paddingLeft: "0",
+                  }}
                 >
-                  <div className="col col-6">
-                    {" "}
-                    <p style={{ color: "#44434F", fontSize: "0.8rem" }}>
-                      Printers
-                    </p>
-                    <p
-                      style={{
-                        color: "#f14b22",
-                        fontSize: "0.9rem",
-                        position: "absolute",
-                        top: "50%",
-                      }}
-                    >
-                      <b>138</b>
-                    </p>
+                  <div className="col col-8">
+                    <div className="row d-flex">
+                      <div
+                        className="col col-1"
+                        style={{
+                          position: "relative",
+                        }}
+                      >
+                        <div
+                          className="rounded-circle"
+                          style={{
+                            height: "0.8rem",
+                            width: "0.8rem",
+                            top: "0.5rem",
+                            position: "absolute",
+                            backgroundColor: "#D141EF",
+                            left: "-0.1rem",
+                          }}
+                        ></div>
+                      </div>
+                      <div
+                        className="col col-11"
+                        style={{ textAlign: "right" }}
+                      >
+                        <p
+                          style={{
+                            color: "#44434F",
+                            fontSize: "0.8rem",
+                          }}
+                        >
+                          Printers
+                        </p>{" "}
+                        <p
+                          style={{
+                            color: "#f14b22",
+                            fontSize: "0.9rem",
+                            position: "absolute",
+                            top: "50%",
+                            left: "30%",
+                          }}
+                        >
+                          <b>138</b>
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="col col-6 d-flex align-self-end">
+                  <div className="col col-4 d-flex align-self-end">
                     <Link>
                       <p
                         style={{
                           fontSize: "0.6rem",
                           position: "absolute",
-                          //   border: "1px solid red",
+
                           right: "3px",
                           top: "-1rem",
                         }}
@@ -429,13 +535,13 @@ const SigninScreen = () => {
               </div>
               <div className="col col-12 d-flex justify-content-between">
                 <div className="col col-6 text-left">
-                  <p style={{ fontSize: "0.8rem", fontWeight: "200" }}>
+                  <p style={{ fontSize: "0.7rem", fontWeight: "200" }}>
                     Recently added (25 items){" "}
                   </p>
                 </div>
                 <div className="col col-6 text-right">
                   <Link>
-                    <p style={{ fontSize: "0.8rem", fontWeight: "200" }}>
+                    <p style={{ fontSize: "0.7rem", fontWeight: "200" }}>
                       View all Recent Items
                     </p>
                   </Link>
@@ -446,7 +552,7 @@ const SigninScreen = () => {
                 style={{ height: "40vh", overflow: "scroll" }}
               >
                 <table
-                  class="table table-hover table-bordered text-center"
+                  class="table table-hover table-striped table-bordered text-center"
                   style={{ fontSize: "0.8rem" }}
                 >
                   <thead>
