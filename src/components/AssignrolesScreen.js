@@ -188,7 +188,8 @@ const AssignrolesScreen = () => {
               className="col col-9 mr-auto ml-auto d-flex justify-content-between"
               style={{ marginTop: "2%", textAlign: "center" }}
             >
-              <div className="row"></div>
+              {/* <div className="row"></div> */}
+              {/* SUPERRRR */}
               <div className="col col-3">
                 <input
                   type="text"
@@ -200,7 +201,172 @@ const AssignrolesScreen = () => {
                     padding: "0.2rem",
                   }}
                 ></input>
+                <div className="row mt-4">
+                  <div className="col col-12">
+                    <div
+                      class="form-check text-left"
+                      style={{ position: "relative" }}
+                    >
+                      <label
+                        class="form-check-label"
+                        for="checkbox1"
+                        style={{ fontSize: "0.8rem", textAlign: "left" }}
+                      >
+                        <input
+                          class="form-check-input superadmin"
+                          type="checkbox"
+                          name="exampleRadios"
+                          id="checkbox1"
+                          value="option1"
+                        ></input>
+                        <span className="under">Super Admin</span>
+
+                        <br />
+                        <br />
+                        <div
+                          class="addguy"
+                          style={{
+                            width: "13rem",
+                            padding: "0.7rem",
+                            // border: "1px solid red",
+                            position: "absolute",
+                            borderRadius: "3px",
+                            left: "-0.7rem",
+                            boxShadow: "0 0 1rem rgb(0,0,0,0.1)",
+                          }}
+                        >
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.9rem",
+                              }}
+                            >
+                              Select All
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Create Inventory
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Delete Inventory
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Update Inventory
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Assign Roles
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Create Branches
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Delete Branches
+                            </label>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
+              {/* ADDDMMMIIINNNN */}
               <div className="col col-3">
                 {" "}
                 <input
@@ -213,35 +379,368 @@ const AssignrolesScreen = () => {
                     padding: "0.2rem",
                   }}
                 ></input>
-              </div>
-              <div className="col col-6 d-flex">
-                <div className="col col-5">
-                  <button
-                    className="btn btn-sm btn-block "
-                    style={{
-                      backgroundColor: "#D94F00",
-                      color: "white",
-                      fontSize: "0.7rem",
-                      borderRadius: "3px",
-                      //   width: "6rem",
-                    }}
-                  >
-                    Create Role
-                  </button>
+                <div className="row mt-4">
+                  <div className="col col-12">
+                    <div
+                      class="form-check text-left"
+                      style={{ position: "relative" }}
+                    >
+                      <label
+                        class="form-check-label"
+                        for="checkbox1"
+                        style={{ fontSize: "0.8rem", textAlign: "left" }}
+                      >
+                        <input
+                          class="form-check-input superadmin"
+                          type="checkbox"
+                          name="exampleRadios"
+                          id="checkbox1"
+                          value="option1"
+                        ></input>
+                        <span className="under">Admin</span>
+
+                        <br />
+                        <br />
+                        <div
+                          class="addguy"
+                          style={{
+                            width: "13rem",
+                            padding: "0.7rem",
+                            // border: "1px solid red",
+                            position: "absolute",
+                            borderRadius: "3px",
+                            left: "-0.7rem",
+                            boxShadow: "0 0 1rem rgb(0,0,0,0.1)",
+                          }}
+                        >
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.9rem",
+                              }}
+                            >
+                              Select All
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Create Inventory
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Delete Inventory
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Update Inventory
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Assign Roles
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Create Branches
+                            </label>
+                          </div>
+                          <br />
+                          <div class="form-check ">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="inlineCheckbox1"
+                              value="option1"
+                            ></input>
+                            <label
+                              class="form-check-label"
+                              for="inlineCheckbox1"
+                              style={{
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              Delete Branches
+                            </label>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
                 </div>
-                <div className="col col-5">
-                  <button
-                    className="btn btn-sm btn-block"
-                    style={{
-                      backgroundColor: "white",
-                      border: "1px solid #D94F00",
-                      color: "#D94F00",
-                      fontSize: "0.7rem",
-                      borderRadius: "3px",
-                    }}
-                  >
-                    All Roles
-                  </button>
+              </div>
+              <div className="col col-6 d-flex" style={{ textAlign: "center" }}>
+                <div className="row" style={{ width: "100%" }}>
+                  <div className="col col-6" style={{ position: "relative" }}>
+                    <button
+                      className="btn btn-sm btn-block "
+                      style={{
+                        backgroundColor: "#D94F00",
+                        color: "white",
+                        fontSize: "0.7rem",
+                        borderRadius: "3px",
+                      }}
+                    >
+                      Create Role
+                    </button>
+                    {/* checkbox */}
+                    <div className="row mt-4">
+                      <div
+                        className="col col-12"
+                        style={{ position: "absolute", left: "2rem" }}
+                      >
+                        <div
+                          class="form-check text-left"
+                          style={{ position: "relative" }}
+                        >
+                          <label
+                            class="form-check-label"
+                            for="checkbox1"
+                            style={{ fontSize: "0.8rem", textAlign: "left" }}
+                          >
+                            <input
+                              class="form-check-input superadmin"
+                              type="checkbox"
+                              name="exampleRadios"
+                              id="checkbox1"
+                              value="option1"
+                            ></input>
+                            <span className="under">Teller</span>
+
+                            <br />
+                            <br />
+                            <div
+                              class="addguy"
+                              style={{
+                                width: "13rem",
+                                padding: "0.7rem",
+
+                                position: "absolute",
+                                borderRadius: "3px",
+                                left: "-0.7rem",
+                                boxShadow: "0 0 1rem rgb(0,0,0,0.1)",
+                              }}
+                            >
+                              <div class="form-check ">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="inlineCheckbox1"
+                                  value="option1"
+                                ></input>
+                                <label
+                                  class="form-check-label"
+                                  for="inlineCheckbox1"
+                                  style={{
+                                    fontSize: "0.9rem",
+                                  }}
+                                >
+                                  Select All
+                                </label>
+                              </div>
+                              <br />
+                              <div class="form-check ">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="inlineCheckbox1"
+                                  value="option1"
+                                ></input>
+                                <label
+                                  class="form-check-label"
+                                  for="inlineCheckbox1"
+                                  style={{
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  Create Inventory
+                                </label>
+                              </div>
+                              <br />
+                              <div class="form-check ">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="inlineCheckbox1"
+                                  value="option1"
+                                ></input>
+                                <label
+                                  class="form-check-label"
+                                  for="inlineCheckbox1"
+                                  style={{
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  Delete Inventory
+                                </label>
+                              </div>
+                              <br />
+                              <div class="form-check ">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="inlineCheckbox1"
+                                  value="option1"
+                                ></input>
+                                <label
+                                  class="form-check-label"
+                                  for="inlineCheckbox1"
+                                  style={{
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  Update Inventory
+                                </label>
+                              </div>
+                              <br />
+                              <div class="form-check ">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="inlineCheckbox1"
+                                  value="option1"
+                                ></input>
+                                <label
+                                  class="form-check-label"
+                                  for="inlineCheckbox1"
+                                  style={{
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  Assign Roles
+                                </label>
+                              </div>
+                              <br />
+                              <div class="form-check ">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="inlineCheckbox1"
+                                  value="option1"
+                                ></input>
+                                <label
+                                  class="form-check-label"
+                                  for="inlineCheckbox1"
+                                  style={{
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  Create Branches
+                                </label>
+                              </div>
+                              <br />
+                              <div class="form-check ">
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  id="inlineCheckbox1"
+                                  value="option1"
+                                ></input>
+                                <label
+                                  class="form-check-label"
+                                  for="inlineCheckbox1"
+                                  style={{
+                                    fontSize: "0.7rem",
+                                  }}
+                                >
+                                  Delete Branches
+                                </label>
+                              </div>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col col-6">
+                    <button
+                      className="btn btn-sm btn-block"
+                      style={{
+                        backgroundColor: "white",
+                        border: "1px solid #D94F00",
+                        color: "#D94F00",
+                        fontSize: "0.7rem",
+                        borderRadius: "3px",
+                      }}
+                    >
+                      All Roles
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

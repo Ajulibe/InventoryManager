@@ -122,7 +122,11 @@ const SignupScreen = () => {
                   ></input>
                 </div>
                 <div class="input-group input-group-sm mb-3 ">
-                  <label for="file-upload" class="custom-file-upload">
+                  <label
+                    for="file-upload"
+                    class="custom-file-upload"
+                    style={{ position: "relative" }}
+                  >
                     <input
                       id="file-upload"
                       type="file"
@@ -136,6 +140,17 @@ const SignupScreen = () => {
                         paddingBottom: "0.6rem",
                       }}
                     ></input>
+                    <div
+                      style={{
+                        fontSize: "0.7rem",
+                        color: "#6D767E",
+                        position: "absolute",
+                        top: "0.25rem",
+                        left: "0.5rem",
+                      }}
+                    >
+                      Company Logo
+                    </div>
                   </label>
                 </div>
 
@@ -153,6 +168,7 @@ const SignupScreen = () => {
                       fontSize: "0.7rem",
                       paddingTop: "0.6rem",
                       paddingBottom: "0.6rem",
+                      borderRadius: "3px",
                     }}
                   ></input>
                   <div

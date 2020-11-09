@@ -48,3 +48,15 @@ input[type="file"] {
 .add:hover {
   transform: scale(1.4);
   color: #b04328 !important; }
+
+.under {
+  text-decoration-line: none; }
+
+.addguy {
+  display: none; }
+
+input:checked + .under ~ .addguy {
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: #036DF2;
+  display: block; }

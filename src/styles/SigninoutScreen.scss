@@ -10,7 +10,7 @@ input:active {
   display: block;
 }
 
-input:focus + .passwordDiv {
+input:focus+.passwordDiv {
   display: block;
 }
 

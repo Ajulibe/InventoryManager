@@ -1,0 +1,16 @@
+.under {
+    text-decoration-line: none
+}
+
+.addguy {
+    display: none;
+
+}
+
+input:checked+.under~.addguy {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-color: #036DF2;
+    display: block;
+
+}
