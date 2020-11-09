@@ -1,0 +1,28 @@
+.linkTag {
+  color: white !important;
+}
+
+.linkTag:hover {
+  text-decoration: none;
+  color: #e76f51 !important;
+  transform: scale(0.8);
+}
+
+.image:hover {
+  transform: scale(1.2);
+  color: white !important;
+}
+
+.newEntry:hover {
+  text-decoration: none !important;
+}
+
+.add {
+  text-decoration: none;
+  color: #e76f51 !important;
+}
+
+.add:hover {
+  transform: scale(1.4);
+  color: #b04328 !important;
+}
