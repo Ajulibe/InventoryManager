@@ -149,7 +149,7 @@ const SignupScreen = () => {
                         left: "0.5rem",
                       }}
                     >
-                      Company Logo
+                      Attach Company Logo
                     </div>
                   </label>
                 </div>

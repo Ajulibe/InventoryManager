@@ -60,3 +60,21 @@ input:checked + .under ~ .addguy {
   text-decoration-style: solid;
   text-decoration-color: #036DF2;
   display: block; }
+
+.btn:focus {
+  outline: 0;
+  box-shadow: none; }
+
+.close:focus {
+  outline: 0;
+  box-shadow: none; }
+
+.successImg {
+  animation: showthis 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  transition: all 0.3s; }
+
+@keyframes showthis {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 100; } }

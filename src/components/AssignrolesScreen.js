@@ -9,6 +9,7 @@ import branches from "../assets/branches.png";
 import brancheswhite from "../assets/brancheswhite.png";
 import roleswhite from "../assets/roleswhite.png";
 import kadarko from "../assets/Kadarko.svg";
+import success from "../assets/success.svg";
 
 const AssignrolesScreen = () => {
   //   const { state, signup, clearErrorMessage } = useContext(authContext);
@@ -548,6 +549,8 @@ const AssignrolesScreen = () => {
                 <div className="row" style={{ width: "100%" }}>
                   <div className="col col-6" style={{ position: "relative" }}>
                     <button
+                      data-toggle="modal"
+                      data-target="#exampleModalCenter"
                       className="btn btn-sm btn-block "
                       style={{
                         backgroundColor: "#D94F00",
@@ -558,6 +561,66 @@ const AssignrolesScreen = () => {
                     >
                       Create Role
                     </button>
+                    {/* modal */}
+                    <div
+                      class="modal fade"
+                      id="exampleModalCenter"
+                      tabindex="-1"
+                      role="dialog"
+                      aria-labelledby="exampleModalCenterTitle"
+                      aria-hidden="true"
+                    >
+                      <div
+                        class="modal-dialog modal-dialog-centered"
+                        role="document"
+                      >
+                        <div
+                          class="modal-content"
+                          style={{
+                            // border: "1px solid red",
+                            position: "relative",
+                            borderRadius: "2rem",
+                            paddingTop: "3rem",
+                          }}
+                        >
+                          <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                            style={{
+                              position: "absolute",
+                              top: "1rem",
+                              right: "1rem",
+                              border: "1px solid black",
+                              padding: "0.3rem",
+                              borderRadius: "15px",
+                            }}
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <div class="modal-body">
+                            <img
+                              className="successImg"
+                              src={success}
+                              alt="sucessfullycreated"
+                              style={{ width: "10rem" }}
+                            />
+                            <br />
+                            <br />
+                            <br />
+                            <p>
+                              <b>Congratulations</b>
+                            </p>
+                            <p
+                              style={{ fontWeight: "200", fontSize: "0.8rem" }}
+                            >
+                              Jane John is now a Super Admin
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     {/* checkbox */}
                     <div className="row mt-4">
                       <div
