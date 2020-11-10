@@ -604,11 +604,11 @@ const AssignrolesScreen = () => {
                               className="successImg"
                               src={success}
                               alt="sucessfullycreated"
-                              style={{ width: "10rem" }}
+                              style={{ width: "8rem" }}
                             />
                             <br />
                             <br />
-                            <br />
+
                             <p>
                               <b>Congratulations</b>
                             </p>
@@ -731,59 +731,6 @@ const AssignrolesScreen = () => {
                                 </label>
                               </div>
                               <br />
-                              <div class="form-check ">
-                                <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  id="inlineCheckbox1"
-                                  value="option1"
-                                ></input>
-                                <label
-                                  class="form-check-label"
-                                  for="inlineCheckbox1"
-                                  style={{
-                                    fontSize: "0.7rem",
-                                  }}
-                                >
-                                  Assign Roles
-                                </label>
-                              </div>
-                              <br />
-                              <div class="form-check ">
-                                <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  id="inlineCheckbox1"
-                                  value="option1"
-                                ></input>
-                                <label
-                                  class="form-check-label"
-                                  for="inlineCheckbox1"
-                                  style={{
-                                    fontSize: "0.7rem",
-                                  }}
-                                >
-                                  Create Branches
-                                </label>
-                              </div>
-                              <br />
-                              <div class="form-check ">
-                                <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  id="inlineCheckbox1"
-                                  value="option1"
-                                ></input>
-                                <label
-                                  class="form-check-label"
-                                  for="inlineCheckbox1"
-                                  style={{
-                                    fontSize: "0.7rem",
-                                  }}
-                                >
-                                  Delete Branches
-                                </label>
-                              </div>
                             </div>
                           </label>
                         </div>

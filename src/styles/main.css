@@ -58,7 +58,7 @@ input[type="file"] {
 input:checked + .under ~ .addguy {
   text-decoration-line: underline;
   text-decoration-style: solid;
-  text-decoration-color: #036DF2;
+  text-decoration-color: #036df2;
   display: block; }
 
 .btn:focus {

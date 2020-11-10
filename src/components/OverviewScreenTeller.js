@@ -10,7 +10,7 @@ import brancheswhite from "../assets/brancheswhite.png";
 import roleswhite from "../assets/roleswhite.png";
 import kadarko from "../assets/Kadarko.svg";
 
-const OverviewScreen = () => {
+const OverviewScreenTeller = () => {
   //   const { state, signup, clearErrorMessage } = useContext(authContext);
   //   const [email, setEmail] = useState("");
   //   const [password, setPassword] = useState("");
@@ -74,11 +74,11 @@ const OverviewScreen = () => {
         <div
           class="col col-md-1 slider"
           style={{
-            height: "80vh",
-            marginTop: "40px",
+            height: "33vh",
+            marginTop: "3.8rem",
             borderTopRightRadius: "20px",
             borderBottomRightRadius: "20px",
-            position: "fixed",
+            // position: "fixed",
           }}
         >
           {/* inside box */}
@@ -98,7 +98,6 @@ const OverviewScreen = () => {
                 borderBottomRightRadius: "20px",
                 fontSize: "0.6rem",
                 color: "white",
-                // border: "1px solid blue",
                 paddingRight: "15px",
               }}
             >
@@ -111,9 +110,9 @@ const OverviewScreen = () => {
                   marginTop: "1rem",
                 }}
               >
-                <Link to="overview" className="linkTag">
+                <span className="linkTag">
                   <div
-                    className="mt-2 text-center"
+                    className="mt-1 text-center"
                     style={{
                       borderLeft: "2px solid #006CF1",
                       marginLeft: "-0.9rem",
@@ -128,36 +127,125 @@ const OverviewScreen = () => {
                     />
                     <p class="">All Inventory</p>
                   </div>
-                </Link>
-
-                <Link to="assignroles" className="linkTag">
-                  <div className="mt-4">
-                    <img
-                      src={roleswhite}
-                      alt="roleswhite"
-                      class="image"
+                </span>
+                <Link
+                  className="linkTag mt-4"
+                  data-toggle="modal"
+                  data-target="#exampleModalCenter3"
+                >
+                  {" "}
+                  <div>
+                    <i
+                      class="fa fa-shopping-cart image"
+                      aria-hidden="true"
                       style={{ width: "1.5rem" }}
-                    />
-                    <p>Assign Roles</p>
+                    ></i>
+                    <p>Check Out</p>
                   </div>
                 </Link>
-
-                <Link to="createbranch" className="linkTag">
-                  <div className="mt-4">
-                    <img
-                      src={brancheswhite}
-                      alt="branches"
-                      class="image"
-                      style={{ width: "1.5rem" }}
-                    />
-                    <p style={{ textAlign: "center" }}>Create Branches</p>
+                {/* modal */}
+                <div
+                  class="modal fade"
+                  id="exampleModalCenter3"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="exampleModalCenterTitle"
+                  aria-hidden="true"
+                >
+                  <div
+                    class="modal-dialog modal-dialog-centered"
+                    role="document"
+                  >
+                    <div
+                      class="modal-content"
+                      style={{
+                        position: "relative",
+                        borderRadius: "2rem",
+                        paddingTop: "3rem",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        style={{
+                          position: "absolute",
+                          top: "1rem",
+                          right: "1rem",
+                          border: "1px solid black",
+                          padding: "0.3rem",
+                          borderRadius: "15px",
+                        }}
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <div class="modal-body">
+                        <p STYLE={{ textAlign: "center" }}>
+                          <b>CHECK OUT</b>
+                        </p>
+                        <div
+                          className="col col-12 table-responsive"
+                          style={{ height: "40vh", overflow: "scroll" }}
+                        >
+                          <table
+                            class="table table-hover table-striped table-bordered text-center"
+                            style={{ fontSize: "0.8rem" }}
+                          >
+                            <thead>
+                              <tr>
+                                <th scope="col">Item ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Amount</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <input
+                                    type="text"
+                                    style={{ width: "100%" }}
+                                  ></input>
+                                </td>
+                                <td></td>
+                                <td>
+                                  <input
+                                    type="number"
+                                    style={{ width: "100%", padding: "0" }}
+                                  ></input>
+                                </td>
+                                <td>
+                                  <p>
+                                    <b>N</b> &nbsp;0.00
+                                  </p>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <br />
+                          <span>
+                            NOTE:Item ID is taken from the barcode Scanner
+                          </span>
+                          <button
+                            data-toggle="modal"
+                            data-target="#exampleModalCenter3"
+                            className="btn btn-sm btn-block "
+                            style={{
+                              backgroundColor: "#D94F00",
+                              color: "white",
+                              fontSize: "0.7rem",
+                              borderRadius: "3px",
+                            }}
+                          >
+                            Done
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </Link>
-              </div>
-
-              {/* second set */}
-              <div style={{ marginTop: "8rem" }}>
-                <Link to="/Signin" className="linkTag">
+                </div>
+                <Link to="/Signin" className="linkTag mt-4">
                   {" "}
                   <div>
                     <img
@@ -198,7 +286,14 @@ const OverviewScreen = () => {
             </div>
           </div>
         </div> */}
-        <div class="col col-md-11" style={{ marginLeft: "5rem" }}>
+        <div
+          class="col col-md-11"
+          style={{
+            marginLeft: "5rem",
+            // border: "1px solid red",
+            marginTop: "-20rem",
+          }}
+        >
           <div className="row">
             <div
               className="col col-4 mr-auto ml-auto text-center mb-5"
@@ -862,4 +957,4 @@ const OverviewScreen = () => {
   );
 };
 
-export default OverviewScreen;
+export default OverviewScreenTeller;
