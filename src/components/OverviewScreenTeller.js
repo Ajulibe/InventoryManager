@@ -65,6 +65,7 @@ const OverviewScreenTeller = () => {
                 paddingBottom: "0.6rem",
                 backgroundColor: "#44434F",
                 border: "none",
+                borderRadius: "0",
               }}
             ></input>
           </div>
@@ -110,7 +111,7 @@ const OverviewScreenTeller = () => {
                   marginTop: "1rem",
                 }}
               >
-                <span className="linkTag">
+                <span className="">
                   <div
                     className="mt-1 text-center"
                     style={{
@@ -131,7 +132,7 @@ const OverviewScreenTeller = () => {
                 <Link
                   className="linkTag mt-4"
                   data-toggle="modal"
-                  data-target="#exampleModalCenter3"
+                  data-target="#exampleModalCenter4"
                 >
                   {" "}
                   <div>
@@ -146,7 +147,7 @@ const OverviewScreenTeller = () => {
                 {/* modal */}
                 <div
                   class="modal fade"
-                  id="exampleModalCenter3"
+                  id="exampleModalCenter4"
                   tabindex="-1"
                   role="dialog"
                   aria-labelledby="exampleModalCenterTitle"
@@ -181,7 +182,13 @@ const OverviewScreenTeller = () => {
                         <span aria-hidden="true">&times;</span>
                       </button>
                       <div class="modal-body">
-                        <p STYLE={{ textAlign: "center" }}>
+                        <p
+                          style={{
+                            textAlign: "center",
+                            color: "#000000",
+                            fontSize: "1rem",
+                          }}
+                        >
                           <b>CHECK OUT</b>
                         </p>
                         <div
@@ -224,9 +231,20 @@ const OverviewScreenTeller = () => {
                             </tbody>
                           </table>
                           <br />
-                          <span>
-                            NOTE:Item ID is taken from the barcode Scanner
+                          <span
+                            style={{
+                              textAlign: "left",
+                              color: "grey",
+                              fontSize: "0.7rem",
+                              fontweight: "200",
+                            }}
+                          >
+                            <p>
+                              <b>NOTE:</b>&nbsp; Item ID is taken from the
+                              barcode Scanner
+                            </p>
                           </span>
+                          <br />
                           <button
                             data-toggle="modal"
                             data-target="#exampleModalCenter3"
