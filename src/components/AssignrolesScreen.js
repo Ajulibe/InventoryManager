@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import empty from "../assets/empty.svg";
 import all from "../assets/all.png";
@@ -10,11 +10,163 @@ import brancheswhite from "../assets/brancheswhite.png";
 import roleswhite from "../assets/roleswhite.png";
 import kadarko from "../assets/Kadarko.svg";
 import success from "../assets/success.svg";
+import authContext from "../context/authContext";
 
 const AssignrolesScreen = () => {
-  //   const { state, signup, clearErrorMessage } = useContext(authContext);
-  //   const [email, setEmail] = useState("");
-  //   const [password, setPassword] = useState("");
+  const { state, createUserRoles } = useContext(authContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const name = "users";
+  const role = "custom";
+  const [superadmin, setSuperadmin] = useState(false);
+  const [superall, setSuperall] = useState(false);
+  const [supercreate, setSupercreate] = useState(false);
+  const [superdelete, setSuperdelete] = useState(false);
+  const [superupdate, setSuperupdate] = useState(false);
+  const [superassign, setSuperassign] = useState(false);
+  const [supercreatebranch, setSupercreatebranch] = useState(false);
+  const [superdeletebranch, setSuperdeletebranch] = useState(false);
+
+  // ADMIN STATES
+  const [admin, setAdmin] = useState(false);
+  const [allAd, setAllad] = useState(false);
+  const [createAd, setCreatead] = useState(false);
+  const [deleteAd, setDeletead] = useState(false);
+  const [updateAd, setUpdatead] = useState(false);
+  const [assignAd, setAssignad] = useState(false);
+  const [createbranchAd, setCreatebranchad] = useState(false);
+  const [deletebranchAd, setDeletebranchad] = useState(false);
+
+  useEffect(() => {
+    console.log(superadmin);
+  });
+
+  const createUser = () => {
+    if (email === "" || password === "") {
+      window.alert("Email or Password is empty");
+      return;
+    }
+    createUserRoles(email, password, name, role);
+  };
+
+  const SelectallSuper = () => {
+    setSupercreate(!superall);
+    setSuperdelete(!superall);
+    setSuperupdate(!superall);
+    setSuperassign(!superall);
+    setSupercreatebranch(!superall);
+    setSuperdeletebranch(!superall);
+    setSuperall(!superall);
+  };
+
+  const Supercreatefn = () => {
+    if (superall === true) {
+      setSuperall(false);
+      setSuperdelete(false);
+      setSuperupdate(false);
+      setSuperassign(false);
+      setSupercreatebranch(false);
+      setSuperdeletebranch(false);
+      setSupercreate(true);
+    } else {
+      setSupercreate(!supercreate);
+    }
+  };
+
+  const Superdeletefn = () => {
+    if (superall === true) {
+      setSuperall(false);
+      setSuperupdate(false);
+      setSuperassign(false);
+      setSupercreatebranch(false);
+      setSuperdeletebranch(false);
+      setSupercreate(false);
+      setSuperdelete(true);
+    } else {
+      setSuperdelete(!superdelete);
+    }
+  };
+
+  const Superupdatefn = () => {
+    if (superall === true) {
+      setSuperall(false);
+      setSuperassign(false);
+      setSupercreatebranch(false);
+      setSuperdeletebranch(false);
+      setSupercreate(false);
+      setSuperdelete(false);
+      setSuperupdate(true);
+    } else {
+      setSuperupdate(!superupdate);
+    }
+  };
+
+  const Superassignfn = () => {
+    if (superall === true) {
+      setSuperall(false);
+      setSupercreatebranch(false);
+      setSuperdeletebranch(false);
+      setSupercreate(false);
+      setSuperdelete(false);
+      setSuperupdate(false);
+      setSuperassign(true);
+    } else {
+      setSuperassign(!superassign);
+    }
+  };
+
+  const Supercreatebranchfn = () => {
+    if (superall === true) {
+      setSuperall(false);
+      setSuperdeletebranch(false);
+      setSupercreate(false);
+      setSuperdelete(false);
+      setSuperupdate(false);
+      setSuperassign(false);
+      setSupercreatebranch(true);
+    } else {
+      setSupercreatebranch(!supercreatebranch);
+    }
+  };
+
+  const Superdeletebranchfn = () => {
+    if (superall === true) {
+      setSuperall(false);
+      setSupercreate(false);
+      setSuperdelete(false);
+      setSuperupdate(false);
+      setSuperassign(false);
+      setSupercreatebranch(false);
+      setSuperdeletebranch(true);
+    } else {
+      setSuperdeletebranch(!superdeletebranch);
+    }
+  };
+
+  // ADMIN FUNCTIONS
+  const SelectallAd = () => {
+    setCreatead(!allAd);
+    setDeletead(!allAd);
+    setUpdatead(!allAd);
+    setAssignad(!allAd);
+    setCreatebranchad(!allAd);
+    setDeletebranchad(!allAd);
+    setAllad(!allAd);
+  };
+
+  const createfnAd = () => {
+    if (allAd === true) {
+      setAllad(false);
+      setDeletead(false);
+      setUpdatead(false);
+      setAssignad(false);
+      setCreatebranchad(false);
+      setDeletebranchad(false);
+      setCreatead(true);
+    } else {
+      setCreatead(!createAd);
+    }
+  };
 
   return (
     <div class="container-fluid">
@@ -193,8 +345,13 @@ const AssignrolesScreen = () => {
               {/* SUPERRRR */}
               <div className="col col-3">
                 <input
-                  type="text"
-                  placeholder="Jane John"
+                  name="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  type="email"
+                  placeholder="JaneJohn@email.com"
                   style={{
                     border: "1px solid #E0E0E0",
                     fontSize: "0.7rem",
@@ -218,7 +375,11 @@ const AssignrolesScreen = () => {
                           type="checkbox"
                           name="exampleRadios"
                           id="checkbox1"
-                          value="option1"
+                          value="superadmin"
+                          onChange={(e) => {
+                            setSuperadmin(!superadmin);
+                          }}
+                          checked={superadmin}
                         ></input>
                         <span className="under">Super Admin</span>
 
@@ -241,7 +402,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="superall"
+                              onChange={SelectallSuper}
+                              checked={superall}
                             ></input>
                             <label
                               class="form-check-label"
@@ -259,7 +422,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="supercreate"
+                              onChange={Supercreatefn}
+                              checked={supercreate}
                             ></input>
                             <label
                               class="form-check-label"
@@ -277,7 +442,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="superdelete"
+                              onChange={Superdeletefn}
+                              checked={superdelete}
                             ></input>
                             <label
                               class="form-check-label"
@@ -295,7 +462,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="superupdate"
+                              onChange={Superupdatefn}
+                              checked={superupdate}
                             ></input>
                             <label
                               class="form-check-label"
@@ -313,7 +482,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="superassign"
+                              onChange={Superassignfn}
+                              checked={superassign}
                             ></input>
                             <label
                               class="form-check-label"
@@ -331,7 +502,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="supecreatebranch"
+                              onChange={Supercreatebranchfn}
+                              checked={supercreatebranch}
                             ></input>
                             <label
                               class="form-check-label"
@@ -349,7 +522,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="superdeletebranch"
+                              onChange={Superdeletebranchfn}
+                              checked={superdeletebranch}
                             ></input>
                             <label
                               class="form-check-label"
@@ -371,7 +546,12 @@ const AssignrolesScreen = () => {
               <div className="col col-3">
                 {" "}
                 <input
-                  type="text"
+                  name="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  type="password"
                   placeholder="************"
                   style={{
                     border: "1px solid #E0E0E0",
@@ -396,7 +576,11 @@ const AssignrolesScreen = () => {
                           type="checkbox"
                           name="exampleRadios"
                           id="checkbox1"
-                          value="option1"
+                          value="admin"
+                          onChange={(e) => {
+                            setAdmin(!admin);
+                          }}
+                          checked={admin}
                         ></input>
                         <span className="under">Admin</span>
 
@@ -419,7 +603,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="SelectAll"
+                              onChange={SelectallAd}
+                              checked={allAd}
                             ></input>
                             <label
                               class="form-check-label"
@@ -437,7 +623,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="createAd"
+                              onChange={createfnAd}
+                              checked={createAd}
                             ></input>
                             <label
                               class="form-check-label"
@@ -455,7 +643,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="deleteAd"
+                              onChange={deletefnAd}
+                              checked={deleteAd}
                             ></input>
                             <label
                               class="form-check-label"
@@ -473,7 +663,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="updateAd"
+                              onChange={updatefnAd}
+                              checked={updateAd}
                             ></input>
                             <label
                               class="form-check-label"
@@ -491,7 +683,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="assignAd"
+                              onChange={assignfnAd}
+                              checked={assignAd}
                             ></input>
                             <label
                               class="form-check-label"
@@ -509,7 +703,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="createbranchAd"
+                              onChange={createbranchfnAd}
+                              checked={createbranchAd}
                             ></input>
                             <label
                               class="form-check-label"
@@ -527,7 +723,9 @@ const AssignrolesScreen = () => {
                               class="form-check-input"
                               type="checkbox"
                               id="inlineCheckbox1"
-                              value="option1"
+                              value="deletebranchAd"
+                              onChange={deletebranchfnAd}
+                              checked={deletebranchAd}
                             ></input>
                             <label
                               class="form-check-label"
@@ -549,8 +747,9 @@ const AssignrolesScreen = () => {
                 <div className="row" style={{ width: "100%" }}>
                   <div className="col col-6" style={{ position: "relative" }}>
                     <button
-                      data-toggle="modal"
-                      data-target="#exampleModalCenter"
+                      onClick={createUser}
+                      // data-toggle="modal"
+                      // data-target="#exampleModalCenter"
                       className="btn btn-sm btn-block "
                       style={{
                         backgroundColor: "#D94F00",
@@ -638,7 +837,7 @@ const AssignrolesScreen = () => {
                           >
                             <input
                               class="form-check-input superadmin"
-                              type="checkbox"
+                              type="radio"
                               name="exampleRadios"
                               id="checkbox1"
                               value="option1"

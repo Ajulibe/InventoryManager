@@ -130,7 +130,7 @@ const OverviewScreenTeller = () => {
                   </div>
                 </span>
                 <Link
-                  className="linkTag mt-4"
+                  className="linkTag mt-1"
                   data-toggle="modal"
                   data-target="#exampleModalCenter4"
                 >
@@ -309,7 +309,7 @@ const OverviewScreenTeller = () => {
           style={{
             marginLeft: "5rem",
             // border: "1px solid red",
-            marginTop: "-20rem",
+            marginTop: "-17rem",
           }}
         >
           <div className="row">

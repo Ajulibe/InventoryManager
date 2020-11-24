@@ -26,6 +26,9 @@ input[type="file"] {
   height: 1.675rem;
   border-radius: 3px; }
 
+.ownerLogin {
+  display: none; }
+
 .linkTag {
   color: white !important; }
 
