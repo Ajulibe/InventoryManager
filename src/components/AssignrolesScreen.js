@@ -16,8 +16,8 @@ const AssignrolesScreen = () => {
   const { state, createUserRoles } = useContext(authContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const name = "users";
-  const role = "custom";
+
+  // SUPER ADMIN
   const [superadmin, setSuperadmin] = useState(false);
   const [superall, setSuperall] = useState(false);
   const [supercreate, setSupercreate] = useState(false);
@@ -37,6 +37,13 @@ const AssignrolesScreen = () => {
   const [createbranchAd, setCreatebranchad] = useState(false);
   const [deletebranchAd, setDeletebranchad] = useState(false);
 
+  // TELLER
+  const [teller, setTeller] = useState(false);
+  const [allteller, setAllteller] = useState(false);
+  const [createteller, setCreateteller] = useState(false);
+  const [deleteteller, setDeleteteller] = useState(false);
+  const [updateteller, setUpdateteller] = useState(false);
+
   useEffect(() => {
     console.log(superadmin);
   });
@@ -46,7 +53,43 @@ const AssignrolesScreen = () => {
       window.alert("Email or Password is empty");
       return;
     }
-    createUserRoles(email, password, name, role);
+
+    // const name = "users";
+    // const role = "custom";
+    // const redirectUri = "/";
+
+    // if (superadmin === true) {
+    //   const options = {
+    //     createInventory: true,
+    //     deleteInventory: superdelete,
+    //     updateInventory: superupdate,
+    //     assignRoles: superassign,
+    //     createBranches: supercreatebranch,
+    //     deleteBranches: superdeletebranch,
+    //   };
+
+    //   function trueOptions(option) {
+    //     return option === true;
+    //   }
+    //   const filterOut = () => {
+    //     console.log(options.filter(trueOptions));
+    //   };
+
+    //   filterOut();
+    //   const newArr = {};
+    //   for (let key in options) {
+    //     if (options.key === true) {
+    //       console.log(options.key);
+    //     }
+    //   }
+    // }
+
+    // if (admin === true) {
+    // }
+    // if (teller === true) {
+    // }
+
+    // createUserRoles(email, password, name, role, redirectUri);
   };
 
   const SelectallSuper = () => {
@@ -165,6 +208,115 @@ const AssignrolesScreen = () => {
       setCreatead(true);
     } else {
       setCreatead(!createAd);
+    }
+  };
+
+  const deletefnAd = () => {
+    if (allAd === true) {
+      setAllad(false);
+      setCreatead(false);
+      setUpdatead(false);
+      setAssignad(false);
+      setCreatebranchad(false);
+      setDeletebranchad(false);
+      setDeletead(true);
+    } else {
+      setDeletead(!deleteAd);
+    }
+  };
+
+  const updatefnAd = () => {
+    if (allAd === true) {
+      setAllad(false);
+      setCreatead(false);
+      setAssignad(false);
+      setCreatebranchad(false);
+      setDeletebranchad(false);
+      setDeletead(false);
+      setUpdatead(true);
+    } else {
+      setUpdatead(!updateAd);
+    }
+  };
+
+  const assignfnAd = () => {
+    if (allAd === true) {
+      setAllad(false);
+      setCreatead(false);
+      setCreatebranchad(false);
+      setDeletebranchad(false);
+      setDeletead(false);
+      setUpdatead(false);
+      setAssignad(true);
+    } else {
+      setAssignad(!assignAd);
+    }
+  };
+
+  const createbranchfnAd = () => {
+    if (allAd === true) {
+      setAllad(false);
+      setCreatead(false);
+      setDeletebranchad(false);
+      setDeletead(false);
+      setUpdatead(false);
+      setAssignad(false);
+      setCreatebranchad(true);
+    } else {
+      setCreatebranchad(!createbranchAd);
+    }
+  };
+
+  const deletebranchfnAd = () => {
+    if (allAd === true) {
+      setAllad(false);
+      setCreatead(false);
+      setDeletead(false);
+      setUpdatead(false);
+      setAssignad(false);
+      setCreatebranchad(false);
+      setDeletebranchad(true);
+    } else {
+      setDeletebranchad(!deletebranchAd);
+    }
+  };
+
+  const Selectallteller = () => {
+    setAllteller(!allteller);
+    setDeleteteller(!allteller);
+    setUpdateteller(!allteller);
+    setCreateteller(!allteller);
+  };
+
+  const createtellerfn = () => {
+    if (allteller === true) {
+      setAllteller(false);
+      setDeleteteller(false);
+      setUpdateteller(false);
+      setCreateteller(true);
+    } else {
+      setCreateteller(!createteller);
+    }
+  };
+
+  const deletetellerfn = () => {
+    if (allteller === true) {
+      setAllteller(false);
+      setCreateteller(false);
+      setUpdateteller(false);
+      setDeleteteller(true);
+    } else {
+      setDeleteteller(!deleteteller);
+    }
+  };
+  const updatetellerfn = () => {
+    if (allteller === true) {
+      setAllteller(false);
+      setCreateteller(false);
+      setDeleteteller(false);
+      setUpdateteller(true);
+    } else {
+      setUpdateteller(!updateteller);
     }
   };
 
@@ -378,6 +530,8 @@ const AssignrolesScreen = () => {
                           value="superadmin"
                           onChange={(e) => {
                             setSuperadmin(!superadmin);
+                            setTeller(false);
+                            setAdmin(false);
                           }}
                           checked={superadmin}
                         ></input>
@@ -579,6 +733,8 @@ const AssignrolesScreen = () => {
                           value="admin"
                           onChange={(e) => {
                             setAdmin(!admin);
+                            setSuperadmin(false);
+                            setTeller(false);
                           }}
                           checked={admin}
                         ></input>
@@ -591,7 +747,6 @@ const AssignrolesScreen = () => {
                           style={{
                             width: "13rem",
                             padding: "0.7rem",
-                            // border: "1px solid red",
                             position: "absolute",
                             borderRadius: "3px",
                             left: "-0.7rem",
@@ -837,10 +992,16 @@ const AssignrolesScreen = () => {
                           >
                             <input
                               class="form-check-input superadmin"
-                              type="radio"
+                              type="checkbox"
                               name="exampleRadios"
                               id="checkbox1"
-                              value="option1"
+                              value="teller"
+                              onChange={(e) => {
+                                setTeller(!teller);
+                                setSuperadmin(false);
+                                setAdmin(false);
+                              }}
+                              checked={teller}
                             ></input>
                             <span className="under">Teller</span>
 
@@ -863,7 +1024,9 @@ const AssignrolesScreen = () => {
                                   class="form-check-input"
                                   type="checkbox"
                                   id="inlineCheckbox1"
-                                  value="option1"
+                                  value="tellerall"
+                                  onChange={Selectallteller}
+                                  checked={allteller}
                                 ></input>
                                 <label
                                   class="form-check-label"
@@ -881,7 +1044,9 @@ const AssignrolesScreen = () => {
                                   class="form-check-input"
                                   type="checkbox"
                                   id="inlineCheckbox1"
-                                  value="option1"
+                                  value="tellercreate"
+                                  onChange={createtellerfn}
+                                  checked={createteller}
                                 ></input>
                                 <label
                                   class="form-check-label"
@@ -899,7 +1064,9 @@ const AssignrolesScreen = () => {
                                   class="form-check-input"
                                   type="checkbox"
                                   id="inlineCheckbox1"
-                                  value="option1"
+                                  value="tellerdelete"
+                                  onChange={deletetellerfn}
+                                  checked={deleteteller}
                                 ></input>
                                 <label
                                   class="form-check-label"
@@ -917,7 +1084,9 @@ const AssignrolesScreen = () => {
                                   class="form-check-input"
                                   type="checkbox"
                                   id="inlineCheckbox1"
-                                  value="option1"
+                                  value="tellerupdate"
+                                  onChange={updatetellerfn}
+                                  checked={updateteller}
                                 ></input>
                                 <label
                                   class="form-check-label"
