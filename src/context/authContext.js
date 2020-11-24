@@ -60,10 +60,6 @@ export const Provider = ({ children }) => {
   //   CREATE USERS
   const createUserRoles = async (email, password) => {
     try {
-      if (email === "" || password === "") {
-        window.alert("Email or Password is empty");
-        return;
-      }
       const response = await trackerApi.post("/accounts/user", {
         email,
         password,
