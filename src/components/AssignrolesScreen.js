@@ -11,8 +11,11 @@ import roleswhite from "../assets/roleswhite.png";
 import kadarko from "../assets/Kadarko.svg";
 import success from "../assets/success.svg";
 import authContext from "../context/authContext";
+import { useHistory } from "react-router-dom";
+import Allrolesmodal from "./Allrolesmodal";
 
 const AssignrolesScreen = () => {
+  let history = useHistory();
   const { state, createUserRoles } = useContext(authContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,51 +48,146 @@ const AssignrolesScreen = () => {
   const [updateteller, setUpdateteller] = useState(false);
 
   useEffect(() => {
-    console.log(superadmin);
-  });
+    console.log(state);
+    // if (state.isAuthenticated === false) {
+    //   history.push("/Signin");
+    // } else {
+    //   localStorage.setItem("inventory", state.data.inventory);
+    // }
+  }, []);
 
-  const createUser = () => {
+  const createUser = async () => {
     if (email === "" || password === "") {
       window.alert("Email or Password is empty");
       return;
     }
 
-    // const name = "users";
-    // const role = "custom";
-    // const redirectUri = "/";
+    const name = "users";
+    const redirectUri = "www.google.com";
+    const inventory = await localStorage.getItem("inventory");
+    if (!inventory) {
+      history.push("/Signin");
+    }
 
-    // if (superadmin === true) {
-    //   const options = {
-    //     createInventory: true,
-    //     deleteInventory: superdelete,
-    //     updateInventory: superupdate,
-    //     assignRoles: superassign,
-    //     createBranches: supercreatebranch,
-    //     deleteBranches: superdeletebranch,
-    //   };
+    if (superadmin === true) {
+      const role = "SuperAdmin";
+      const options = [
+        { name: "createInventory", status: supercreate },
+        { name: "deleteInventory", status: superdelete },
+        { name: "updateInventory", status: superupdate },
+        { name: "assignRoles", status: superassign },
+        { name: "createBranches", status: supercreatebranch },
+        { name: "deleteBranches", status: superdeletebranch },
+      ];
 
-    //   function trueOptions(option) {
-    //     return option === true;
-    //   }
-    //   const filterOut = () => {
-    //     console.log(options.filter(trueOptions));
-    //   };
+      // to filter out the false state values
+      const filterOut = () => {
+        const filteredArray = options.filter((option) => {
+          return option.status === true;
+        });
+        // console.log(filteredArray);
 
-    //   filterOut();
-    //   const newArr = {};
-    //   for (let key in options) {
-    //     if (options.key === true) {
-    //       console.log(options.key);
-    //     }
-    //   }
-    // }
+        // to convert the filtered array to a filtered object
+        // const initialValue = {};
+        const fillteredObject = filteredArray.reduce((obj, item) => {
+          return {
+            ...obj,
+            [item.name]: item,
+          };
+        }, {});
 
-    // if (admin === true) {
-    // }
-    // if (teller === true) {
-    // }
+        console.log(Object.keys(fillteredObject));
+        const permissions = Object.keys(fillteredObject);
+        createUserRoles(
+          email,
+          password,
+          name,
+          role,
+          inventory,
+          permissions,
+          redirectUri
+        );
+      };
 
-    // createUserRoles(email, password, name, role, redirectUri);
+      filterOut();
+    }
+    // ADMIN
+
+    if (admin === true) {
+      const role = "admin";
+      const options = [
+        { name: "createInventory", status: createAd },
+        { name: "deleteInventory", status: deleteAd },
+        { name: "updateInventory", status: updateAd },
+        { name: "assignRoles", status: assignAd },
+        { name: "createBranches", status: createbranchAd },
+        { name: "deleteBranches", status: deletebranchAd },
+      ];
+
+      const filterOut = () => {
+        const filteredArray = options.filter((option) => {
+          return option.status === true;
+        });
+
+        const fillteredObject = filteredArray.reduce((obj, item) => {
+          return {
+            ...obj,
+            [item.name]: item,
+          };
+        }, {});
+
+        console.log(Object.keys(fillteredObject));
+        const permissions = Object.keys(fillteredObject);
+        createUserRoles(
+          email,
+          password,
+          name,
+          role,
+          inventory,
+          permissions,
+          redirectUri
+        );
+      };
+
+      filterOut();
+    }
+
+    //TELLER
+    if (teller === true) {
+      const role = "teller";
+      const options = [
+        { name: "createInventory", status: createteller },
+        { name: "deleteInventory", status: deleteteller },
+        { name: "updateInventory", status: updateteller },
+      ];
+
+      const filterOut = () => {
+        const filteredArray = options.filter((option) => {
+          return option.status === true;
+        });
+
+        const fillteredObject = filteredArray.reduce((obj, item) => {
+          return {
+            ...obj,
+            [item.name]: item,
+          };
+        }, {});
+
+        console.log(Object.keys(fillteredObject));
+        const permissions = Object.keys(fillteredObject);
+        createUserRoles(
+          email,
+          password,
+          name,
+          role,
+          inventory,
+          permissions,
+          redirectUri
+        );
+      };
+
+      filterOut();
+    }
   };
 
   const SelectallSuper = () => {
@@ -696,6 +794,149 @@ const AssignrolesScreen = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Modal  */}
+              {/* start */}
+              <div
+                class="modal fade modalfix"
+                id="allroles"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="allrolesTitle"
+                aria-hidden="true"
+              >
+                <div
+                  class="modal-dialog modal-dialog-centered modal-lg"
+                  role="document"
+                >
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      {/* <h5
+                        class="modal-title"
+                        id="allrolesTitle"
+                        style={{ textAlign: "center" }}
+                      >
+                        ASSIGNED ROLES
+                      </h5> */}
+                      <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                      >
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div
+                        className="col col-12 table-responsive"
+                        style={{
+                          height: "40vh",
+                          overflow: "scroll",
+                          width: "90vw",
+                        }}
+                      >
+                        <table
+                          class="table table-hover table-striped table-bordered text-center"
+                          style={{ fontSize: "0.8rem" }}
+                        >
+                          <thead
+                            style={{
+                              backgroundColor: "#151423",
+                              color: "white",
+                              // border: "1px solid red",
+                            }}
+                          >
+                            <tr>
+                              <th scope="col">Item ID</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Qty</th>
+                              <th scope="col">Type</th>
+                              <th scope="col">Amount</th>
+                            </tr>
+                          </thead>
+                          {/* <br />
+                                <br />
+                                <br /> */}
+                          <tbody>
+                            <tr>
+                              <td>@fat</td>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <td>@fat</td>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <td>@fat</td>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <td>@fat</td>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <td>@fat</td>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <td>@fat</td>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <td>@fat</td>
+                              <td>Mark</td>
+                              <td>Otto</td>
+                              <td>@mdo</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                              <td>@fat</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                              <td>@fat</td>
+                              <td>@fat</td>
+                            </tr>
+                            <tr>
+                              <td>Jacob</td>
+                              <td>Thornton</td>
+                              <td>@fat</td>
+                              <td>@fat</td>
+                              <td>@fat</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* end */}
               {/* ADDDMMMIIINNNN */}
               <div className="col col-3">
                 {" "}
@@ -1115,6 +1356,8 @@ const AssignrolesScreen = () => {
                         fontSize: "0.7rem",
                         borderRadius: "3px",
                       }}
+                      data-toggle="modal"
+                      data-target="#allroles"
                     >
                       All Roles
                     </button>

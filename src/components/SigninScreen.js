@@ -209,6 +209,25 @@ const SigninScreen = () => {
                     </b>
                   </Link>
                 </p>
+                <p
+                  style={{
+                    fontSize: "0.7rem",
+                    fontWeight: "200",
+                  }}
+                >
+                  Don't have an account?{" "}
+                  <Link to="/Signup">
+                    {" "}
+                    <b
+                      style={{
+                        fontWeight: "600",
+                        color: "#1070CA",
+                      }}
+                    >
+                      Sign Up
+                    </b>
+                  </Link>
+                </p>
               </form>
             </div>
           </div>

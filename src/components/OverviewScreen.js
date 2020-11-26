@@ -523,7 +523,7 @@ const OverviewScreen = () => {
                       aria-hidden="true"
                     >
                       <div
-                        class="modal-dialog modal-dialog-centered"
+                        class="modal-dialog modal-lg modal-dialog-centered"
                         role="document"
                       >
                         <div

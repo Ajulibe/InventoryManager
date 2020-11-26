@@ -46,7 +46,7 @@ export const Provider = ({ children }) => {
       });
       await localStorage.setItem("token", response.data.accessToken);
       dispatch({ type: "signin", payload: response.data });
-      //   console.log(response.data);
+      console.log(response.data);
     } catch (err) {
       dispatch({
         type: "add_error",
@@ -58,11 +58,33 @@ export const Provider = ({ children }) => {
   };
 
   //   CREATE USERS
-  const createUserRoles = async (email, password) => {
+  const createUserRoles = async (
+    email,
+    password,
+    name,
+    role,
+    inventory,
+    permissions,
+    redirectUri
+  ) => {
     try {
-      const response = await trackerApi.post("/accounts/user", {
+      console.log(
         email,
         password,
+        name,
+        role,
+        inventory,
+        permissions,
+        redirectUri
+      );
+      const response = await trackerApi.post("/accounts/user", {
+        email: email,
+        password: password,
+        name: name,
+        role: role,
+        inventory: inventory,
+        permissions: permissions,
+        redirectUri: redirectUri,
       });
 
       dispatch({ type: "createUserRoles", payload: response.data });
