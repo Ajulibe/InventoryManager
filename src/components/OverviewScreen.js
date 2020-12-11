@@ -9,11 +9,26 @@ import branches from "../assets/branches.png";
 import brancheswhite from "../assets/brancheswhite.png";
 import roleswhite from "../assets/roleswhite.png";
 import kadarko from "../assets/Kadarko.svg";
+import authContext from "../context/authContext";
 
 const OverviewScreen = () => {
-  //   const { state, signup, clearErrorMessage } = useContext(authContext);
-  //   const [email, setEmail] = useState("");
-  //   const [password, setPassword] = useState("");
+  const { createproduct } = useContext(authContext);
+
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
+
+  const [filled, setFilled] = useState(true);
+
+  const postProduct = () => {
+    if (id === "" || name === "" || category === "" || price === "") {
+      alert("Complete all fields");
+      return;
+    } else {
+      createproduct(id, name, category, price);
+    }
+  };
 
   return (
     <div class="container-fluid">
@@ -731,9 +746,8 @@ const OverviewScreen = () => {
                               <tr>
                                 <th scope="col">Item ID</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Qty</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Amount</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Price</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -742,30 +756,39 @@ const OverviewScreen = () => {
                                   <input
                                     type="text"
                                     style={{ width: "3rem" }}
+                                    name="id"
+                                    value={id}
+                                    onChange={(e) => setId(e.target.value)}
                                   ></input>
                                 </td>
                                 <td>
                                   <input
                                     type="text"
                                     style={{ width: "3rem" }}
-                                  ></input>
-                                </td>
-                                <td>
-                                  <input
-                                    type="number"
-                                    style={{ width: "3rem" }}
-                                  ></input>
-                                </td>
-                                <td>
-                                  <input
-                                    type="text"
-                                    style={{ width: "3rem" }}
+                                    name="name"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                   ></input>
                                 </td>
                                 <td>
                                   <input
                                     type="text"
                                     style={{ width: "3rem" }}
+                                    name="category"
+                                    value={category}
+                                    onChange={(e) =>
+                                      setCategory(e.target.value)
+                                    }
+                                  ></input>
+                                </td>
+
+                                <td>
+                                  <input
+                                    type="text"
+                                    style={{ width: "3rem" }}
+                                    name="price"
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
                                   ></input>
                                 </td>
                               </tr>
@@ -776,6 +799,8 @@ const OverviewScreen = () => {
                             data-toggle="modal"
                             data-target="#exampleModalCenter2"
                             className="btn btn-sm btn-block "
+                            // disabled={filled}
+                            onClick={postProduct}
                             style={{
                               backgroundColor: "#D94F00",
                               color: "white",

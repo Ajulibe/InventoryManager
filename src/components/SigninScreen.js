@@ -5,12 +5,33 @@ import TransOver from "../assets/TransOver.png";
 import whiteOver from "../assets/whiteOver.png";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import * as Yup from "yup";
+import { Formik, Form, Field } from "formik";
+
+const SignupSchema = Yup.object().shape({
+  username: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("*Company Name is required"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Password is too short"),
+});
+
+const initialValues = {
+  password: "",
+  username: "",
+};
+const secondValues = {
+  password: "",
+  username: "",
+};
 
 const SigninScreen = () => {
   let history = useHistory();
   const { state, signin } = useContext(authContext);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
   console.log(state.authRedirect, state);
 
   useEffect(() => {
@@ -18,6 +39,21 @@ const SigninScreen = () => {
       history.push("/overAdmin");
     }
   }, [state.isAuthenticated]);
+
+  const validate = (values) => {
+    let errors = {};
+    if (!values.password) {
+      errors.password = "*Password is required";
+    } else if (values.password.length < 4) {
+      errors.password = "*Password too short";
+    }
+    if (!values.username) {
+      errors.username = "*Company Name is required";
+    } else if (values.password.length < 4) {
+      errors.password = "*Company Name too short";
+    }
+    return errors;
+  };
 
   const visibleFn = () => {
     const blockAdmin = document.getElementById("blockAdmin");
@@ -81,7 +117,7 @@ const SigninScreen = () => {
                 height: "80%",
                 marginLeft: "auto",
                 marginRight: "auto",
-                marginTop: "10%",
+                marginTop: "6%",
                 borderRadius: "15px",
               }}
             >
@@ -92,143 +128,203 @@ const SigninScreen = () => {
                   width: "22%",
                   height: "28%",
                   marginLeft: "37%",
-                  marginTop: "3rem",
-                  marginBottom: "4rem",
+                  marginTop: "2rem",
+                  marginBottom: "2rem",
                   //   border: "1px solid black",
                 }}
               />
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
+              <Formik
+                initialValues={initialValues}
+                validate={validate}
+                validationSchema={SignupSchema}
+                onSubmit={(values) => {
+                  const username = values.username;
+                  const password = values.password;
                   signin(username, password);
                 }}
-                style={{
-                  paddingLeft: "12%",
-                  paddingRight: "12%",
-                  paddingBottom: "18%",
-                }}
               >
-                <p
-                  style={{
-                    fontWeight: "400",
-                  }}
-                >
-                  <b style={{ color: "#FF580D" }}>ROOT USER</b>
-                </p>
-                {/* email */}
-                <div class="input-group input-group-sm mb-3">
-                  <input
-                    type="text"
-                    name="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    class="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-sm"
-                    placeholder="janejohn"
-                    style={{
-                      fontSize: "0.7rem",
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6rem",
-                    }}
-                  ></input>
-                </div>
-                {/* placeholder */}
-                <div class="input-group input-group-sm mb-3">
-                  <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    class="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-sm"
-                    placeholder="************"
-                    style={{
-                      fontSize: "0.7rem",
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6rem",
-                    }}
-                  ></input>
-                  <div
-                    className="passwordDiv"
-                    style={{
-                      position: "absolute",
-                      top: "-20%",
-                      left: "5%",
-                      zIndex: "1000",
-                      fontSize: "0.5rem",
-                      color: "#1070CA",
-                      backgroundColor: "white",
-                      height: "0.8rem",
-                      paddingLeft: "3px",
-                      paddingRight: "3px",
-                    }}
-                  >
-                    <p>
-                      <b>Password</b>
-                    </p>
-                  </div>
-                </div>
+                {(formik) => {
+                  const {
+                    values,
+                    handleChange,
+                    handleSubmit,
+                    errors,
+                    touched,
+                    handleBlur,
+                    isValid,
+                    dirty,
+                  } = formik;
+                  return (
+                    <form
+                      style={{
+                        paddingLeft: "12%",
+                        paddingRight: "12%",
+                        paddingBottom: "18%",
+                      }}
+                      onSubmit={handleSubmit}
+                    >
+                      <p
+                        style={{
+                          fontWeight: "400",
+                          fontSize: "0.8rem",
+                        }}
+                      >
+                        <b style={{ color: "#FF580D" }}>ROOT USER</b>
+                      </p>
+                      {/* email */}
+                      <div class="input-group input-group-sm mb-3">
+                        <Field
+                          type="text"
+                          id="username"
+                          name="username"
+                          onBlur={handleBlur}
+                          value={values.username}
+                          onChange={handleChange}
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-sm"
+                          placeholder="janejohn"
+                          style={{
+                            fontSize: "0.7rem",
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6rem",
+                          }}
+                          className={`form-control ${
+                            errors.username && touched.username
+                              ? "input-error"
+                              : null
+                          }`}
+                        />
 
-                {/* button */}
-                <br />
-                <div class="form-group">
-                  <button
-                    type="submit"
-                    class="btn btn-primary btn-block"
-                    style={{
-                      fontSize: "0.7rem",
-                      paddingTop: "0.4rem",
-                      paddingBottom: "0.4rem",
-                      borderRadius: "3px",
-                      backgroundColor: "#1070CA",
-                    }}
-                  >
-                    Sign In
-                  </button>
-                </div>
-                <br />
-                <p
-                  style={{
-                    fontSize: "0.7rem",
-                    fontWeight: "200",
-                  }}
-                >
-                  Not a Root User?{" "}
-                  <Link>
-                    {" "}
-                    <b
-                      style={{
-                        fontWeight: "600",
-                        color: "#1070CA",
-                      }}
-                      onClick={visibleFn}
-                    >
-                      IAM USER
-                    </b>
-                  </Link>
-                </p>
-                <p
-                  style={{
-                    fontSize: "0.7rem",
-                    fontWeight: "200",
-                  }}
-                >
-                  Don't have an account?{" "}
-                  <Link to="/Signup">
-                    {" "}
-                    <b
-                      style={{
-                        fontWeight: "600",
-                        color: "#1070CA",
-                      }}
-                    >
-                      Sign Up
-                    </b>
-                  </Link>
-                </p>
-              </form>
+                        {errors.username && touched.username && (
+                          <div
+                            className="error col col-12"
+                            style={{
+                              color: "red",
+                              fontSize: "0.5rem",
+                              marginTop: "0.3rem",
+                            }}
+                          >
+                            {errors.username}
+                          </div>
+                        )}
+                      </div>
+                      {/* placeholder */}
+                      <div class="input-group input-group-sm mb-3">
+                        <Field
+                          type="password"
+                          id="password"
+                          name="password"
+                          value={values.password}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          class="form-control"
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-sm"
+                          placeholder="************"
+                          style={{
+                            fontSize: "0.7rem",
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6rem",
+                          }}
+                        />
+                        {errors.password && touched.password && (
+                          <div
+                            className="error col col-12"
+                            style={{
+                              color: "red",
+                              fontSize: "0.5rem",
+                              marginTop: "0.3rem",
+                            }}
+                          >
+                            {errors.password}
+                          </div>
+                        )}
+                        <div
+                          className="passwordDiv"
+                          style={{
+                            position: "absolute",
+                            top: "-20%",
+                            left: "5%",
+                            zIndex: "1000",
+                            fontSize: "0.5rem",
+                            color: "#1070CA",
+                            backgroundColor: "white",
+                            height: "0.8rem",
+                            paddingLeft: "3px",
+                            paddingRight: "3px",
+                          }}
+                        >
+                          <p>
+                            <b>Password</b>
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* button */}
+                      <br />
+                      <div class="form-group">
+                        <button
+                          type="submit"
+                          style={{
+                            fontSize: "0.7rem",
+                            paddingTop: "0.4rem",
+                            paddingBottom: "0.4rem",
+                            borderRadius: "3px",
+                            backgroundColor: "#1070CA",
+                          }}
+                          className={`btn btn-primary btn-block ${
+                            dirty && isValid ? "" : "disabled-btn"
+                          }`}
+                          disabled={!(dirty && isValid)}
+                        >
+                          Sign In
+                        </button>
+                      </div>
+                      <br />
+                      <p
+                        style={{
+                          fontSize: "0.7rem",
+                          fontWeight: "200",
+                        }}
+                      >
+                        Not a Root User?{" "}
+                        <Link>
+                          {" "}
+                          <b
+                            style={{
+                              fontWeight: "600",
+                              color: "#1070CA",
+                              // fontSize: "0.8rem",
+                            }}
+                            onClick={visibleFn}
+                          >
+                            IAM USER
+                          </b>
+                        </Link>
+                      </p>
+                      <p
+                        style={{
+                          fontSize: "0.7rem",
+                          fontWeight: "200",
+                        }}
+                      >
+                        Don't have an account?{" "}
+                        <Link to="/Signup">
+                          {" "}
+                          <b
+                            style={{
+                              fontWeight: "600",
+                              color: "#1070CA",
+                            }}
+                          >
+                            Sign Up
+                          </b>
+                        </Link>
+                      </p>
+                    </form>
+                  );
+                }}
+              </Formik>
             </div>
           </div>
 
@@ -241,7 +337,7 @@ const SigninScreen = () => {
                 height: "80%",
                 marginLeft: "auto",
                 marginRight: "auto",
-                marginTop: "10%",
+                marginTop: "6%",
                 borderRadius: "15px",
               }}
             >
@@ -252,142 +348,201 @@ const SigninScreen = () => {
                   width: "22%",
                   height: "28%",
                   marginLeft: "37%",
-                  marginTop: "3rem",
-                  marginBottom: "4rem",
+                  marginTop: "2rem",
+                  marginBottom: "2rem",
                 }}
               />
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
+              <Formik
+                initialValues={secondValues}
+                validate={validate}
+                validationSchema={SignupSchema}
+                onSubmit={(values) => {
+                  const username = values.username;
+                  const password = values.password;
                   signin(username, password);
                 }}
-                style={{
-                  paddingLeft: "12%",
-                  paddingRight: "12%",
-                  paddingBottom: "10%",
-                }}
               >
-                <p
-                  style={{
-                    fontWeight: "500",
-                  }}
-                >
-                  <b style={{ color: "#FF580D" }}>IAM USER</b>
-                </p>
-                <p
-                  style={{
-                    fontSize: "0.7rem",
-                    fontWeight: "200",
-                    color: "red",
-                  }}
-                >
-                  Are you a Root User?{" "}
-                  <Link>
-                    {" "}
-                    <b
+                {(formik) => {
+                  const {
+                    values,
+                    handleChange,
+                    handleSubmit,
+                    errors,
+                    touched,
+                    handleBlur,
+                    isValid,
+                    dirty,
+                  } = formik;
+                  return (
+                    <form
+                      onSubmit={handleSubmit}
                       style={{
-                        fontWeight: "600",
-                        color: "#1070CA",
-                      }}
-                      onClick={visibleFn}
-                    >
-                      SWITCH HERE
-                    </b>
-                  </Link>
-                </p>
-
-                <div class="input-group input-group-sm mb-3">
-                  <input
-                    type="text"
-                    name="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    class="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-sm"
-                    placeholder="janejohn"
-                    style={{
-                      fontSize: "0.7rem",
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6rem",
-                    }}
-                  ></input>
-                </div>
-
-                <div class="input-group input-group-sm mb-3">
-                  <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    class="form-control"
-                    aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-sm"
-                    placeholder="************"
-                    style={{
-                      fontSize: "0.7rem",
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6rem",
-                    }}
-                  ></input>
-                  <div
-                    className="passwordDiv"
-                    style={{
-                      position: "absolute",
-                      top: "-20%",
-                      left: "5%",
-                      zIndex: "1000",
-                      fontSize: "0.5rem",
-                      color: "#1070CA",
-                      backgroundColor: "white",
-                      height: "0.8rem",
-                      paddingLeft: "3px",
-                      paddingRight: "3px",
-                    }}
-                  >
-                    <p>
-                      <b>Password</b>
-                    </p>
-                  </div>
-                </div>
-
-                <br />
-                <div class="form-group">
-                  <button
-                    type="submit"
-                    class="btn btn-primary btn-block"
-                    style={{
-                      fontSize: "0.7rem",
-                      paddingTop: "0.4rem",
-                      paddingBottom: "0.4rem",
-                      borderRadius: "3px",
-                      backgroundColor: "#1070CA",
-                    }}
-                  >
-                    Sign In
-                  </button>
-                </div>
-                <br />
-                <p
-                  style={{
-                    fontSize: "0.7rem",
-                    fontWeight: "200",
-                  }}
-                >
-                  Don't have an account?{" "}
-                  <Link to="/Signup">
-                    {" "}
-                    <b
-                      style={{
-                        fontWeight: "600",
-                        color: "#1070CA",
+                        paddingLeft: "12%",
+                        paddingRight: "12%",
+                        paddingBottom: "10%",
                       }}
                     >
-                      Sign Up
-                    </b>
-                  </Link>
-                </p>
-              </form>
+                      <p
+                        style={{
+                          fontWeight: "400",
+                        }}
+                      >
+                        <b style={{ color: "#FF580D", fontSize: "0.8rem" }}>
+                          IAM USER
+                        </b>
+                      </p>
+                      <p
+                        style={{
+                          fontSize: "0.7rem",
+                          fontWeight: "200",
+                          color: "red",
+                        }}
+                      >
+                        Are you a Root User?{" "}
+                        <Link>
+                          {" "}
+                          <b
+                            style={{
+                              fontWeight: "600",
+                              color: "#1070CA",
+                            }}
+                            onClick={visibleFn}
+                          >
+                            SWITCH HERE
+                          </b>
+                        </Link>
+                      </p>
+
+                      <div class="input-group input-group-sm mb-3">
+                        <Field
+                          type="text"
+                          id="username"
+                          name="username"
+                          onBlur={handleBlur}
+                          value={values.username}
+                          onChange={handleChange}
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-sm"
+                          placeholder="janejohn"
+                          style={{
+                            fontSize: "0.7rem",
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6rem",
+                          }}
+                          className={`form-control ${
+                            errors.username && touched.username
+                              ? "input-error"
+                              : null
+                          }`}
+                        />
+                        {errors.username && touched.username && (
+                          <div
+                            className="error col col-12"
+                            style={{
+                              color: "red",
+                              fontSize: "0.5rem",
+                              marginTop: "0.3rem",
+                            }}
+                          >
+                            {errors.username}
+                          </div>
+                        )}
+                      </div>
+
+                      <div class="input-group input-group-sm mb-3">
+                        <Field
+                          type="password"
+                          is="password"
+                          name="password"
+                          value={values.password}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          class="form-control"
+                          aria-label="Sizing example input"
+                          aria-describedby="inputGroup-sizing-sm"
+                          placeholder="************"
+                          style={{
+                            fontSize: "0.7rem",
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6rem",
+                          }}
+                        />
+                        {errors.password && touched.password && (
+                          <div
+                            className="error col col-12"
+                            style={{
+                              color: "red",
+                              fontSize: "0.5rem",
+                              marginTop: "0.3rem",
+                            }}
+                          >
+                            {errors.password}
+                          </div>
+                        )}
+                        <div
+                          className="passwordDiv"
+                          style={{
+                            position: "absolute",
+                            top: "-20%",
+                            left: "5%",
+                            zIndex: "1000",
+                            fontSize: "0.5rem",
+                            color: "#1070CA",
+                            backgroundColor: "white",
+                            height: "0.8rem",
+                            paddingLeft: "3px",
+                            paddingRight: "3px",
+                          }}
+                        >
+                          <p>
+                            <b>Password</b>
+                          </p>
+                        </div>
+                      </div>
+
+                      <br />
+                      <div class="form-group">
+                        <button
+                          type="submit"
+                          style={{
+                            fontSize: "0.7rem",
+                            paddingTop: "0.4rem",
+                            paddingBottom: "0.4rem",
+                            borderRadius: "3px",
+                            backgroundColor: "#1070CA",
+                          }}
+                          className={`btn btn-primary btn-block ${
+                            dirty && isValid ? "" : "disabled-btn"
+                          }`}
+                          disabled={!(dirty && isValid)}
+                        >
+                          Sign In
+                        </button>
+                      </div>
+                      <br />
+                      <p
+                        style={{
+                          fontSize: "0.7rem",
+                          fontWeight: "200",
+                        }}
+                      >
+                        Don't have an account?{" "}
+                        <Link to="/Signup">
+                          {" "}
+                          <b
+                            style={{
+                              fontWeight: "600",
+                              color: "#1070CA",
+                            }}
+                          >
+                            Sign Up
+                          </b>
+                        </Link>
+                      </p>
+                    </form>
+                  );
+                }}
+              </Formik>
             </div>
           </div>
 

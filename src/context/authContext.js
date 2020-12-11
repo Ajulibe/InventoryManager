@@ -99,10 +99,61 @@ export const Provider = ({ children }) => {
     }
   };
 
+  //VIEW ROLES
+  // const viewRoles = async () => {
+  //   try {
+  //     const response = await trackerApi.post("/users/"
+  //      );
+
+  //     await localStorage.setItem("token", response.data.accessToken);
+  //     dispatch({ type: "signin", payload: response.data });
+  //     console.log(response.data);
+  //   } catch (err) {
+  //     dispatch({
+  //       type: "add_error",
+  //       payload: "Something went wrong with sign in",
+  //     });
+
+  //     console.log(err);
+  //   }
+  // };
+
+  //VIEW ROLES
+  const createproduct = async (id, name, category, price) => {
+    const token = await localStorage.getItem("token");
+    console.log(token);
+    try {
+      const response = await trackerApi.post("/products", {
+        inventory: "introTech",
+        items: [
+          {
+            id: id,
+            name: name,
+            category: category,
+            branch: "odeku",
+            price: price,
+            image: "2244wdef.jpeg",
+          },
+        ],
+      });
+
+      // dispatch({ type: "signin", payload: response.data });
+      console.log(response.data);
+    } catch (err) {
+      // dispatch({
+      //   type: "add_error",
+      //   payload: "Something went wrong with sign in",
+      // });
+
+      console.log(err);
+    }
+  };
+
   //BOUND ACTIONS
   const boundActions = {
     signin,
     createUserRoles,
+    createproduct,
   };
 
   return (

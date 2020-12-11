@@ -41,6 +41,11 @@ const SignupScreen = () => {
     } else if (values.password.length < 4) {
       errors.password = "*Password too short";
     }
+    if (!values.companyName) {
+      errors.companyName = "*Company Name is required";
+    } else if (values.password.length < 4) {
+      errors.password = "*Company Name too short";
+    }
     return errors;
   };
 
@@ -98,7 +103,7 @@ const SignupScreen = () => {
                 height: "80%",
                 marginLeft: "auto",
                 marginRight: "auto",
-                marginTop: "5%",
+                marginTop: "6%",
                 borderRadius: "15px",
               }}
             >
