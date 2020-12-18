@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 import trackerApi from "../api/tracker";
+import axios from "axios";
 
 //CREATE CONTEXT
 const authContext = React.createContext();
@@ -18,6 +19,12 @@ const authReducer = (state, action) => {
     case "add_error":
       return { ...state, errorMessage: action.payload };
     case "createUserRoles":
+      return {
+        ...state,
+        isAuthenticated: true,
+        data: action.payload,
+      };
+    case "viewroles":
       return {
         ...state,
         isAuthenticated: true,
@@ -99,52 +106,35 @@ export const Provider = ({ children }) => {
     }
   };
 
-  //VIEW ROLES
-  // const viewRoles = async () => {
-  //   try {
-  //     const response = await trackerApi.post("/users/"
-  //      );
-
-  //     await localStorage.setItem("token", response.data.accessToken);
-  //     dispatch({ type: "signin", payload: response.data });
-  //     console.log(response.data);
-  //   } catch (err) {
-  //     dispatch({
-  //       type: "add_error",
-  //       payload: "Something went wrong with sign in",
-  //     });
-
-  //     console.log(err);
-  //   }
-  // };
-
-  //VIEW ROLES
-  const createproduct = async (id, name, category, price) => {
+  //CREATE PRODUCT
+  const createproduct = async (id, name, category, price, imageUrl) => {
     const token = await localStorage.getItem("token");
     console.log(token);
+    // console.log(id, name, category, price);
     try {
-      const response = await trackerApi.post("/products", {
-        inventory: "introTech",
-        items: [
-          {
-            id: id,
-            name: name,
-            category: category,
-            branch: "odeku",
-            price: price,
-            image: "2244wdef.jpeg",
+      const response = await axios.post(
+        "http://12.96.91.34.bc.googleusercontent.com/api/products",
+        {
+          inventory: "introTech",
+          items: [
+            {
+              id: id,
+              name: name,
+              category: category,
+              branch: "odeku",
+              price: price,
+              image: imageUrl,
+            },
+          ],
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        ],
-      });
-
-      // dispatch({ type: "signin", payload: response.data });
+        }
+      );
       console.log(response.data);
     } catch (err) {
-      // dispatch({
-      //   type: "add_error",
-      //   payload: "Something went wrong with sign in",
-      // });
-
       console.log(err);
     }
   };

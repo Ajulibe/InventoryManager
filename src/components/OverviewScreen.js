@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import empty from "../assets/empty.svg";
 import all from "../assets/all.png";
@@ -10,25 +10,147 @@ import brancheswhite from "../assets/brancheswhite.png";
 import roleswhite from "../assets/roleswhite.png";
 import kadarko from "../assets/Kadarko.svg";
 import authContext from "../context/authContext";
+import Modal from "react-bootstrap/Modal";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 const OverviewScreen = () => {
+  let history = useHistory();
   const { createproduct } = useContext(authContext);
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageAlt, setImageAlt] = useState("");
+
+  const imageRef = useRef(null);
 
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
+  const [show, setShow] = useState(false);
+  const [product, setProduct] = useState("");
+  const [change, setChange] = useState(false);
 
-  const [filled, setFilled] = useState(true);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  const postProduct = () => {
-    if (id === "" || name === "" || category === "" || price === "") {
-      alert("Complete all fields");
-      return;
-    } else {
-      createproduct(id, name, category, price);
-    }
+  //IMAGE UPLOAD
+  const imageUpload = (e) => {
+    const imageDiv = imageRef.current;
+    console.log(imageDiv);
+    imageDiv.src = URL.createObjectURL(e.target.files[0]);
+
+    console.log(imageDiv.src);
+
+    const { files } = document.querySelector('input[type="file"]');
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    // replace this with your upload preset name
+    formData.append("upload_preset", "knypfbbh");
+    const options = {
+      method: "POST",
+      body: formData,
+    };
+
+    // replace cloudname with your Cloudinary cloud_name
+    return fetch(
+      "https://api.Cloudinary.com/v1_1/ajulibe/image/upload",
+      options
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        setImageUrl(res.secure_url);
+        setImageAlt(`An image of ${res.original_filename}`);
+      })
+      .catch((err) => console.log(err));
   };
+
+  const Logout = () => {
+    localStorage.removeItem("token");
+    history.push("/Signin");
+  };
+
+  useEffect(() => {
+    fetchproducts();
+  }, [change]);
+
+  const fetchproducts = async () => {
+    const token = await localStorage.getItem("token");
+    console.log(token);
+    try {
+      const response = await axios.get(
+        "http://12.96.91.34.bc.googleusercontent.com/api/products/introtech",
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+
+      const productTable = response.data.map((product) => {
+        return (
+          <tr key={product._id}>
+            <td
+              style={{
+                textAlign: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                display: "flex",
+              }}
+            >
+              <div style={{ width: "3rem", height: "3rem" }}>
+                <img
+                  src={product.image}
+                  alt="product-image"
+                  style={{
+                    height: "100%",
+                    maxWidth: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+            </td>
+            <td>{product.name}</td>
+            <td>{product.category}</td>
+            <td>{product._id}</td>
+            <td>{product.price}</td>
+            <td>
+              <i
+                class="fa fa-pencil"
+                aria-hidden="true"
+                // onClick={editProduct(product._id)}
+              ></i>
+            </td>
+            <td>
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </td>
+          </tr>
+        );
+      });
+
+      setProduct(productTable);
+    } catch {}
+  };
+
+  // const editProduct = async (id) => {
+  //   const token = await localStorage.getItem("token");
+  //   console.log(token);
+  //   try {
+  //     const response = await axios.put(
+  //       "http://12.96.91.34.bc.googleusercontent.com/api/products/introtech",
+
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     console.log(response.data);
+
+  //   } catch {}
+
+  // }
 
   return (
     <div class="container-fluid">
@@ -172,7 +294,7 @@ const OverviewScreen = () => {
 
               {/* second set */}
               <div style={{ marginTop: "8rem" }}>
-                <Link to="/Signin" className="linkTag">
+                <Link className="linkTag" onClick={Logout}>
                   {" "}
                   <div>
                     <img
@@ -189,30 +311,6 @@ const OverviewScreen = () => {
           </div>
         </div>
 
-        {/* <div class="col col-md-11">
-          <div className="row">
-            <div className="col-6 mr-auto ml-auto" style={{ marginTop: "10%" }}>
-              <div className="col-12 text-center">
-                <img src={empty} alt="nodata" style={{ width: "10rem" }} />
-              </div>
-
-              <div className="col-12 text-center mt-4">
-                <p>
-                  <b>
-                    <h5>You Have No Inventory</h5>
-                  </b>
-                </p>
-                <br />
-                <p style={{ fontWeight: "200", color: "#CBCED2" }}>
-                  <Link>
-                    <i class="fa fa-plus add" aria-hidden="true"></i>
-                  </Link>{" "}
-                  &nbsp; Click Here to create an Inventory
-                </p>
-              </div>
-            </div>
-          </div>
-        </div> */}
         <div class="col col-md-11" style={{ marginLeft: "5rem" }}>
           <div className="row">
             <div
@@ -689,196 +787,208 @@ const OverviewScreen = () => {
                 // border: "1px solid red",
               }}
             >
-              <div className="col col-4 newEntry">
-                <Link data-toggle="modal" data-target="#exampleModalCenter2">
-                  <p style={{ fontSize: "0.8rem" }}>
-                    <i class="fa fa-plus add" aria-hidden="true"></i> &nbsp;{" "}
-                    <b>Add New Entry</b>
-                  </p>
-                </Link>{" "}
-                {/* modal */}
-                <div
-                  class="modal fade"
-                  id="exampleModalCenter2"
-                  tabindex="-1"
-                  role="dialog"
-                  aria-labelledby="exampleModalCenterTitle"
-                  aria-hidden="true"
-                >
-                  <div
-                    class="modal-dialog modal-dialog-centered"
-                    role="document"
-                  >
-                    <div
-                      class="modal-content"
-                      style={{
-                        position: "relative",
-                        borderRadius: "2rem",
-                        paddingTop: "3rem",
-                      }}
-                    >
-                      <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                        style={{
-                          position: "absolute",
-                          top: "1rem",
-                          right: "1rem",
-                          border: "1px solid black",
-                          padding: "0.3rem",
-                          borderRadius: "15px",
-                        }}
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                      <div class="modal-body">
-                        <div
-                          className="col col-12 table-responsive"
-                          style={{ height: "40vh", overflow: "scroll" }}
-                        >
-                          <table
-                            class="table table-hover table-striped table-bordered text-center"
-                            style={{ fontSize: "0.8rem" }}
+              {/* new modal */}
+              <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton>
+                  <Modal.Title style={{ fontSize: "1.2rem" }}>
+                    Add a new product
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{ fontSize: "0.8rem" }}>
+                  <div className="container">
+                    <div className="">
+                      <div className="col col-12">
+                        <div className="row justify-content-center mb-5">
+                          <div
+                            className="col col-3 align-items-center"
+                            style={{
+                              border: "1px solid #e9ecef",
+                              height: "7rem",
+                              textAlign: "center",
+                              fontSize: "0.6rem",
+                              padding: "0",
+                            }}
                           >
-                            <thead>
-                              <tr>
-                                <th scope="col">Item ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Price</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>
-                                  <input
-                                    type="text"
-                                    style={{ width: "3rem" }}
-                                    name="id"
-                                    value={id}
-                                    onChange={(e) => setId(e.target.value)}
-                                  ></input>
-                                </td>
-                                <td>
-                                  <input
-                                    type="text"
-                                    style={{ width: "3rem" }}
-                                    name="name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                  ></input>
-                                </td>
-                                <td>
-                                  <input
-                                    type="text"
-                                    style={{ width: "3rem" }}
-                                    name="category"
-                                    value={category}
-                                    onChange={(e) =>
-                                      setCategory(e.target.value)
-                                    }
-                                  ></input>
-                                </td>
+                            {/* <p style={{ marginTop: "50%" }}>
+                              No Uploaded Image
+                            </p> */}
 
-                                <td>
-                                  <input
-                                    type="text"
-                                    style={{ width: "3rem" }}
-                                    name="price"
-                                    value={price}
-                                    onChange={(e) => setPrice(e.target.value)}
-                                  ></input>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <br />
+                            <img
+                              ref={imageRef}
+                              src={imageUrl}
+                              alt={imageAlt}
+                              style={{
+                                maxWidth: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            createproduct(id, name, category, price, imageUrl);
+                            handleClose();
+                            setChange(true);
+                          }}
+                        >
+                          <div className="form-group">
+                            <input
+                              type="file"
+                              style={{ display: "block" }}
+                              onChange={imageUpload}
+                            />
+                            {/* <div class="custom-file">
+                              <input
+                                type="file"
+                                class="custom-file-input"
+                                id="customFile"
+                                onChange={imageUpload}
+                              />
+                              <label class="custom-file-label" for="customFile">
+                                Choose file
+                              </label>
+                            </div> */}
+                          </div>
+
+                          <div class="form-group">
+                            <label htmlFor="ItemIDSet">Item ID:</label>
+                            <input
+                              required
+                              type="text"
+                              class="form-control form-control-sm"
+                              id="ItemIDSet"
+                              aria-describedby="emailHelp"
+                              name="id"
+                              value={id}
+                              onChange={(e) => setId(e.target.value)}
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="nameSet">Name:</label>
+                            <input
+                              required
+                              type="text"
+                              class="form-control form-control-sm"
+                              id="nameSet"
+                              aria-describedby="emailHelp"
+                              name="name"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="categorySet">Category:</label>
+                            <input
+                              required
+                              type="text"
+                              class="form-control form-control-sm"
+                              id="categorySet"
+                              aria-describedby="emailHelp"
+                              name="category"
+                              value={category}
+                              onChange={(e) => setCategory(e.target.value)}
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="priceSet">Price:</label>
+                            <input
+                              required
+                              type="text"
+                              class="form-control form-control-sm"
+                              id="priceSet"
+                              aria-describedby="emailHelp"
+                              name="price"
+                              value={price}
+                              placeholder="N0.00"
+                              onChange={(e) => setPrice(e.target.value)}
+                            />
+                          </div>
+
                           <button
-                            data-toggle="modal"
-                            data-target="#exampleModalCenter2"
-                            className="btn btn-sm btn-block "
-                            // disabled={filled}
-                            onClick={postProduct}
+                            type="submit"
+                            class="btn"
                             style={{
                               backgroundColor: "#D94F00",
                               color: "white",
                               fontSize: "0.7rem",
-                              borderRadius: "3px",
+                              borderRadius: "0px",
                             }}
                           >
-                            Done
+                            Submit
                           </button>
-                        </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
+              {/* end modal */}
+
+              <div className="col col-12 d-flex justify-content-between">
+                <div className="col col-6 text-left">
+                  <Link>
+                    <p style={{ fontSize: "0.8rem" }}>
+                      <i class="fa fa-plus add" aria-hidden="true"></i> &nbsp;{" "}
+                      <b onClick={handleShow}>Add New Entry</b>
+                    </p>
+                  </Link>{" "}
+                </div>
+                <div className="col col-6 text-right">
+                  <p style={{ fontSize: "0.7rem", fontWeight: "200" }}>
+                    Recently added{" "}
+                  </p>
+                </div>
+              </div>
+
+              {product === "" ? (
+                <div class="col col-md-11">
+                  <div className="row">
+                    <div
+                      className="col-6 mr-auto ml-auto"
+                      style={{ marginTop: "4%" }}
+                    >
+                      <div className="col-12 text-center">
+                        <img
+                          src={empty}
+                          alt="nodata"
+                          style={{ width: "5rem" }}
+                        />
+                      </div>
+
+                      <div className="col-12 text-center mt-4">
+                        <p style={{ fontSize: "0.8rem" }}>
+                          You Have No Products Available!!!
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col col-12 d-flex justify-content-between">
-                <div className="col col-6 text-left">
-                  <p style={{ fontSize: "0.7rem", fontWeight: "200" }}>
-                    Recently added (25 items){" "}
-                  </p>
-                </div>
-                <div className="col col-6 text-right">
-                  <Link>
-                    <p style={{ fontSize: "0.7rem", fontWeight: "200" }}>
-                      View all Recent Items
-                    </p>
-                  </Link>
-                </div>
-              </div>
-              <div
-                className="col col-12 table-responsive"
-                style={{ height: "40vh", overflow: "scroll" }}
-              >
-                <table
-                  class="table table-hover table-striped table-bordered text-center"
-                  style={{ fontSize: "0.8rem" }}
+              ) : (
+                <div
+                  className="col col-12 table-responsive"
+                  style={{ height: "40vh", overflow: "scroll" }}
                 >
-                  <thead>
-                    <tr>
-                      <th scope="col">Item ID</th>
-                      <th scope="col">Name</th>
-                      <th scope="col">Qty</th>
-                      <th scope="col">Type</th>
-                      <th scope="col">Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>@fat</td>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                      <td>@fat</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                      <td>@fat</td>
-                      <td>@fat</td>
-                    </tr>
-                    <tr>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
-                      <td>@fat</td>
-                      <td>@fat</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                  <table
+                    class="table table-hover table-striped table-bordered text-center"
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    <thead>
+                      <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody> {product}</tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
         </div>

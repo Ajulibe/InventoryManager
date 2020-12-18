@@ -13,12 +13,17 @@ import success from "../assets/success.svg";
 import authContext from "../context/authContext";
 import { useHistory } from "react-router-dom";
 import Allrolesmodal from "./Allrolesmodal";
+import trackerApi from "../api/tracker";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 const AssignrolesScreen = () => {
   let history = useHistory();
   const { state, createUserRoles } = useContext(authContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [users, setUsers] = useState("");
+  const [show, setShow] = useState(false);
 
   // SUPER ADMIN
   const [superadmin, setSuperadmin] = useState(false);
@@ -54,7 +59,31 @@ const AssignrolesScreen = () => {
     // } else {
     //   localStorage.setItem("inventory", state.data.inventory);
     // }
-  }, []);
+  }, [state]);
+
+  const handleClose = () => setShow(false);
+
+  const viewRoles = async () => {
+    try {
+      const response = await trackerApi.get("/accounts/user/introtech");
+      console.log(response.data);
+      const usersdetails = response.data.map((user) => {
+        return (
+          <tr key={user.createdAt} style={{}}>
+            <td style={{ fontSize: "0.8rem" }}>{user.email}</td>
+            <td style={{ fontSize: "0.8rem" }}>
+              {user.permissions.map((value) => {
+                return <p>{value}</p>;
+              })}
+            </td>
+          </tr>
+        );
+      });
+
+      setUsers(usersdetails);
+      setShow(true);
+    } catch (err) {}
+  };
 
   const createUser = async () => {
     if (email === "" || password === "") {
@@ -797,145 +826,40 @@ const AssignrolesScreen = () => {
 
               {/* Modal  */}
               {/* start */}
-              <div
-                class="modal fade modalfix"
-                id="allroles"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="allrolesTitle"
-                aria-hidden="true"
-              >
-                <div
-                  class="modal-dialog modal-dialog-centered modal-lg"
-                  role="document"
-                >
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      {/* <h5
-                        class="modal-title"
-                        id="allrolesTitle"
-                        style={{ textAlign: "center" }}
-                      >
-                        ASSIGNED ROLES
-                      </h5> */}
-                      <button
-                        type="button"
-                        class="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <div
-                        className="col col-12 table-responsive"
-                        style={{
-                          height: "40vh",
-                          overflow: "scroll",
-                          width: "90vw",
-                        }}
-                      >
-                        <table
-                          class="table table-hover table-striped table-bordered text-center"
-                          style={{ fontSize: "0.8rem" }}
-                        >
-                          <thead
-                            style={{
-                              backgroundColor: "#151423",
-                              color: "white",
-                              // border: "1px solid red",
-                            }}
-                          >
-                            <tr>
-                              <th scope="col">Item ID</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Qty</th>
-                              <th scope="col">Type</th>
-                              <th scope="col">Amount</th>
-                            </tr>
-                          </thead>
-                          {/* <br />
-                                <br />
-                                <br /> */}
-                          <tbody>
-                            <tr>
-                              <td>@fat</td>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <td>@fat</td>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <td>@fat</td>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <td>@fat</td>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <td>@fat</td>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <td>@fat</td>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <td>@fat</td>
-                              <td>Mark</td>
-                              <td>Otto</td>
-                              <td>@mdo</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>@fat</td>
-                              <td>@fat</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>@fat</td>
-                              <td>@fat</td>
-                              <td>@fat</td>
-                            </tr>
-                            <tr>
-                              <td>Jacob</td>
-                              <td>Thornton</td>
-                              <td>@fat</td>
-                              <td>@fat</td>
-                              <td>@fat</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+              <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton style={{}}>
+                  <Modal.Title
+                    style={{
+                      fontSize: "1rem",
+                      textAlign: "center",
+                      margin: "auto",
+                    }}
+                  >
+                    ASSIGNED ROLES
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <div class="table-responsive">
+                    <table
+                      className="table table-bordered"
+                      style={{ fontSize: "0.8rem" }}
+                    >
+                      <thead>
+                        <tr>
+                          <th scope="col">Email</th>
+                          <th scope="col">Permissions</th>
+                        </tr>
+                      </thead>
+                      <tbody>{users}</tbody>
+                    </table>
                   </div>
-                </div>
-              </div>
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={handleClose}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
               {/* end */}
               {/* ADDDMMMIIINNNN */}
               <div className="col col-3">
@@ -1348,6 +1272,7 @@ const AssignrolesScreen = () => {
                   </div>
                   <div className="col col-6">
                     <button
+                      onClick={viewRoles}
                       className="btn btn-sm btn-block"
                       style={{
                         backgroundColor: "white",
@@ -1356,8 +1281,6 @@ const AssignrolesScreen = () => {
                         fontSize: "0.7rem",
                         borderRadius: "3px",
                       }}
-                      data-toggle="modal"
-                      data-target="#allroles"
                     >
                       All Roles
                     </button>

@@ -1,7 +1,5 @@
 import axios from "axios";
 
-//the baseURL here is the ethernet IPv4Address.
-//type IPConfig in the terminal
 const instance = axios.create({
   baseURL: "http://12.96.91.34.bc.googleusercontent.com/api",
 });
