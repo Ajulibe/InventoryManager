@@ -13,6 +13,7 @@ import authContext from "../context/authContext";
 import Modal from "react-bootstrap/Modal";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { Alert } from "bootstrap";
 
 const OverviewScreen = () => {
   let history = useHistory();
@@ -32,6 +33,22 @@ const OverviewScreen = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // EDITING STATE
+  const [editid, seteditId] = useState("");
+  const [editname, seteditName] = useState("");
+  const [editcategory, seteditCategory] = useState("");
+  const [editprice, seteditPrice] = useState("");
+  const [editshow, seteditShow] = useState(false);
+
+  const edithandleClose = () => seteditShow(false);
+  const edithandleShow = () => seteditShow(true);
+
+  // SEE ALL
+  const [seeallshow, setseeallShow] = useState(false);
+
+  const seeallhandleClose = () => setseeallShow(false);
+  const seeallhandleShow = () => setseeallShow(true);
 
   //IMAGE UPLOAD
   const imageUpload = (e) => {
@@ -75,7 +92,7 @@ const OverviewScreen = () => {
 
   const fetchproducts = async () => {
     const token = await localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     try {
       const response = await axios.get(
         "http://12.96.91.34.bc.googleusercontent.com/api/products/introtech",
@@ -86,7 +103,7 @@ const OverviewScreen = () => {
           },
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
 
       const productTable = response.data.map((product) => {
         return (
@@ -116,11 +133,15 @@ const OverviewScreen = () => {
             <td>{product._id}</td>
             <td>{product.price}</td>
             <td>
-              <i
-                class="fa fa-pencil"
-                aria-hidden="true"
-                // onClick={editProduct(product._id)}
-              ></i>
+              <button
+                className="btn"
+                onClick={() => {
+                  editProduct(product._id);
+                }}
+              >
+                {" "}
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </button>
             </td>
             <td>
               <i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -133,24 +154,63 @@ const OverviewScreen = () => {
     } catch {}
   };
 
-  // const editProduct = async (id) => {
-  //   const token = await localStorage.getItem("token");
-  //   console.log(token);
-  //   try {
-  //     const response = await axios.put(
-  //       "http://12.96.91.34.bc.googleusercontent.com/api/products/introtech",
+  //GET PRODUCTS FOR EDITING
+  const editProduct = async (id) => {
+    seeallhandleClose();
+    const token = await localStorage.getItem("token");
+    // console.log(token);
+    // console.log(id);
+    try {
+      const response = await axios.get(
+        `http://12.96.91.34.bc.googleusercontent.com/api/products/introtech/${id}`,
 
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(response.data);
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      seteditId(response.data[0]._id);
+      seteditName(response.data[0].name);
+      seteditCategory(response.data[0].category);
+      seteditPrice(response.data[0].price);
 
-  //   } catch {}
+      edithandleShow();
+    } catch {}
+  };
 
-  // }
+  //SUBMIT UPDATED PRODUCTS
+  const updateProduct = async () => {
+    const token = await localStorage.getItem("token");
+    // console.log(token);
+    // console.log(id);
+    try {
+      const response = await axios.put(
+        "http://12.96.91.34.bc.googleusercontent.com/api/products",
+        {
+          id: editid,
+          name: editname,
+          category: editcategory,
+          price: editprice,
+          inventory: "introtech",
+        },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      if (response.data.message === "success") {
+        alert("success");
+        fetchproducts();
+      } else {
+        alert("Unsuccesfful!!!");
+      }
+    } catch {}
+  };
 
   return (
     <div class="container-fluid">
@@ -613,7 +673,13 @@ const OverviewScreen = () => {
                     </div>
                   </div>
                   <div className="col col-4 d-flex align-self-end">
-                    <Link data-toggle="modal" data-target="#exampleModalCenter">
+                    <Link
+                      data-toggle="modal"
+                      data-target="#exampleModalCenter"
+                      onClick={() => {
+                        seeallhandleShow();
+                      }}
+                    >
                       <p
                         style={{
                           fontSize: "0.6rem",
@@ -627,154 +693,119 @@ const OverviewScreen = () => {
                       </p>
                     </Link>
                     {/* modal */}
-                    <div
-                      class="modal fade"
-                      id="exampleModalCenter"
-                      tabindex="-1"
-                      role="dialog"
-                      aria-labelledby="exampleModalCenterTitle"
-                      aria-hidden="true"
+                    <Modal
+                      size="lg"
+                      show={seeallshow}
+                      onHide={seeallhandleClose}
+                      animation={true}
+                      style={{}}
                     >
-                      <div
-                        class="modal-dialog modal-lg modal-dialog-centered"
-                        role="document"
-                      >
-                        <div
-                          class="modal-content"
-                          style={{
-                            // border: "1px solid red",
-                            position: "relative",
-                            borderRadius: "2rem",
-                            paddingTop: "3rem",
-                          }}
-                        >
-                          <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                            style={{
-                              position: "absolute",
-                              top: "1rem",
-                              right: "1rem",
-                              border: "1px solid black",
-                              padding: "0.3rem",
-                              borderRadius: "15px",
-                            }}
-                          >
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                          <div class="modal-body">
-                            <p style={{ textAlign: "center" }}>
-                              <b>ALL ITEMS</b>
-                            </p>
+                      <Modal.Header
+                        closeButton
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItem: "center",
+                          borderBottom: "none",
+                        }}
+                      ></Modal.Header>
+                      <Modal.Body style={{}}>
+                        {product === "" ? (
+                          <div class="col col-md-12">
+                            <div className="row">
+                              <div
+                                className="col-6 mr-auto ml-auto mb-5"
+                                style={{
+                                  marginTop: "4%",
+                                }}
+                              >
+                                <div className="col-12 text-center">
+                                  <img
+                                    src={empty}
+                                    alt="nodata"
+                                    style={{ width: "5rem" }}
+                                  />
+                                </div>
+
+                                <div className="col-12 text-center mt-4">
+                                  <p style={{ fontSize: "0.8rem" }}>
+                                    You Have No Products Available!!!
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="row d-flex justify-content-center">
+                              <div
+                                className="col col-10"
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  // border: "1px solid red",
+                                  marginBottom: "3rem",
+                                }}
+                              >
+                                <div
+                                  className="col col-4"
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  {/* <p style={{ textAlign: "center" }}>
+                                    <b>ALL ITEMS</b>
+                                  </p> */}
+                                </div>
+                                <div className="col col-5">
+                                  <i
+                                    class="fa fa-search"
+                                    style={{
+                                      position: "absolute",
+                                      zIndex: "1000",
+                                      right: "10%",
+                                      top: "20%",
+                                      width: "1rem",
+                                      color: "rgb(21,20,35, 0.6)",
+                                    }}
+                                  ></i>
+                                  <input
+                                    style={{ fontSize: "0.8rem" }}
+                                    type="text"
+                                    placeholder="Search for product.."
+                                    class="form-control"
+                                  />
+                                </div>
+                              </div>
+                            </div>
                             <div
                               className="col col-12 table-responsive"
-                              style={{
-                                height: "40vh",
-                                overflow: "scroll",
-                              }}
+                              style={{}}
                             >
                               <table
                                 class="table table-hover table-striped table-bordered text-center"
                                 style={{ fontSize: "0.8rem" }}
                               >
-                                <thead
-                                  style={{
-                                    backgroundColor: "#151423",
-                                    color: "white",
-                                    // border: "1px solid red",
-                                  }}
-                                >
+                                <thead>
                                   <tr>
-                                    <th scope="col">Item ID</th>
+                                    <th scope="col">Image</th>
                                     <th scope="col">Name</th>
-                                    <th scope="col">Qty</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Amount</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
                                   </tr>
                                 </thead>
-                                {/* <br />
-                                <br />
-                                <br /> */}
-                                <tbody>
-                                  <tr>
-                                    <td>@fat</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <td>@fat</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <td>@fat</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <td>@fat</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <td>@fat</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <td>@fat</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <td>@fat</td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td>@fat</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td>@fat</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                    <td>@fat</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                </tbody>
+                                <tbody> {product}</tbody>
                               </table>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                          </>
+                        )}
+                      </Modal.Body>
+                    </Modal>
                   </div>
                 </div>
               </div>
@@ -788,10 +819,23 @@ const OverviewScreen = () => {
               }}
             >
               {/* new modal */}
-              <Modal show={show} onHide={handleClose} animation={false}>
-                <Modal.Header closeButton>
-                  <Modal.Title style={{ fontSize: "1.2rem" }}>
-                    Add a new product
+              <Modal show={show} onHide={handleClose} animation={true}>
+                <Modal.Header
+                  closeButton
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItem: "center",
+                    borderBottom: "none",
+                  }}
+                >
+                  <Modal.Title
+                    style={{
+                      fontSize: "1rem",
+                      position: "absolute",
+                    }}
+                  >
+                    ADD A NEW PRODUCT
                   </Modal.Title>
                 </Modal.Header>
                 <Modal.Body style={{ fontSize: "0.8rem" }}>
@@ -925,6 +969,116 @@ const OverviewScreen = () => {
                 </Modal.Body>
               </Modal>
               {/* end modal */}
+              {/* MODAL FOR EDITING */}
+              <Modal
+                show={editshow}
+                onHide={edithandleClose}
+                animation={true}
+                style={{}}
+              >
+                <Modal.Header
+                  closeButton
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItem: "center",
+                    borderBottom: "none",
+                  }}
+                >
+                  <Modal.Title
+                    style={{
+                      fontSize: "1rem",
+                      position: "absolute",
+                    }}
+                  >
+                    EDIT THIS PRODUCT
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{ fontSize: "0.8rem" }}>
+                  <div className="container">
+                    <div className="">
+                      <div className="col col-12">
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            updateProduct();
+                            edithandleClose();
+                            setChange(true);
+                          }}
+                        >
+                          <div class="form-group">
+                            <label htmlFor="ItemIDSet">Item ID:</label>
+                            <input
+                              required
+                              type="text"
+                              class="form-control form-control-sm"
+                              id="ItemIDSet"
+                              aria-describedby="emailHelp"
+                              name="editid"
+                              value={editid}
+                              onChange={(e) => seteditId(e.target.value)}
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="nameSet">Name:</label>
+                            <input
+                              required
+                              type="text"
+                              class="form-control form-control-sm"
+                              id="nameSet"
+                              aria-describedby="emailHelp"
+                              name="editname"
+                              value={editname}
+                              onChange={(e) => seteditName(e.target.value)}
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="categorySet">Category:</label>
+                            <input
+                              required
+                              type="text"
+                              class="form-control form-control-sm"
+                              id="categorySet"
+                              aria-describedby="emailHelp"
+                              name="editcategory"
+                              value={editcategory}
+                              onChange={(e) => seteditCategory(e.target.value)}
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label for="priceSet">Price:</label>
+                            <input
+                              required
+                              type="text"
+                              class="form-control form-control-sm"
+                              id="priceSet"
+                              aria-describedby="emailHelp"
+                              name="editprice"
+                              value={editprice}
+                              placeholder="N0.00"
+                              onChange={(e) => seteditPrice(e.target.value)}
+                            />
+                          </div>
+
+                          <button
+                            type="submit"
+                            class="btn"
+                            style={{
+                              backgroundColor: "#D94F00",
+                              color: "white",
+                              fontSize: "0.7rem",
+                              borderRadius: "0px",
+                            }}
+                          >
+                            Submit
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
+              {/* END OF MODAL FOR EDITING */}
 
               <div className="col col-12 d-flex justify-content-between">
                 <div className="col col-6 text-left">
