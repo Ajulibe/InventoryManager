@@ -13,7 +13,16 @@ import authContext from "../context/authContext";
 import Modal from "react-bootstrap/Modal";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { Alert } from "bootstrap";
+import { css } from "@emotion/core";
+import MoonLoader from "react-spinners/MoonLoader";
+
+// Can be a string as well. Need to ensure each key-value pair ends with ;
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+  margin-bottom: 2rem;
+`;
 
 const OverviewScreen = () => {
   let history = useHistory();
@@ -43,6 +52,13 @@ const OverviewScreen = () => {
 
   const edithandleClose = () => seteditShow(false);
   const edithandleShow = () => seteditShow(true);
+
+  //SEARCH TABLE
+  const [tableShow, settableShow] = useState("block");
+  const [search, setsearch] = useState("");
+
+  //LOADING STATE
+  const [loading, setloading] = useState(false);
 
   // SEE ALL
   const [seeallshow, setseeallShow] = useState(false);
@@ -140,11 +156,26 @@ const OverviewScreen = () => {
                 }}
               >
                 {" "}
-                <i class="fa fa-pencil" aria-hidden="true"></i>
+                <i
+                  class="fa fa-pencil"
+                  aria-hidden="true"
+                  style={{ color: "#877BFF" }}
+                ></i>
               </button>
             </td>
             <td>
-              <i class="fa fa-trash-o" aria-hidden="true"></i>
+              <button
+                className="btn"
+                onClick={() => {
+                  deleteProduct(product._id);
+                }}
+              >
+                <i
+                  class="fa fa-trash-o"
+                  aria-hidden="true"
+                  style={{ color: "red" }}
+                ></i>
+              </button>
             </td>
           </tr>
         );
@@ -177,6 +208,59 @@ const OverviewScreen = () => {
       seteditPrice(response.data[0].price);
 
       edithandleShow();
+    } catch {}
+  };
+
+  //DELETE PRODUCTS FOR EDITING
+  const deleteProduct = async (id) => {
+    const token = await localStorage.getItem("token");
+    // console.log(token);
+    // console.log(id);
+    try {
+      const response = await axios.post(
+        "http://12.96.91.34.bc.googleusercontent.com/api/products/delete",
+        {
+          inventory: "introtech",
+          items: [id],
+        },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // console.log(response.data.message);
+      if (response.data.message === "success") {
+        alert("successful");
+        fetchproducts();
+      } else {
+        alert("An error occurred");
+      }
+    } catch {}
+  };
+
+  //INPUT SEARCH
+  const searchFn = async () => {
+    setloading(true);
+    const token = await localStorage.getItem("token");
+    // console.log(search);
+
+    try {
+      const response = await axios.get(
+        "http://12.96.91.34.bc.googleusercontent.com/api/products",
+        {
+          inventory: "introtech",
+          name: search,
+        },
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
     } catch {}
   };
 
@@ -771,18 +855,46 @@ const OverviewScreen = () => {
                                       color: "rgb(21,20,35, 0.6)",
                                     }}
                                   ></i>
-                                  <input
-                                    style={{ fontSize: "0.8rem" }}
-                                    type="text"
-                                    placeholder="Search for product.."
-                                    class="form-control"
-                                  />
+                                  <form
+                                    onSubmit={(e) => {
+                                      e.preventDefault();
+                                      searchFn();
+                                    }}
+                                  >
+                                    <input
+                                      required
+                                      onFocus={() => {
+                                        settableShow("none");
+                                      }}
+                                      onBlur={() => {
+                                        setloading(false);
+                                        settableShow("block");
+                                      }}
+                                      style={{ fontSize: "0.8rem" }}
+                                      type="text"
+                                      placeholder="Search for product.."
+                                      class="form-control"
+                                      name="search"
+                                      value={search}
+                                      onChange={(e) =>
+                                        setsearch(e.target.value)
+                                      }
+                                    />
+                                  </form>
                                 </div>
                               </div>
                             </div>
+                            <div className="sweet-loading">
+                              <MoonLoader
+                                css={override}
+                                size={65}
+                                color={"#123abc"}
+                                loading={loading}
+                              />
+                            </div>
                             <div
-                              className="col col-12 table-responsive"
-                              style={{}}
+                              className="col col-12 table-responsive disGuy"
+                              style={{ display: `${tableShow}` }}
                             >
                               <table
                                 class="table table-hover table-striped table-bordered text-center"
@@ -1082,12 +1194,12 @@ const OverviewScreen = () => {
 
               <div className="col col-12 d-flex justify-content-between">
                 <div className="col col-6 text-left">
-                  <Link>
-                    <p style={{ fontSize: "0.8rem" }}>
-                      <i class="fa fa-plus add" aria-hidden="true"></i> &nbsp;{" "}
+                  <p style={{ fontSize: "0.8rem" }}>
+                    <i class="fa fa-plus add" aria-hidden="true"></i> &nbsp;{" "}
+                    <Link>
                       <b onClick={handleShow}>Add New Entry</b>
-                    </p>
-                  </Link>{" "}
+                    </Link>{" "}
+                  </p>
                 </div>
                 <div className="col col-6 text-right">
                   <p style={{ fontSize: "0.7rem", fontWeight: "200" }}>
