@@ -21,3 +21,63 @@ html {
   border-radius: 1rem !important;
   /* box-shadow: 1.3rem 1.3rem 3.1rem 2rem rgba(0, 0, 0, 0.2); */
 }
+
+/* .row {
+  margin-right: 0% !important;
+  margin-left: 0 !important;
+} */
+
+/* MEDIA QUERY */
+@media only screen and (max-width: 1024px) {
+  .dash {
+    height: 10vh !important;
+  }
+  .overvw {
+    height: 5vh !important;
+  }
+  .backOvr {
+    display: none;
+  }
+  .overImg {
+    width: 38% !important;
+    height: 26% !important;
+    margin-left: 31% !important;
+  }
+
+  .signupForm {
+    margin-top: 15% !important;
+  }
+  .inForm2 {
+    background-color: #f4cdbf;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .dash {
+    height: 14vh !important;
+    margin-bottom: 2rem;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .signupForm {
+    margin-top: 10% !important;
+  }
+  .loginForm {
+    margin-top: 6% !important;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .signupForm {
+    margin-top: 15% !important;
+  }
+  .loginForm {
+    margin-top: 11% !important;
+  }
+  .overImg {
+    width: 36% !important;
+    height: 20% !important;
+    margin-left: 32% !important;
+  }
+}

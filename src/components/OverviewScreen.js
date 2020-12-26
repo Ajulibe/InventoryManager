@@ -38,7 +38,9 @@ const OverviewScreen = () => {
   const [price, setPrice] = useState("");
   const [show, setShow] = useState(false);
   const [product, setProduct] = useState("");
+  const [productAll, setProductAll] = useState("");
   const [change, setChange] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -182,7 +184,10 @@ const OverviewScreen = () => {
       });
 
       setProduct(productTable);
-    } catch {}
+      setProductAll(productTable);
+    } catch {
+      history.push("/Signin");
+    }
   };
 
   //GET PRODUCTS FOR EDITING
@@ -208,36 +213,45 @@ const OverviewScreen = () => {
       seteditPrice(response.data[0].price);
 
       edithandleShow();
-    } catch {}
+    } catch {
+      alert("an error occurred");
+    }
   };
 
   //DELETE PRODUCTS FOR EDITING
   const deleteProduct = async (id) => {
-    const token = await localStorage.getItem("token");
-    // console.log(token);
-    // console.log(id);
-    try {
-      const response = await axios.post(
-        "http://12.96.91.34.bc.googleusercontent.com/api/products/delete",
-        {
-          inventory: "introtech",
-          items: [id],
-        },
-
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    const result = window.confirm("Are you sure you want to delete?");
+    if (!result) {
+      return;
+    } else {
+      const token = await localStorage.getItem("token");
+      // console.log(token);
+      // console.log(id);
+      try {
+        const response = await axios.post(
+          "http://12.96.91.34.bc.googleusercontent.com/api/products/delete",
+          {
+            inventory: "introtech",
+            items: [id],
           },
+
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        // console.log(response.data.message);
+        if (response.data.message === "success") {
+          alert("successful");
+          fetchproducts();
+        } else {
+          alert("An error occurred");
         }
-      );
-      // console.log(response.data.message);
-      if (response.data.message === "success") {
-        alert("successful");
-        fetchproducts();
-      } else {
-        alert("An error occurred");
+      } catch {
+        alert("an error occurred");
       }
-    } catch {}
+    }
   };
 
   //INPUT SEARCH
@@ -247,12 +261,8 @@ const OverviewScreen = () => {
     // console.log(search);
 
     try {
-      const response = await axios.get(
-        "http://12.96.91.34.bc.googleusercontent.com/api/products",
-        {
-          inventory: "introtech",
-          name: search,
-        },
+      const { data: products } = await axios.get(
+        `http://12.96.91.34.bc.googleusercontent.com/api/products?inventory=introtech&name=${search}`,
 
         {
           headers: {
@@ -260,8 +270,86 @@ const OverviewScreen = () => {
           },
         }
       );
-      console.log(response.data);
-    } catch {}
+      //i am using array and object destructuring above
+      //({data} = response is the same as response.data}
+      //[a] = [1,2,3] is the same as array[0]. they will give the same answer
+      //[a,b,c] =[1,2,3] will give 1,2,3, respectively
+      //[a,...b] = [1,2,3] will give 1, and console.log of b will give 2,3
+      //so {data: [product]  is the same response.data[0]
+      // console.log(products);
+      setloading(false);
+
+      if (products[0].name) {
+        setError(false);
+        const searchedProduct = products.map((product) => {
+          return (
+            <tr key={product._id}>
+              <td
+                style={{
+                  textAlign: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                }}
+              >
+                <div style={{ width: "3rem", height: "3rem" }}>
+                  <img
+                    src={product.image}
+                    alt="product-image"
+                    style={{
+                      height: "100%",
+                      maxWidth: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              </td>
+              <td>{product.name}</td>
+              <td>{product.category}</td>
+              <td>{product._id}</td>
+              <td>{product.price}</td>
+              <td>
+                <button
+                  className="btn"
+                  onClick={() => {
+                    editProduct(product._id);
+                  }}
+                >
+                  {" "}
+                  <i
+                    class="fa fa-pencil"
+                    aria-hidden="true"
+                    style={{ color: "#877BFF" }}
+                  ></i>
+                </button>
+              </td>
+              <td>
+                <button
+                  className="btn"
+                  onClick={() => {
+                    deleteProduct(product._id);
+                  }}
+                >
+                  <i
+                    class="fa fa-trash-o"
+                    aria-hidden="true"
+                    style={{ color: "red" }}
+                  ></i>
+                </button>
+              </td>
+            </tr>
+          );
+        });
+        setProductAll(searchedProduct);
+        settableShow("block");
+      } else {
+        setloading(false);
+        alert("Item not in Inventory");
+      }
+    } catch (e) {
+      setloading(false);
+      setError(true);
+    }
   };
 
   //SUBMIT UPDATED PRODUCTS
@@ -293,15 +381,22 @@ const OverviewScreen = () => {
       } else {
         alert("Unsuccesfful!!!");
       }
-    } catch {}
+    } catch {
+      alert("an error occurred");
+    }
   };
 
   return (
     <div class="container-fluid">
       <div class="row">
         <div
-          class="col col-12 d-flex justify-content-between align-items-center"
-          style={{ background: "#151423", width: "100vw", height: "9vh" }}
+          class="col col-12 d-flex justify-content-between align-items-center overvw"
+          style={{
+            background: "#151423",
+            width: "100vw",
+            height: "9vh",
+            padding: "0",
+          }}
         >
           <p
             style={{
@@ -314,7 +409,7 @@ const OverviewScreen = () => {
             <b>Overview</b>
             <sup>TM</sup>
           </p>
-
+          {/* 
           <div
             class="input-group input-group-sm "
             style={{
@@ -348,12 +443,12 @@ const OverviewScreen = () => {
                 border: "none",
               }}
             ></input>
-          </div>
+          </div> */}
         </div>
       </div>
       <div class="row">
         <div
-          class="col col-md-1 slider"
+          class="col col-1 col-md-1 slider"
           style={{
             height: "80vh",
             marginTop: "40px",
@@ -380,7 +475,7 @@ const OverviewScreen = () => {
                 fontSize: "0.6rem",
                 color: "white",
                 // border: "1px solid blue",
-                paddingRight: "15px",
+                paddingRight: "3.3rem",
               }}
             >
               {/* first icons */}
@@ -475,7 +570,7 @@ const OverviewScreen = () => {
               </p>
             </div>
             <div
-              className="col col-10 mr-auto ml-auto"
+              className="col col-10 mr-auto ml-auto dash"
               style={{
                 backgroundColor: "#151423",
                 height: "20vh",
@@ -522,7 +617,7 @@ const OverviewScreen = () => {
                     </span>
                   </p>
                 </div>
-                <div
+                {/* <div
                   className="col col-2 mt-3 d-flex justify-content-center align-items-center"
                   style={{
                     border: "1px solid #198AEE",
@@ -533,7 +628,7 @@ const OverviewScreen = () => {
                   }}
                 >
                   Get Summary
-                </div>
+                </div> */}
               </div>
               <div
                 className="col col-12 d-flex justify-content-between mt-4"
@@ -862,6 +957,7 @@ const OverviewScreen = () => {
                                     }}
                                   >
                                     <input
+                                      autocomplete="off"
                                       required
                                       onFocus={() => {
                                         settableShow("none");
@@ -869,6 +965,7 @@ const OverviewScreen = () => {
                                       onBlur={() => {
                                         setloading(false);
                                         settableShow("block");
+                                        setError(false);
                                       }}
                                       style={{ fontSize: "0.8rem" }}
                                       type="text"
@@ -892,28 +989,55 @@ const OverviewScreen = () => {
                                 loading={loading}
                               />
                             </div>
-                            <div
-                              className="col col-12 table-responsive disGuy"
-                              style={{ display: `${tableShow}` }}
-                            >
-                              <table
-                                class="table table-hover table-striped table-bordered text-center"
-                                style={{ fontSize: "0.8rem" }}
+                            {error ? (
+                              <div class="col col-md-12">
+                                <div className="row">
+                                  <div
+                                    className="col-6 mr-auto ml-auto mb-5"
+                                    style={{
+                                      marginTop: "4%",
+                                    }}
+                                  >
+                                    <div className="col-12 text-center">
+                                      <img
+                                        src={empty}
+                                        alt="nodata"
+                                        style={{ width: "5rem" }}
+                                      />
+                                    </div>
+
+                                    <div className="col-12 text-center mt-4">
+                                      <p style={{ fontSize: "0.8rem" }}>
+                                        You Have No Products Available!!!
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <div
+                                className="col col-12 table-responsive disGuy"
+                                style={{ display: `${tableShow}` }}
                               >
-                                <thead>
-                                  <tr>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Edit</th>
-                                    <th scope="col">Delete</th>
-                                  </tr>
-                                </thead>
-                                <tbody> {product}</tbody>
-                              </table>
-                            </div>
+                                <table
+                                  class="table table-hover table-striped table-bordered text-center"
+                                  style={{ fontSize: "0.8rem" }}
+                                >
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Image</th>
+                                      <th scope="col">Name</th>
+                                      <th scope="col">Category</th>
+                                      <th scope="col">ID</th>
+                                      <th scope="col">Price</th>
+                                      <th scope="col">Edit</th>
+                                      <th scope="col">Delete</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody> {productAll}</tbody>
+                                </table>
+                              </div>
+                            )}
                           </>
                         )}
                       </Modal.Body>

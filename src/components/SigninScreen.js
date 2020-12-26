@@ -67,7 +67,7 @@ const SigninScreen = () => {
     <div class="container-fluid">
       <div class="row">
         <div
-          class="col col-md-6 col-12 "
+          class="col col-lg-6 col-12 backOvr"
           style={{
             background: `url(${backdrop})`,
             height: "100vh",
@@ -106,12 +106,12 @@ const SigninScreen = () => {
           </div>
         </div>
         <div
-          class="col col-12 col-md-6"
+          class="col col-12 col-xl-6 inForm"
           style={{ backgroundColor: "#FAF1EE", height: "100vh" }}
         >
-          <div class="row " id="blockRoot">
+          <div class="row ">
             <div
-              class="col col-7"
+              class="col col-11 col-md-7 col-xl-7 loginForm"
               style={{
                 backgroundColor: "rgb(0,0,0,0.1)",
                 height: "80%",
@@ -119,9 +119,11 @@ const SigninScreen = () => {
                 marginRight: "auto",
                 marginTop: "6%",
                 borderRadius: "15px",
+                // border: "1px solid rgb(128,128,128, 0.3)",
               }}
             >
               <img
+                className="overImg"
                 src={whiteOver}
                 alt="overview"
                 style={{
@@ -303,6 +305,7 @@ const SigninScreen = () => {
                         </Link>
                       </p>
                       <p
+                        className="bottommarg"
                         style={{
                           fontSize: "0.7rem",
                           fontWeight: "200",
@@ -331,7 +334,7 @@ const SigninScreen = () => {
           {/* SECOND SIGN IN  */}
           <div class="row ownerLogin" id="blockAdmin">
             <div
-              class="col col-7"
+              class="col col-11 col-md-7 col-xl-7 signupForm"
               style={{
                 backgroundColor: "#ffffff",
                 height: "80%",
@@ -339,9 +342,11 @@ const SigninScreen = () => {
                 marginRight: "auto",
                 marginTop: "6%",
                 borderRadius: "15px",
+                border: "1px solid rgb(128,128,128, 0.3)",
               }}
             >
               <img
+                className="overImg"
                 src={whiteOver}
                 alt="overview"
                 style={{
