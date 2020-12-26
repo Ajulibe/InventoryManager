@@ -109,7 +109,7 @@ const SigninScreen = () => {
           class="col col-12 col-xl-6 inForm"
           style={{ backgroundColor: "#FAF1EE", height: "100vh" }}
         >
-          <div class="row ">
+          <div class="row " id="blockRoot">
             <div
               class="col col-11 col-md-7 col-xl-7 loginForm"
               style={{

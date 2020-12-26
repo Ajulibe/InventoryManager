@@ -186,7 +186,7 @@ const OverviewScreen = () => {
       setProduct(productTable);
       setProductAll(productTable);
     } catch {
-      history.push("/Signin");
+      // history.push("/Signin");
     }
   };
 
@@ -953,6 +953,7 @@ const OverviewScreen = () => {
                                   <form
                                     onSubmit={(e) => {
                                       e.preventDefault();
+                                      setError(false);
                                       searchFn();
                                     }}
                                   >

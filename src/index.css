@@ -28,6 +28,18 @@ html {
 } */
 
 /* MEDIA QUERY */
+@media only screen and (max-width: 1199px) {
+  .backOvr {
+    display: none;
+  }
+  .signupForm {
+    margin-top: 5% !important;
+  }
+  .loginForm {
+    margin-top: 5% !important;
+  }
+}
+
 @media only screen and (max-width: 1024px) {
   .dash {
     height: 10vh !important;
