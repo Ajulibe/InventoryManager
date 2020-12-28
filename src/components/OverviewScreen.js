@@ -15,6 +15,12 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { css } from "@emotion/core";
 import MoonLoader from "react-spinners/MoonLoader";
+import {
+  CloudinaryContext,
+  Transformation,
+  Image,
+  Placeholder,
+} from "cloudinary-react";
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
@@ -30,9 +36,9 @@ const OverviewScreen = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [imageAlt, setImageAlt] = useState("");
 
-  const imageRef = useRef(null);
+  const imageRef = useRef("");
 
-  const [id, setId] = useState("");
+  const [id, setId] = useState(Math.random().toString(36).slice(2));
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
@@ -42,8 +48,21 @@ const OverviewScreen = () => {
   const [change, setChange] = useState(false);
   const [error, setError] = useState(false);
 
+  //SIDEBAR MODAL
+  const [side, setSide] = useState(true);
+  const sideClose = () => setSide(false);
+  const sideShow = () => setSide(true);
+
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setId(Math.random().toString(36).slice(2));
+    setName("");
+    setCategory("");
+    setPrice("");
+    setShow(true);
+    // const imageDiv = document.querySelector(".ImageSect");
+    // //console.log(imageDiv);
+  };
 
   // EDITING STATE
   const [editid, seteditId] = useState("");
@@ -68,8 +87,16 @@ const OverviewScreen = () => {
   const seeallhandleClose = () => setseeallShow(false);
   const seeallhandleShow = () => setseeallShow(true);
 
+  //WAIT FOR IMAGE URL AND RETURN PRODUCT
+  const imagereturn = () => {
+    setTimeout(function () {
+      createproduct(id, name, category, price, imageUrl);
+      setChange(true);
+    }, 4000);
+  };
+
   //IMAGE UPLOAD
-  const imageUpload = (e) => {
+  const imageUpload = async (e) => {
     const imageDiv = imageRef.current;
     console.log(imageDiv);
     imageDiv.src = URL.createObjectURL(e.target.files[0]);
@@ -81,22 +108,19 @@ const OverviewScreen = () => {
     formData.append("file", files[0]);
     // replace this with your upload preset name
     formData.append("upload_preset", "knypfbbh");
-    const options = {
-      method: "POST",
-      body: formData,
-    };
-
-    // replace cloudname with your Cloudinary cloud_name
-    return fetch(
-      "https://api.Cloudinary.com/v1_1/ajulibe/image/upload",
-      options
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setImageUrl(res.secure_url);
-        setImageAlt(`An image of ${res.original_filename}`);
-      })
-      .catch((err) => console.log(err));
+    try {
+      // replace cloudname with your Cloudinary cloud_name
+      const response = await axios.post(
+        "https://api.Cloudinary.com/v1_1/ajulibe/image/upload",
+        formData
+      );
+      console.log(response.data);
+      // setImageUrl(response.data.secure_url);
+      setImageUrl(response.data.public_id);
+      setImageAlt(`An image of ${response.data.original_filename}`);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const Logout = () => {
@@ -110,7 +134,7 @@ const OverviewScreen = () => {
 
   const fetchproducts = async () => {
     const token = await localStorage.getItem("token");
-    // console.log(token);
+
     try {
       const response = await axios.get(
         "http://12.96.91.34.bc.googleusercontent.com/api/products/introtech",
@@ -135,7 +159,7 @@ const OverviewScreen = () => {
               }}
             >
               <div style={{ width: "3rem", height: "3rem" }}>
-                <img
+                {/* <img
                   src={product.image}
                   alt="product-image"
                   style={{
@@ -143,7 +167,19 @@ const OverviewScreen = () => {
                     maxWidth: "100%",
                     objectFit: "cover",
                   }}
-                />
+                /> */}
+                <CloudinaryContext cloudName="ajulibe">
+                  <Image
+                    publicId={product.image}
+                    loading="lazy"
+                    width="100%"
+                    height="100%"
+                    secure="true"
+                    alt="product-image"
+                  >
+                    {/* <Transformation quality="50" /> */}
+                  </Image>
+                </CloudinaryContext>
               </div>
             </td>
             <td>{product.name}</td>
@@ -243,7 +279,6 @@ const OverviewScreen = () => {
         );
         // console.log(response.data.message);
         if (response.data.message === "success") {
-          alert("successful");
           fetchproducts();
         } else {
           alert("An error occurred");
@@ -293,7 +328,7 @@ const OverviewScreen = () => {
                 }}
               >
                 <div style={{ width: "3rem", height: "3rem" }}>
-                  <img
+                  {/* <img
                     src={product.image}
                     alt="product-image"
                     style={{
@@ -301,7 +336,19 @@ const OverviewScreen = () => {
                       maxWidth: "100%",
                       objectFit: "cover",
                     }}
-                  />
+                  /> */}
+                  <CloudinaryContext cloudName="ajulibe">
+                    <Image
+                      publicId={product.image}
+                      loading="lazy"
+                      width="100%"
+                      height="100%"
+                      secure="true"
+                      alt="product-image"
+                    >
+                      <Transformation quality="50" />
+                    </Image>
+                  </CloudinaryContext>
                 </div>
               </td>
               <td>{product.name}</td>
@@ -550,10 +597,13 @@ const OverviewScreen = () => {
           </div>
         </div>
 
-        <div class="col col-md-11" style={{ marginLeft: "5rem" }}>
+        <div
+          class="col col-10 col-md-11 marginadjust"
+          style={{ marginLeft: "5rem" }}
+        >
           <div className="row">
             <div
-              className="col col-4 mr-auto ml-auto text-center mb-5"
+              className="col col-7 col-md-4 mr-auto ml-auto text-center mb-5"
               style={{
                 marginTop: "0.5rem",
                 height: "2rem",
@@ -566,11 +616,11 @@ const OverviewScreen = () => {
                 style={{ height: "100%", marginBottom: "1%" }}
               />
               <p style={{ fontSize: "0.7rem" }}>
-                <b>INVENTORY OF ALL BRANCHES</b>
+                <b className="inventall">INVENTORY OF ALL BRANCHES</b>
               </p>
             </div>
             <div
-              className="col col-10 mr-auto ml-auto dash"
+              className="col col-12 col-md-10 mr-auto ml-auto dash "
               style={{
                 backgroundColor: "#151423",
                 height: "20vh",
@@ -581,7 +631,7 @@ const OverviewScreen = () => {
             >
               <div className="col col-12 d-flex justify-content-between">
                 <div
-                  className="col col-3 mt-3"
+                  className="col col-3 mt-3 total"
                   style={{
                     // border: "1px solid red",
                     position: "relative",
@@ -634,15 +684,21 @@ const OverviewScreen = () => {
                 className="col col-12 d-flex justify-content-between mt-4"
                 style={{ position: "relative" }}
               >
-                <div className="col col-2 d-flex">
+                <div
+                  className="col col-2 d-flex"
+                  style={{
+                    border: "1px solid white",
+                  }}
+                >
                   <div
                     className=" col col-1"
                     style={{
                       position: "relative",
+                      border: "1px solid red",
                     }}
                   >
                     <div
-                      className="rounded-circle"
+                      className="rounded-circle laptopcircle"
                       style={{
                         height: "0.8rem",
                         width: "0.8rem",
@@ -652,8 +708,14 @@ const OverviewScreen = () => {
                       }}
                     ></div>
                   </div>
-                  <div className="col col-11">
-                    <p style={{ color: "#44434F", fontSize: "0.8rem" }}>
+                  <div
+                    className="col col-11"
+                    style={{ border: "1px solid red" }}
+                  >
+                    <p
+                      style={{ color: "#44434F", fontSize: "0.8rem" }}
+                      className="laptopSize"
+                    >
                       Laptops
                     </p>
                     <p
@@ -668,7 +730,7 @@ const OverviewScreen = () => {
                     </p>
                   </div>
                 </div>
-                <div className="col col-2" style={{}}>
+                {/* <div className="col col-2" style={{}}>
                   <div className="row d-flex">
                     <div
                       className="col col-1"
@@ -710,8 +772,8 @@ const OverviewScreen = () => {
                       </p>
                     </div>
                   </div>
-                </div>
-                <div className="col col-2" style={{}}>
+                </div> */}
+                {/* <div className="col col-2" style={{}}>
                   <div className="row d-flex">
                     <div
                       className="col col-1"
@@ -753,8 +815,8 @@ const OverviewScreen = () => {
                       </p>
                     </div>
                   </div>
-                </div>
-                <div className="col col-2" style={{}}>
+                </div> */}
+                {/* <div className="col col-2" style={{}}>
                   <div className="row d-flex">
                     <div
                       className="col col-1"
@@ -796,7 +858,7 @@ const OverviewScreen = () => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div
                   className="col col-2 d-flex justify-content-between lastOne"
@@ -949,6 +1011,10 @@ const OverviewScreen = () => {
                                       width: "1rem",
                                       color: "rgb(21,20,35, 0.6)",
                                     }}
+                                    onClick={() => {
+                                      setError(false);
+                                      searchFn();
+                                    }}
                                   ></i>
                                   <form
                                     onSubmit={(e) => {
@@ -1095,6 +1161,7 @@ const OverviewScreen = () => {
                             </p> */}
 
                             <img
+                              className="ImageSect"
                               ref={imageRef}
                               src={imageUrl}
                               alt={imageAlt}
@@ -1109,9 +1176,9 @@ const OverviewScreen = () => {
                         <form
                           onSubmit={(e) => {
                             e.preventDefault();
-                            createproduct(id, name, category, price, imageUrl);
+                            //createproduct(id, name, category, price, imageUrl);
+                            imagereturn();
                             handleClose();
-                            setChange(true);
                           }}
                         >
                           <div className="form-group">
@@ -1136,6 +1203,7 @@ const OverviewScreen = () => {
                           <div class="form-group">
                             <label htmlFor="ItemIDSet">Item ID:</label>
                             <input
+                              disabled
                               required
                               type="text"
                               class="form-control form-control-sm"
@@ -1143,7 +1211,7 @@ const OverviewScreen = () => {
                               aria-describedby="emailHelp"
                               name="id"
                               value={id}
-                              onChange={(e) => setId(e.target.value)}
+                              // onChange={(e) => setId(e.target.value)}
                             />
                           </div>
                           <div class="form-group">
@@ -1205,6 +1273,77 @@ const OverviewScreen = () => {
                   </div>
                 </Modal.Body>
               </Modal>
+              {/* SIDEBAR MODAL */}
+              <Modal size="sm" show={side} onHide={sideClose} animation={true}>
+                <Modal.Body
+                  style={{
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  <div className="comtainer">
+                    <div
+                      className="row d-flex justify-content-center"
+                      style={{}}
+                    >
+                      <div
+                        className="col col-8 d-flex justify-content-center flex-column"
+                        style={{}}
+                      >
+                        <div className="col col-12 text-center mt-4">
+                          <Link to="overview" className="linkTag">
+                            <img
+                              src={all}
+                              alt="all"
+                              style={{ width: "1.5rem" }}
+                            />
+                            <b>
+                              <p style={{ color: "#151423" }}>All Inventory</p>
+                            </b>
+                          </Link>
+                        </div>
+                        <div className="col col-12 text-center mt-2">
+                          <Link to="assignroles" className="linkTag">
+                            <img
+                              src={roles}
+                              alt="roleswhite"
+                              style={{ width: "1.5rem" }}
+                            />
+                            <b>
+                              <p style={{ color: "#151423" }}>Assign Roles</p>
+                            </b>
+                          </Link>
+                        </div>
+                        <div className="col col-12 text-center mt-2">
+                          <Link to="createbranch" className="linkTag">
+                            <img
+                              src={branches}
+                              alt="branches"
+                              style={{ width: "1.5rem" }}
+                            />
+                            <b>
+                              <p style={{ color: "#151423" }}>
+                                Create Branches
+                              </p>
+                            </b>
+                          </Link>
+                        </div>
+                        <div className="col col-12 text-center mt-2 mb-4">
+                          <Link to="createbranch" className="linkTag">
+                            <img
+                              src={exit}
+                              alt="exit"
+                              style={{ width: "1.5rem" }}
+                            />
+                            <b>
+                              <p style={{ color: "#151423" }}>Log Out</p>
+                            </b>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
               {/* end modal */}
               {/* MODAL FOR EDITING */}
               <Modal
@@ -1246,6 +1385,7 @@ const OverviewScreen = () => {
                           <div class="form-group">
                             <label htmlFor="ItemIDSet">Item ID:</label>
                             <input
+                              disabled
                               required
                               type="text"
                               class="form-control form-control-sm"

@@ -465,41 +465,6 @@ const AssignrolesScreen = () => {
             <b>Overview</b>
             <sup>TM</sup>
           </p>
-
-          <div
-            class="input-group input-group-sm "
-            style={{
-              width: "11rem",
-              marginRight: "11rem",
-              position: "relative",
-            }}
-          >
-            <i
-              class="fa fa-search"
-              style={{
-                position: "absolute",
-                zIndex: "1000",
-                right: "6%",
-                top: "20%",
-                width: "1rem",
-                color: "#C5D6EA",
-              }}
-            ></i>
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              placeholder="Search Inventory"
-              style={{
-                fontSize: "0.7rem",
-                paddingTop: "0.6rem",
-                paddingBottom: "0.6rem",
-                backgroundColor: "#44434F",
-                border: "none",
-              }}
-            ></input>
-          </div>
         </div>
       </div>
       <div class="row">

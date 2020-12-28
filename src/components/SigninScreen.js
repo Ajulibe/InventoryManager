@@ -7,6 +7,13 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
+import { css } from "@emotion/core";
+import MoonLoader from "react-spinners/MoonLoader";
+
+const override = css`
+  margin-bottom: 0rem;
+  padding: ;
+`;
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
@@ -32,7 +39,9 @@ const SigninScreen = () => {
   const { state, signin } = useContext(authContext);
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
-  console.log(state.authRedirect, state);
+  //console.log(state.authRedirect, state);
+
+  const [loading, setloading] = useState(true);
 
   useEffect(() => {
     if (state.isAuthenticated) {

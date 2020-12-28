@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import empty from "../assets/empty.svg";
 import all from "../assets/all.png";
@@ -15,11 +15,17 @@ import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 
 const CreatebranchScreen = () => {
+  useEffect(() => {
+    fetchbranches();
+  }, []);
+
   //   const { state, signup, clearErrorMessage } = useContext(authContext);
   const [companyName, setcompanyName] = useState("");
   const [Address, setAddress] = useState("");
 
   const [show, setshow] = useState(false);
+
+  const [Returnedbranch, setReturnedbranch] = useState("");
 
   const handleClose = () => {
     setshow(false);
@@ -29,6 +35,7 @@ const CreatebranchScreen = () => {
     setshow(true);
   };
 
+  //CREATE BRANCHES
   const createBranches = async () => {
     if (companyName === "" || Address === "") {
       alert("Complete all fields");
@@ -60,6 +67,49 @@ const CreatebranchScreen = () => {
     } catch {
       alert("An error Occurred!!!");
     }
+  };
+
+  //FETCH BRANCHES
+  const fetchbranches = async () => {
+    const token = await localStorage.getItem("token");
+    // console.log(token);
+    try {
+      const response = await axios.get(
+        "http://12.96.91.34.bc.googleusercontent.com/api/branches/introtech",
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+
+      const branchesPresent = response.data.map((branch) => {
+        return (
+          <tr key={branch._id}>
+            <td>{branch.name}</td>
+            <td>{branch.address}</td>
+            <td>
+              {" "}
+              <button
+                className="btn btn-sm"
+                style={{
+                  backgroundColor: "#D94F00",
+                  color: "white",
+                  fontSize: "0.7rem",
+                  borderRadius: "3px",
+                }}
+              >
+                Add Inventory
+              </button>
+            </td>
+          </tr>
+        );
+      });
+
+      setReturnedbranch(branchesPresent);
+    } catch {}
   };
 
   return (
@@ -301,74 +351,16 @@ const CreatebranchScreen = () => {
                 >
                   <thead>
                     <tr>
-                      <th scope="col">S/N</th>
                       <th scope="col">Name</th>
                       <th scope="col">Address</th>
                       <th scope="col">Add</th>
                     </tr>
                   </thead>
                   <tbody>
+                    {Returnedbranch}
                     <tr>
-                      <td>1</td>
-                      <td>Hubmart</td>
-                      <td>Lekki</td>
-                      <td>
-                        {" "}
-                        <button
-                          className="btn btn-sm"
-                          style={{
-                            backgroundColor: "#D94F00",
-                            color: "white",
-                            fontSize: "0.7rem",
-                            borderRadius: "3px",
-                          }}
-                        >
-                          Add Inventory
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>Hubmart</td>
-                      <td>Mary Land</td>
-                      <td>
-                        {" "}
-                        <button
-                          className="btn btn-sm"
-                          style={{
-                            backgroundColor: "#D94F00",
-                            color: "white",
-                            fontSize: "0.7rem",
-                            borderRadius: "3px",
-                          }}
-                        >
-                          Add Inventory
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>Hubmart</td>
-                      <td>Yaba</td>
-                      <td>
-                        {" "}
-                        <button
-                          className="btn btn-sm"
-                          style={{
-                            backgroundColor: "#D94F00",
-                            color: "white",
-                            fontSize: "0.7rem",
-                            borderRadius: "3px",
-                          }}
-                        >
-                          Add Inventory
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>Hubmart</td>
-                      <td>Adeola Odeku</td>
+                      <td>Demo--Figure</td>
+                      <td>----</td>
                       <td>
                         {" "}
                         <button

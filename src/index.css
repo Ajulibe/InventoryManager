@@ -78,6 +78,25 @@ html {
   .loginForm {
     margin-top: 6% !important;
   }
+  .slider {
+    display: none;
+  }
+  .marginadjust {
+    margin: 0 auto !important;
+  }
+  .total {
+    display: none;
+  }
+  .dash {
+    margin-top: -1rem !important;
+  }
+  .laptopcircle {
+    margin-left: 0rem !important;
+    position: relative;
+  }
+  .laptopSize {
+    font-size: 0.5rem;
+  }
 }
 
 @media only screen and (max-width: 375px) {
