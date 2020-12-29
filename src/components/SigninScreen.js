@@ -8,15 +8,28 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import { css } from "@emotion/core";
-import MoonLoader from "react-spinners/MoonLoader";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 const override = css`
-  margin-bottom: 0rem;
-  padding: ;
+  margin: 0 auto;
+  border-color: red;
+  display: inline-block;
+  margin-bottom: 0.4rem;
+  width: 1rem;
 `;
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("*Company Name is required"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Password is too short"),
+});
+
+const SignupSchema2 = Yup.object().shape({
+  username1: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("*Company Name is required"),
@@ -31,7 +44,7 @@ const initialValues = {
 };
 const secondValues = {
   password: "",
-  username: "",
+  username1: "",
 };
 
 const SigninScreen = () => {
@@ -41,7 +54,8 @@ const SigninScreen = () => {
   // const [password, setPassword] = useState("");
   //console.log(state.authRedirect, state);
 
-  const [loading, setloading] = useState(true);
+  const [loading, setloading] = useState("none");
+  const [notloading, setnotloading] = useState("block");
 
   useEffect(() => {
     if (state.isAuthenticated) {
@@ -59,6 +73,21 @@ const SigninScreen = () => {
     if (!values.username) {
       errors.username = "*Company Name is required";
     } else if (values.password.length < 4) {
+      errors.password = "*Password too short";
+    }
+    return errors;
+  };
+
+  const validateSec = (values) => {
+    let errors = {};
+    if (!values.password) {
+      errors.password = "*Password is required";
+    } else if (values.password.length < 4) {
+      errors.password = "*Password too short";
+    }
+    if (!values.username1) {
+      errors.username1 = "*Company Name is required";
+    } else if (values.password.length < 4) {
       errors.password = "*Company Name too short";
     }
     return errors;
@@ -70,6 +99,13 @@ const SigninScreen = () => {
     blockAdmin.classList.toggle("ownerLogin");
     blockRoot.classList.toggle("ownerLogin");
     console.log("clicked");
+  };
+
+  const disableloading = () => {
+    setTimeout(function () {
+      setloading("none");
+      setnotloading("block");
+    }, 10000);
   };
 
   return (
@@ -149,9 +185,13 @@ const SigninScreen = () => {
                 validate={validate}
                 validationSchema={SignupSchema}
                 onSubmit={(values) => {
+                  setloading("block");
+                  setnotloading("none");
                   const username = values.username;
                   const password = values.password;
+
                   signin(username, password);
+                  disableloading();
                 }}
               >
                 {(formik) => {
@@ -273,7 +313,10 @@ const SigninScreen = () => {
 
                       {/* button */}
                       <br />
-                      <div class="form-group">
+                      <div
+                        class="form-group"
+                        style={{ display: `${notloading}` }}
+                      >
                         <button
                           type="submit"
                           style={{
@@ -289,6 +332,31 @@ const SigninScreen = () => {
                           disabled={!(dirty && isValid)}
                         >
                           Sign In
+                        </button>
+                      </div>
+                      <div
+                        className="form-group"
+                        style={{ display: `${loading}` }}
+                      >
+                        <button
+                          style={{
+                            fontSize: "0.6rem",
+                            paddingTop: "0.4rem",
+                            paddingBottom: "0.4rem",
+                            borderRadius: "3px",
+                            backgroundColor: "#1070CA",
+                          }}
+                          className={`btn btn-primary btn-block ${
+                            dirty && isValid ? "" : "disabled-btn"
+                          }`}
+                          disabled
+                        >
+                          <PropagateLoader
+                            css={override}
+                            size={6}
+                            color={"white"}
+                            loading={true}
+                          />
                         </button>
                       </div>
                       <br />
@@ -368,12 +436,15 @@ const SigninScreen = () => {
               />
               <Formik
                 initialValues={secondValues}
-                validate={validate}
-                validationSchema={SignupSchema}
+                validate={validateSec}
+                validationSchema={SignupSchema2}
                 onSubmit={(values) => {
-                  const username = values.username;
+                  setloading("block");
+                  setnotloading("none");
+                  const username = values.username1;
                   const password = values.password;
                   signin(username, password);
+                  disableloading();
                 }}
               >
                 {(formik) => {
@@ -430,10 +501,10 @@ const SigninScreen = () => {
                       <div class="input-group input-group-sm mb-3">
                         <Field
                           type="text"
-                          id="username"
-                          name="username"
+                          id="username1"
+                          name="username1"
                           onBlur={handleBlur}
-                          value={values.username}
+                          value={values.username1}
                           onChange={handleChange}
                           aria-label="Sizing example input"
                           aria-describedby="inputGroup-sizing-sm"
@@ -444,12 +515,12 @@ const SigninScreen = () => {
                             paddingBottom: "0.6rem",
                           }}
                           className={`form-control ${
-                            errors.username && touched.username
+                            errors.username1 && touched.username1
                               ? "input-error"
                               : null
                           }`}
                         />
-                        {errors.username && touched.username && (
+                        {errors.username1 && touched.username1 && (
                           <div
                             className="error col col-12"
                             style={{
@@ -458,7 +529,7 @@ const SigninScreen = () => {
                               marginTop: "0.3rem",
                             }}
                           >
-                            {errors.username}
+                            {errors.username1}
                           </div>
                         )}
                       </div>
@@ -515,7 +586,10 @@ const SigninScreen = () => {
                       </div>
 
                       <br />
-                      <div class="form-group">
+                      <div
+                        class="form-group"
+                        style={{ display: `${notloading}` }}
+                      >
                         <button
                           type="submit"
                           style={{
@@ -531,6 +605,31 @@ const SigninScreen = () => {
                           disabled={!(dirty && isValid)}
                         >
                           Sign In
+                        </button>
+                      </div>
+                      <div
+                        className="form-group"
+                        style={{ display: `${loading}` }}
+                      >
+                        <button
+                          style={{
+                            fontSize: "0.6rem",
+                            paddingTop: "0.4rem",
+                            paddingBottom: "0.4rem",
+                            borderRadius: "3px",
+                            backgroundColor: "#1070CA",
+                          }}
+                          className={`btn btn-primary btn-block ${
+                            dirty && isValid ? "" : "disabled-btn"
+                          }`}
+                          disabled
+                        >
+                          <PropagateLoader
+                            css={override}
+                            size={6}
+                            color={"white"}
+                            loading={true}
+                          />
                         </button>
                       </div>
                       <br />

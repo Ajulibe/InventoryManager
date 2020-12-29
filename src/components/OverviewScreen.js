@@ -28,6 +28,7 @@ const override = css`
   margin: 0 auto;
   border-color: red;
   margin-bottom: 2rem;
+  margin-top: 3rem;
 `;
 
 const OverviewScreen = () => {
@@ -47,9 +48,12 @@ const OverviewScreen = () => {
   const [productAll, setProductAll] = useState("");
   const [change, setChange] = useState(false);
   const [error, setError] = useState(false);
+  const [initial, setInitial] = useState(true);
+
+  const [iniempty, setiniempty] = useState("none");
 
   //SIDEBAR MODAL
-  const [side, setSide] = useState(true);
+  const [side, setSide] = useState(false);
   const sideClose = () => setSide(false);
   const sideShow = () => setSide(true);
 
@@ -159,15 +163,6 @@ const OverviewScreen = () => {
               }}
             >
               <div style={{ width: "3rem", height: "3rem" }}>
-                {/* <img
-                  src={product.image}
-                  alt="product-image"
-                  style={{
-                    height: "100%",
-                    maxWidth: "100%",
-                    objectFit: "cover",
-                  }}
-                /> */}
                 <CloudinaryContext cloudName="ajulibe">
                   <Image
                     publicId={product.image}
@@ -221,6 +216,8 @@ const OverviewScreen = () => {
 
       setProduct(productTable);
       setProductAll(productTable);
+      setInitial(false);
+      setiniempty("block");
     } catch {
       // history.push("/Signin");
     }
@@ -249,6 +246,24 @@ const OverviewScreen = () => {
       seteditPrice(response.data[0].price);
 
       edithandleShow();
+    } catch {
+      alert("an error occurred");
+    }
+  };
+
+  //REFRESH TOKEN
+  const refreshToken = async () => {
+    const token = await localStorage.getItem("token");
+
+    try {
+      const response = await axios.get(
+        "http://12.96.91.34.bc.googleusercontent.com/api/refreshtoken",
+
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
     } catch {
       alert("an error occurred");
     }
@@ -434,7 +449,12 @@ const OverviewScreen = () => {
   };
 
   return (
-    <div class="container-fluid">
+    <div
+      class="container-fluid"
+      style={{
+        position: "relative",
+      }}
+    >
       <div class="row">
         <div
           class="col col-12 d-flex justify-content-between align-items-center overvw"
@@ -446,6 +466,7 @@ const OverviewScreen = () => {
           }}
         >
           <p
+            className="overVw"
             style={{
               color: "white",
               fontSize: "1rem",
@@ -602,23 +623,38 @@ const OverviewScreen = () => {
           style={{ marginLeft: "5rem" }}
         >
           <div className="row">
-            <div
-              className="col col-7 col-md-4 mr-auto ml-auto text-center mb-5"
-              style={{
-                marginTop: "0.5rem",
-                height: "2rem",
-                width: "2rem",
-              }}
-            >
-              <img
-                src={kadarko}
-                alt="Comapany-Logo"
-                style={{ height: "100%", marginBottom: "1%" }}
-              />
-              <p style={{ fontSize: "0.7rem" }}>
-                <b className="inventall">INVENTORY OF ALL BRANCHES</b>
-              </p>
+            <div className="col col-12" style={{}}>
+              <div
+                className="row mb-4 d-flex justify-content-center"
+                style={{}}
+              >
+                <div
+                  className="col col-6 mb-2 d-flex justify-content-center align-items-center"
+                  style={{
+                    marginTop: "0.5rem",
+                    height: "2rem",
+                    width: "2rem",
+                    // border: "1px solid red",
+                  }}
+                >
+                  <img
+                    className="logost"
+                    src={kadarko}
+                    alt="Comapany-Logo"
+                    style={{
+                      height: "2rem",
+                      width: "2rem",
+                    }}
+                  />
+                </div>
+                <div className="col col-12 d-flex justify-content-center ">
+                  <p style={{ fontSize: "0.7rem" }}>
+                    <b className="inventall">Inventory Of all Branches</b>
+                  </p>
+                </div>
+              </div>
             </div>
+
             <div
               className="col col-12 col-md-10 mr-auto ml-auto dash "
               style={{
@@ -626,12 +662,12 @@ const OverviewScreen = () => {
                 height: "20vh",
                 borderRadius: "13px",
                 // position: "fixed",
-                marginTop: "-1rem",
+                marginTop: "-2rem",
               }}
             >
               <div className="col col-12 d-flex justify-content-between">
                 <div
-                  className="col col-3 mt-3 total"
+                  className="col  col-7 mt-3 total"
                   style={{
                     // border: "1px solid red",
                     position: "relative",
@@ -667,270 +703,212 @@ const OverviewScreen = () => {
                     </span>
                   </p>
                 </div>
-                {/* <div
-                  className="col col-2 mt-3 d-flex justify-content-center align-items-center"
-                  style={{
-                    border: "1px solid #198AEE",
-                    backgroundColor: "white",
-                    color: "#198AEE",
-                    borderRadius: "4px",
-                    fontSize: "0.8rem",
-                  }}
+                <div
+                  className="col col-2 mt-3 d-flex text-right align-items-center seeallbig"
+                  style={{ border: "1px solid red" }}
                 >
-                  Get Summary
-                </div> */}
+                  <Link
+                    data-toggle="modal"
+                    data-target="#exampleModalCenter"
+                    onClick={() => {
+                      seeallhandleShow();
+                    }}
+                  >
+                    <p
+                      className=""
+                      style={{
+                        fontSize: "0.6rem",
+                      }}
+                    >
+                      <b className="cAll">See All</b>
+                    </p>
+                  </Link>
+                </div>
               </div>
               <div
-                className="col col-12 d-flex justify-content-between mt-4"
+                className="col col-12 d-flex justify-content-between mt-4 mainContent"
                 style={{ position: "relative" }}
               >
                 <div
-                  className="col col-2 d-flex"
-                  style={{
-                    border: "1px solid white",
-                  }}
+                  className="col col-12  d-flex justify-content-between"
+                  style={{ color: "white" }}
                 >
-                  <div
-                    className=" col col-1"
-                    style={{
-                      position: "relative",
-                      border: "1px solid red",
-                    }}
-                  >
-                    <div
-                      className="rounded-circle laptopcircle"
-                      style={{
-                        height: "0.8rem",
-                        width: "0.8rem",
-                        top: "0.5rem",
-                        position: "absolute",
-                        backgroundColor: "#4CD964",
-                      }}
-                    ></div>
-                  </div>
-                  <div
-                    className="col col-11"
-                    style={{ border: "1px solid red" }}
-                  >
+                  {/* FIRST DIV */}
+                  <div style={{ lineHeight: "0.4rem" }}>
                     <p
                       style={{ color: "#44434F", fontSize: "0.8rem" }}
-                      className="laptopSize"
+                      className="resizeName"
                     >
-                      Laptops
+                      <b
+                        style={{
+                          height: "0.8rem",
+                          width: "0.8rem",
+                          color: "#4CD964",
+                        }}
+                      >
+                        o
+                      </b>{" "}
+                      &nbsp; Laptops
                     </p>
                     <p
+                      className=""
                       style={{
                         color: "#f14b22",
                         fontSize: "0.9rem",
-                        position: "absolute",
-                        top: "50%",
                       }}
                     >
-                      <b>326</b>
+                      <b className="resizeNum">326</b>
+                    </p>
+                  </div>
+                  {/* SECOND DIV */}
+                  <div style={{ lineHeight: "0.4rem" }} className="removeDiv">
+                    <p
+                      style={{
+                        color: "#44434F",
+                        fontSize: "0.8rem",
+                      }}
+                      className="resizeName"
+                    >
+                      <b
+                        style={{
+                          height: "0.8rem",
+                          width: "0.8rem",
+                          color: "#007AFF",
+                        }}
+                      >
+                        o
+                      </b>{" "}
+                      &nbsp; Mouse
+                    </p>{" "}
+                    <p
+                      className=""
+                      style={{
+                        color: "#f14b22",
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      <b>581</b>
+                    </p>
+                  </div>
+                  {/* THIRD DIV */}
+                  <div style={{ lineHeight: "0.4rem" }}>
+                    <p
+                      style={{
+                        color: "#44434F",
+                        fontSize: "0.8rem",
+                      }}
+                      className="resizeName"
+                    >
+                      <b
+                        style={{
+                          height: "0.8rem",
+                          width: "0.8rem",
+                          color: "#FF00C7",
+                        }}
+                      >
+                        o
+                      </b>{" "}
+                      &nbsp; Desktop
+                    </p>{" "}
+                    <p
+                      className=""
+                      style={{
+                        color: "#f14b22",
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      <b className="resizeNum">129</b>
+                    </p>
+                  </div>
+                  {/* FOURTH DIV */}
+                  <div style={{ lineHeight: "0.4rem" }} className="removeDiv">
+                    {" "}
+                    <p
+                      style={{
+                        color: "#44434F",
+                        fontSize: "0.8rem",
+                      }}
+                      className="resizeName"
+                    >
+                      <b
+                        style={{
+                          height: "0.8rem",
+                          width: "0.8rem",
+                          color: "#FFCC00",
+                        }}
+                      >
+                        o
+                      </b>{" "}
+                      &nbsp; Keyboard
+                    </p>{" "}
+                    <p
+                      className=""
+                      style={{
+                        color: "#f14b22",
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      <b>403</b>
+                    </p>
+                  </div>
+                  {/* FIFTH DIV */}
+                  <div style={{ lineHeight: "0.4rem" }}>
+                    {" "}
+                    <p
+                      style={{
+                        color: "#44434F",
+                        fontSize: "0.8rem",
+                      }}
+                      className="resizeName"
+                    >
+                      <b
+                        style={{
+                          height: "0.8rem",
+                          width: "0.8rem",
+                          color: "#D141EF",
+                        }}
+                        className="resizeName"
+                      >
+                        o
+                      </b>{" "}
+                      &nbsp; Printers
+                    </p>{" "}
+                    <p
+                      className=""
+                      style={{
+                        color: "#f14b22",
+                        fontSize: "0.9rem",
+                      }}
+                    >
+                      <b className="resizeNum">138</b>
                     </p>
                   </div>
                 </div>
-                {/* <div className="col col-2" style={{}}>
-                  <div className="row d-flex">
-                    <div
-                      className="col col-1"
-                      style={{
-                        position: "relative",
-                      }}
-                    >
-                      <div
-                        className="rounded-circle"
-                        style={{
-                          height: "0.8rem",
-                          width: "0.8rem",
-                          top: "0.5rem",
-                          position: "absolute",
-                          backgroundColor: "#007AFF",
-                          marginRight: "1rem",
-                        }}
-                      ></div>
-                    </div>
-                    <div className="col col-11" style={{ textAlign: "center" }}>
-                      <p
-                        style={{
-                          color: "#44434F",
-                          fontSize: "0.8rem",
-                        }}
-                      >
-                        Mouse
-                      </p>{" "}
-                      <p
-                        style={{
-                          color: "#f14b22",
-                          fontSize: "0.9rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "36%",
-                        }}
-                      >
-                        <b>581</b>
-                      </p>
-                    </div>
-                  </div>
-                </div> */}
-                {/* <div className="col col-2" style={{}}>
-                  <div className="row d-flex">
-                    <div
-                      className="col col-1"
-                      style={{
-                        position: "relative",
-                      }}
-                    >
-                      <div
-                        className="rounded-circle"
-                        style={{
-                          height: "0.8rem",
-                          width: "0.8rem",
-                          top: "0.5rem",
-                          position: "absolute",
-                          backgroundColor: "#FF00C7",
-                          marginRight: "1rem",
-                        }}
-                      ></div>
-                    </div>
-                    <div className="col col-11" style={{ textAlign: "center" }}>
-                      <p
-                        style={{
-                          color: "#44434F",
-                          fontSize: "0.8rem",
-                        }}
-                      >
-                        Desktop
-                      </p>{" "}
-                      <p
-                        style={{
-                          color: "#f14b22",
-                          fontSize: "0.9rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "33%",
-                        }}
-                      >
-                        <b>129</b>
-                      </p>
-                    </div>
-                  </div>
-                </div> */}
-                {/* <div className="col col-2" style={{}}>
-                  <div className="row d-flex">
-                    <div
-                      className="col col-1"
-                      style={{
-                        position: "relative",
-                      }}
-                    >
-                      <div
-                        className="rounded-circle"
-                        style={{
-                          height: "0.8rem",
-                          width: "0.8rem",
-                          top: "0.5rem",
-                          position: "absolute",
-                          backgroundColor: "#FFCC00",
-                          marginRight: "1rem",
-                        }}
-                      ></div>
-                    </div>
-                    <div className="col col-11" style={{ textAlign: "center" }}>
-                      <p
-                        style={{
-                          color: "#44434F",
-                          fontSize: "0.8rem",
-                        }}
-                      >
-                        Keyboard
-                      </p>{" "}
-                      <p
-                        style={{
-                          color: "#f14b22",
-                          fontSize: "0.9rem",
-                          position: "absolute",
-                          top: "50%",
-                          left: "30%",
-                        }}
-                      >
-                        <b>403</b>
-                      </p>
-                    </div>
-                  </div>
-                </div> */}
 
                 <div
-                  className="col col-2 d-flex justify-content-between lastOne"
+                  className="row"
                   style={{
                     position: "relative",
                     paddingLeft: "0",
                   }}
                 >
-                  <div className="col col-8">
-                    <div className="row d-flex">
-                      <div
-                        className="col col-1"
-                        style={{
-                          position: "relative",
-                        }}
-                      >
-                        <div
-                          className="rounded-circle"
-                          style={{
-                            height: "0.8rem",
-                            width: "0.8rem",
-                            top: "0.5rem",
-                            position: "absolute",
-                            backgroundColor: "#D141EF",
-                            left: "-0.1rem",
-                          }}
-                        ></div>
-                      </div>
-                      <div
-                        className="col col-11"
-                        style={{ textAlign: "right" }}
-                      >
-                        <p
-                          style={{
-                            color: "#44434F",
-                            fontSize: "0.8rem",
-                          }}
-                        >
-                          Printers
-                        </p>{" "}
-                        <p
-                          style={{
-                            color: "#f14b22",
-                            fontSize: "0.9rem",
-                            position: "absolute",
-                            top: "50%",
-                            left: "30%",
-                          }}
-                        >
-                          <b>138</b>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col col-4 d-flex align-self-end">
+                  <div className="col col-12 col-md-12" style={{}}>
                     <Link
+                      style={{ display: "none" }}
                       data-toggle="modal"
                       data-target="#exampleModalCenter"
                       onClick={() => {
                         seeallhandleShow();
                       }}
+                      className="seeallsmall"
                     >
                       <p
+                        className=""
                         style={{
                           fontSize: "0.6rem",
-                          position: "absolute",
-
-                          right: "3px",
-                          top: "-1rem",
                         }}
                       >
-                        <b>See All</b>
+                        <b className="cAll">See All</b>
                       </p>
                     </Link>
                     {/* modal */}
@@ -1101,7 +1079,10 @@ const OverviewScreen = () => {
                                       <th scope="col">Delete</th>
                                     </tr>
                                   </thead>
-                                  <tbody> {productAll}</tbody>
+                                  <tbody className="d-flex justify-content-center align-items-center">
+                                    {" "}
+                                    {productAll}
+                                  </tbody>
                                 </table>
                               </div>
                             )}
@@ -1115,10 +1096,10 @@ const OverviewScreen = () => {
             </div>
 
             <div
-              className="col col-9 mr-auto ml-auto"
+              className="col col-12 col-md-10 col-lg-9 mr-auto ml-auto"
               style={{
                 marginTop: "1%",
-                // border: "1px solid red",
+                position: "relative",
               }}
             >
               {/* new modal */}
@@ -1274,13 +1255,21 @@ const OverviewScreen = () => {
                 </Modal.Body>
               </Modal>
               {/* SIDEBAR MODAL */}
-              <Modal size="sm" show={side} onHide={sideClose} animation={true}>
+              <Modal
+                size="sm"
+                show={side}
+                onHide={sideClose}
+                animation={true}
+                className="sidedis"
+              >
                 <Modal.Body
                   style={{
                     fontSize: "0.8rem",
+                    border: "0.5px solid rgb(21,20,35, 0.5)",
+                    borderRadius: "1rem",
                   }}
                 >
-                  <div className="comtainer">
+                  <div className="container">
                     <div
                       className="row d-flex justify-content-center"
                       style={{}}
@@ -1456,25 +1445,43 @@ const OverviewScreen = () => {
                 </Modal.Body>
               </Modal>
               {/* END OF MODAL FOR EDITING */}
-
-              <div className="col col-12 d-flex justify-content-between">
-                <div className="col col-6 text-left">
-                  <p style={{ fontSize: "0.8rem" }}>
-                    <i class="fa fa-plus add" aria-hidden="true"></i> &nbsp;{" "}
-                    <Link>
-                      <b onClick={handleShow}>Add New Entry</b>
-                    </Link>{" "}
-                  </p>
-                </div>
-                <div className="col col-6 text-right">
-                  <p style={{ fontSize: "0.7rem", fontWeight: "200" }}>
-                    Recently added{" "}
-                  </p>
+              <div className="row">
+                <div className="col col-12 d-flex justify-content-between mb-2">
+                  <div
+                    className="col col-12 col-md-6 text-md-left  addAnew"
+                    style={{}}
+                  >
+                    <p style={{ fontSize: "0.8rem" }}>
+                      <i class="fa fa-plus add" aria-hidden="true"></i> &nbsp;{" "}
+                      <Link>
+                        <b onClick={handleShow} className="newEntry">
+                          Add a New Entry
+                        </b>
+                      </Link>{" "}
+                    </p>
+                  </div>
+                  <div className="col col-md-6 text-right">
+                    <p
+                      style={{ fontSize: "0.7rem", fontWeight: "200" }}
+                      className="recAdded"
+                    >
+                      Recently added{" "}
+                    </p>
+                  </div>
                 </div>
               </div>
 
+              <div className="sweet-loading">
+                <MoonLoader
+                  css={override}
+                  size={40}
+                  color={"#123abc"}
+                  loading={initial}
+                />
+              </div>
+
               {product === "" ? (
-                <div class="col col-md-11">
+                <div class="col col-md-11" style={{ display: `${iniempty}` }}>
                   <div className="row">
                     <div
                       className="col-6 mr-auto ml-auto"
@@ -1499,11 +1506,18 @@ const OverviewScreen = () => {
               ) : (
                 <div
                   className="col col-12 table-responsive"
-                  style={{ height: "40vh", overflow: "scroll" }}
+                  style={{
+                    height: "40vh",
+                    overflow: "scroll",
+                    display: `${iniempty}`,
+                  }}
                 >
                   <table
-                    class="table table-hover table-striped table-bordered text-center"
-                    style={{ fontSize: "0.8rem" }}
+                    class="table table-hover  text-center"
+                    style={{
+                      fontSize: "0.8rem",
+                      border: "1px solid rgb(229,229,229)",
+                    }}
                   >
                     <thead>
                       <tr>
@@ -1524,6 +1538,25 @@ const OverviewScreen = () => {
           </div>
         </div>
       </div>
+      <button
+        // onClick={refreshToken}
+        onClick={sideShow}
+        className="btn rounded-circle menuBtn"
+        type="button"
+        style={{
+          border: "1px solid #151423",
+          position: "absolute",
+          right: "2.8rem",
+          bottom: "-9rem",
+          height: "3rem",
+          width: "3rem",
+          backgroundColor: "#151423",
+          color: "white",
+          fontSize: "0.8rem",
+        }}
+      >
+        &#5730;
+      </button>
     </div>
   );
 };

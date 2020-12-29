@@ -63,6 +63,7 @@ const CreatebranchScreen = () => {
       console.log(response.data.message);
       if (response.data.message === "success") {
         handleOpen();
+        fetchbranches();
       }
     } catch {
       alert("An error Occurred!!!");
@@ -83,7 +84,6 @@ const CreatebranchScreen = () => {
           },
         }
       );
-      console.log(response.data);
 
       const branchesPresent = response.data.map((branch) => {
         return (

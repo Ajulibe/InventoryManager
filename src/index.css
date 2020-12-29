@@ -22,6 +22,18 @@ html {
   /* box-shadow: 1.3rem 1.3rem 3.1rem 2rem rgba(0, 0, 0, 0.2); */
 }
 
+.menuBtn {
+  /* filter: drop-shadow(0 0 0.75rem rgb(150, 150, 160)); */
+  filter: drop-shadow(0 0 0.5rem rgb(0, 0, 0, 0.4));
+  display: none;
+}
+.sidedis {
+  display: none;
+}
+.table thead th {
+  border-bottom: none !important;
+}
+
 /* .row {
   margin-right: 0% !important;
   margin-left: 0 !important;
@@ -89,6 +101,7 @@ html {
   }
   .dash {
     margin-top: -1rem !important;
+    height: 10vh !important;
   }
   .laptopcircle {
     margin-left: 0rem !important;
@@ -96,6 +109,52 @@ html {
   }
   .laptopSize {
     font-size: 0.5rem;
+  }
+  .menuBtn {
+    display: block;
+  }
+  .sidedis {
+    display: block;
+  }
+  .newEntry {
+    font-size: 0.6rem;
+  }
+  .add {
+    font-size: 0.5rem;
+  }
+  .recAdded {
+    display: none;
+  }
+  .dash {
+    margin-bottom: 0.7rem;
+    margin-top: -2rem !important;
+  }
+  .addAnew {
+    text-align: center;
+  }
+  .overVw {
+    font-size: 0.8rem !important;
+  }
+  .removeDiv {
+    display: none;
+  }
+  .mainContent {
+    padding-left: 0 !important;
+  }
+  .resizeName {
+    font-size: 0.6rem !important;
+  }
+  .resizeNum {
+    font-size: 0.8rem !important;
+  }
+  .cAll {
+    font-size: 0.6rem !important;
+  }
+  .seeallbig {
+    display: none !important;
+  }
+  .seeallsmall {
+    display: block !important;
   }
 }
 
@@ -110,5 +169,26 @@ html {
     width: 36% !important;
     height: 20% !important;
     margin-left: 32% !important;
+  }
+  .table {
+    font-size: 0.6rem !important;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .dash {
+    height: 14vh !important;
+  }
+}
+
+@media only screen and (max-width: 280px) {
+  .resizeName {
+    font-size: 0.4rem !important;
+  }
+  .resizeNum {
+    font-size: 0.6rem !important;
+  }
+  .cAll {
+    font-size: 0.4rem !important;
   }
 }
