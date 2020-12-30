@@ -21,6 +21,7 @@ import {
   Image,
   Placeholder,
 } from "cloudinary-react";
+import SeeAll from "./Modals/SeeAll";
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
@@ -155,6 +156,7 @@ const OverviewScreen = () => {
         return (
           <tr key={product._id}>
             <td
+              className="align-middle"
               style={{
                 textAlign: "center",
                 justifyContent: "center",
@@ -162,7 +164,15 @@ const OverviewScreen = () => {
                 display: "flex",
               }}
             >
-              <div style={{ width: "3rem", height: "3rem" }}>
+              <div
+                style={{
+                  width: "3rem",
+                  height: "3rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <CloudinaryContext cloudName="ajulibe">
                   <Image
                     publicId={product.image}
@@ -177,11 +187,11 @@ const OverviewScreen = () => {
                 </CloudinaryContext>
               </div>
             </td>
-            <td>{product.name}</td>
-            <td>{product.category}</td>
-            <td>{product._id}</td>
-            <td>{product.price}</td>
-            <td>
+            <td className="align-middle">{product.name}</td>
+            <td className="align-middle">{product.category}</td>
+            <td className="align-middle">{product._id}</td>
+            <td className="align-middle">{product.price}</td>
+            <td className="align-middle">
               <button
                 className="btn"
                 onClick={() => {
@@ -196,7 +206,7 @@ const OverviewScreen = () => {
                 ></i>
               </button>
             </td>
-            <td>
+            <td className="align-middle">
               <button
                 className="btn"
                 onClick={() => {
@@ -335,6 +345,7 @@ const OverviewScreen = () => {
           return (
             <tr key={product._id}>
               <td
+                className="align-middle"
                 style={{
                   textAlign: "center",
                   justifyContent: "center",
@@ -366,11 +377,11 @@ const OverviewScreen = () => {
                   </CloudinaryContext>
                 </div>
               </td>
-              <td>{product.name}</td>
-              <td>{product.category}</td>
-              <td>{product._id}</td>
-              <td>{product.price}</td>
-              <td>
+              <td className="align-middle">{product.name}</td>
+              <td className="align-middle">{product.category}</td>
+              <td className="align-middle">{product._id}</td>
+              <td className="align-middle">{product.price}</td>
+              <td className="align-middle">
                 <button
                   className="btn"
                   onClick={() => {
@@ -385,7 +396,7 @@ const OverviewScreen = () => {
                   ></i>
                 </button>
               </td>
-              <td>
+              <td className="align-middle">
                 <button
                   className="btn"
                   onClick={() => {
@@ -448,6 +459,31 @@ const OverviewScreen = () => {
     }
   };
 
+  const blurFn = () => {
+    setloading(false);
+    settableShow("block");
+    setError(false);
+  };
+
+  const focusFn = () => {
+    settableShow("none");
+  };
+
+  const clickme = () => {
+    setError(false);
+    searchFn();
+  };
+
+  const changeSearch = (e) => {
+    setsearch(e.target.value);
+  };
+
+  const filteredSearch = (e) => {
+    e.preventDefault();
+    setError(false);
+    searchFn();
+  };
+
   return (
     <div
       class="container-fluid"
@@ -461,7 +497,7 @@ const OverviewScreen = () => {
           style={{
             background: "#151423",
             width: "100vw",
-            height: "9vh",
+            height: "3rem",
             padding: "0",
           }}
         >
@@ -570,11 +606,15 @@ const OverviewScreen = () => {
                       class="image"
                       style={{ width: "1.5rem" }}
                     />
-                    <p class="">All Inventory</p>
+                    <p style={{ textDecoration: "none" }}>All Inventory</p>
                   </div>
                 </Link>
 
-                <Link to="assignroles" className="linkTag">
+                <Link
+                  to="assignroles"
+                  className="linkTag"
+                  style={{ textDecoration: "none" }}
+                >
                   <div className="mt-4">
                     <img
                       src={roleswhite}
@@ -582,7 +622,7 @@ const OverviewScreen = () => {
                       class="image"
                       style={{ width: "1.5rem" }}
                     />
-                    <p>Assign Roles</p>
+                    <p style={{ textDecoration: "none" }}>Assign Roles</p>
                   </div>
                 </Link>
 
@@ -594,13 +634,20 @@ const OverviewScreen = () => {
                       class="image"
                       style={{ width: "1.5rem" }}
                     />
-                    <p style={{ textAlign: "center" }}>Create Branches</p>
+                    <p style={{ textAlign: "center", textDecoration: "none" }}>
+                      Create Branches
+                    </p>
                   </div>
                 </Link>
               </div>
 
               {/* second set */}
-              <div style={{ marginTop: "8rem" }}>
+              <div
+                style={{
+                  marginTop: "8rem",
+                  textAlign: "center",
+                }}
+              >
                 <Link className="linkTag" onClick={Logout}>
                   {" "}
                   <div>
@@ -610,7 +657,7 @@ const OverviewScreen = () => {
                       class="image"
                       style={{ width: "1.5rem" }}
                     />
-                    <p>Log Out</p>
+                    <p style={{ textDecoration: "none" }}>Log Out</p>
                   </div>
                 </Link>
               </div>
@@ -704,12 +751,10 @@ const OverviewScreen = () => {
                   </p>
                 </div>
                 <div
-                  className="col col-2 mt-3 d-flex text-right align-items-center seeallbig"
-                  style={{ border: "1px solid red" }}
+                  className="col col-2 mt-3 d-flex justify-content-end align-items-center seeallbig"
+                  style={{}}
                 >
                   <Link
-                    data-toggle="modal"
-                    data-target="#exampleModalCenter"
                     onClick={() => {
                       seeallhandleShow();
                     }}
@@ -895,8 +940,6 @@ const OverviewScreen = () => {
                   <div className="col col-12 col-md-12" style={{}}>
                     <Link
                       style={{ display: "none" }}
-                      data-toggle="modal"
-                      data-target="#exampleModalCenter"
                       onClick={() => {
                         seeallhandleShow();
                       }}
@@ -912,7 +955,26 @@ const OverviewScreen = () => {
                       </p>
                     </Link>
                     {/* modal */}
-                    <Modal
+                    <SeeAll
+                      seeallshow={seeallshow}
+                      seeallhandleClose={seeallhandleClose}
+                      product={product}
+                      empty={empty}
+                      error={error}
+                      tableShow={tableShow}
+                      productAll={productAll}
+                      loading={loading}
+                      override={override}
+                      setsearch={setsearch}
+                      search={search}
+                      blurFn={blurFn}
+                      focusFn={focusFn}
+                      searchFn={searchFn}
+                      clickme={clickme}
+                      changeSearch={changeSearch}
+                      filteredSearch={filteredSearch}
+                    />
+                    {/* <Modal
                       size="lg"
                       show={seeallshow}
                       onHide={seeallhandleClose}
@@ -973,11 +1035,7 @@ const OverviewScreen = () => {
                                     display: "flex",
                                     alignItems: "center",
                                   }}
-                                >
-                                  {/* <p style={{ textAlign: "center" }}>
-                                    <b>ALL ITEMS</b>
-                                  </p> */}
-                                </div>
+                                ></div>
                                 <div className="col col-5">
                                   <i
                                     class="fa fa-search"
@@ -1014,7 +1072,7 @@ const OverviewScreen = () => {
                                       }}
                                       style={{ fontSize: "0.8rem" }}
                                       type="text"
-                                      placeholder="Search for product.."
+                                      placeholder="Search for product by name.."
                                       class="form-control"
                                       name="search"
                                       value={search}
@@ -1030,7 +1088,7 @@ const OverviewScreen = () => {
                               <MoonLoader
                                 css={override}
                                 size={65}
-                                color={"#123abc"}
+                                color={"#F14B22"}
                                 loading={loading}
                               />
                             </div>
@@ -1065,8 +1123,11 @@ const OverviewScreen = () => {
                                 style={{ display: `${tableShow}` }}
                               >
                                 <table
-                                  class="table table-hover table-striped table-bordered text-center"
-                                  style={{ fontSize: "0.8rem" }}
+                                  class="table table-hover text-center"
+                                  style={{
+                                    fontSize: "0.8rem",
+                                    border: "2px solid rgb(229,229,229)",
+                                  }}
                                 >
                                   <thead>
                                     <tr>
@@ -1079,17 +1140,14 @@ const OverviewScreen = () => {
                                       <th scope="col">Delete</th>
                                     </tr>
                                   </thead>
-                                  <tbody className="d-flex justify-content-center align-items-center">
-                                    {" "}
-                                    {productAll}
-                                  </tbody>
+                                  <tbody className=""> {productAll}</tbody>
                                 </table>
                               </div>
                             )}
                           </>
                         )}
                       </Modal.Body>
-                    </Modal>
+                    </Modal> */}
                   </div>
                 </div>
               </div>
@@ -1460,7 +1518,7 @@ const OverviewScreen = () => {
                       </Link>{" "}
                     </p>
                   </div>
-                  <div className="col col-md-6 text-right">
+                  <div className="col col-md-6 text-right recentlyadded">
                     <p
                       style={{ fontSize: "0.7rem", fontWeight: "200" }}
                       className="recAdded"
@@ -1475,7 +1533,7 @@ const OverviewScreen = () => {
                 <MoonLoader
                   css={override}
                   size={40}
-                  color={"#123abc"}
+                  color={"#F14B22"}
                   loading={initial}
                 />
               </div>

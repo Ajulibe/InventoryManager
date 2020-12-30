@@ -34,56 +34,24 @@ html {
   border-bottom: none !important;
 }
 
-/* .row {
-  margin-right: 0% !important;
-  margin-left: 0 !important;
-} */
-
 /* MEDIA QUERY */
-@media only screen and (max-width: 1199px) {
-  .backOvr {
-    display: none;
+
+@media only screen and (min-width: 280px) {
+  .resizeName {
+    font-size: 0.4rem !important;
   }
-  .signupForm {
-    margin-top: 5% !important;
+  .resizeNum {
+    font-size: 0.6rem !important;
   }
-  .loginForm {
-    margin-top: 5% !important;
+  .cAll {
+    font-size: 0.4rem !important;
   }
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 600px) {
   .dash {
-    height: 10vh !important;
+    height: 4rem !important;
   }
-  .overvw {
-    height: 5vh !important;
-  }
-  .backOvr {
-    display: none;
-  }
-  .overImg {
-    width: 38% !important;
-    height: 26% !important;
-    margin-left: 31% !important;
-  }
-
-  .signupForm {
-    margin-top: 15% !important;
-  }
-  .inForm2 {
-    background-color: #f4cdbf;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .dash {
-    height: 14vh !important;
-    margin-bottom: 2rem;
-  }
-}
-
-@media only screen and (max-width: 540px) {
   .signupForm {
     margin-top: 10% !important;
   }
@@ -99,10 +67,7 @@ html {
   .total {
     display: none;
   }
-  .dash {
-    margin-top: -1rem !important;
-    height: 10vh !important;
-  }
+
   .laptopcircle {
     margin-left: 0rem !important;
     position: relative;
@@ -125,10 +90,7 @@ html {
   .recAdded {
     display: none;
   }
-  .dash {
-    margin-bottom: 0.7rem;
-    margin-top: -2rem !important;
-  }
+
   .addAnew {
     text-align: center;
   }
@@ -156,9 +118,26 @@ html {
   .seeallsmall {
     display: block !important;
   }
+  .overvw {
+    height: 2rem !important;
+  }
 }
 
-@media only screen and (max-width: 375px) {
+/* Small devices (portrait tablets and large phones, 600px and up) */
+
+@media only screen and (min-width: 600px) {
+  .dash {
+    height: 7rem !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .recentlyadded {
+    display: none !important;
+  }
+  .backOvr {
+    display: none;
+  }
   .signupForm {
     margin-top: 15% !important;
   }
@@ -175,20 +154,53 @@ html {
   }
 }
 
-@media only screen and (max-width: 320px) {
+@media only screen and (min-width: 768px) {
   .dash {
-    height: 14vh !important;
+    height: 7rem !important;
+    margin-bottom: 2rem;
+  }
+}
+@media only screen and (max-width: 1023px) {
+  .recentlyadded {
+    display: none !important;
   }
 }
 
-@media only screen and (max-width: 280px) {
-  .resizeName {
-    font-size: 0.4rem !important;
-  }
-  .resizeNum {
-    font-size: 0.6rem !important;
-  }
-  .cAll {
-    font-size: 0.4rem !important;
+@media only screen and (max-width: 1024px) {
+  .backOvr {
+    display: none;
   }
 }
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .dash {
+    height: 7rem !important;
+  }
+
+  .overImg {
+    width: 38% !important;
+    height: 26% !important;
+    margin-left: 31% !important;
+  }
+
+  .signupForm {
+    margin-top: 15% !important;
+  }
+  .inForm2 {
+    background-color: #f4cdbf;
+  }
+}
+
+/* ORIENTATION LOCK */
+/* @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+} */

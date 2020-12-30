@@ -1,26 +1,21 @@
 .passwordDiv {
-  display: none;
-}
+  display: none; }
 
 input:focus,
 input:active {
   box-shadow: none !important;
   border: 1px solid #1070ca !important;
   outline: none !important;
-  display: block;
-}
+  display: block; }
 
 input:focus + .passwordDiv {
-  display: block;
-}
+  display: block; }
 
 .fileChoice {
-  padding-top: 2px !important;
-}
+  padding-top: 2px !important; }
 
 input[type="file"] {
-  display: none;
-}
+  display: none; }
 
 .custom-file-upload {
   border: 1px solid #ced4da;
@@ -29,81 +24,61 @@ input[type="file"] {
   cursor: pointer;
   width: 100%;
   height: 1.675rem;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
 
 .ownerLogin {
-  display: none;
-}
+  display: none; }
 
 .linkTag {
   color: white !important;
-}
+  text-decoration: none !important; }
 
 .linkTag:hover {
   text-decoration: none;
   color: #e76f51 !important;
-  transform: scale(0.8);
-}
+  transform: scale(0.8); }
 
 .image:hover {
   transform: scale(1.2);
-  color: white !important;
-}
+  color: white !important; }
 
 .newEntry:hover {
-  text-decoration: none !important;
-}
+  text-decoration: none !important; }
 
 .add {
   text-decoration: none;
-  color: #e76f51 !important;
-}
+  color: #e76f51 !important; }
 
 .add:hover {
   transform: scale(1.4);
-  color: #b04328 !important;
-}
+  color: #b04328 !important; }
 
 .under {
-  text-decoration-line: none;
-}
-
-.modal-content {
-  border-radius: 0%;
-}
+  text-decoration-line: none; }
 
 .addguy {
-  display: none;
-}
+  display: none; }
 
 input:checked + .under ~ .addguy {
   text-decoration-line: underline;
   text-decoration-style: solid;
   text-decoration-color: #036df2;
-  display: block;
-}
+  display: block; }
 
 .btn:focus {
   outline: 0;
-  box-shadow: none;
-}
+  box-shadow: none; }
 
 .close:focus {
   outline: 0;
-  box-shadow: none;
-}
+  box-shadow: none; }
 
 .successImg {
   animation: showthis 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
-  transition: all 0.3s;
-}
+  transition: all 0.3s; }
 
 @keyframes showthis {
   0% {
-    opacity: 0;
-  }
+    opacity: 0; }
   100% {
-    opacity: 100;
-  }
-}
+    opacity: 100; } }
