@@ -156,13 +156,13 @@ const SigninScreen = () => {
         >
           <div class="row " id="blockRoot">
             <div
-              class="col col-11 col-md-7 col-xl-7 loginForm"
+              class="col col-11 col-md-6 col-lg-5 col-xl-7 loginForm"
               style={{
                 backgroundColor: "rgb(0,0,0,0.1)",
                 height: "80%",
                 marginLeft: "auto",
                 marginRight: "auto",
-                marginTop: "6%",
+                marginTop: "7%",
                 borderRadius: "15px",
                 // border: "1px solid rgb(128,128,128, 0.3)",
               }}
@@ -411,13 +411,13 @@ const SigninScreen = () => {
           {/* SECOND SIGN IN  */}
           <div class="row ownerLogin" id="blockAdmin">
             <div
-              class="col col-11 col-md-7 col-xl-7 signupForm"
+              class="col col-11 col-md-6 col-lg-5 col-xl-7 signupForm"
               style={{
                 backgroundColor: "#ffffff",
                 height: "80%",
                 marginLeft: "auto",
                 marginRight: "auto",
-                marginTop: "6%",
+                marginTop: "7%",
                 borderRadius: "15px",
                 border: "1px solid rgb(128,128,128, 0.3)",
               }}

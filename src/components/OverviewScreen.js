@@ -38,7 +38,7 @@ const override = css`
 const OverviewScreen = () => {
   let history = useHistory();
 
-  const { createproduct } = useContext(authContext);
+  const { state, createproduct, logOut } = useContext(authContext);
   const [imageUrl, setImageUrl] = useState("");
   const [imageAlt, setImageAlt] = useState("");
 
@@ -58,6 +58,8 @@ const OverviewScreen = () => {
   const [disabledBtn, setdisabledBtn] = useState(true);
 
   const [iniempty, setiniempty] = useState("none");
+
+  const [selectedBranch, setselectedBranch] = useState("");
 
   //SIDEBAR MODAL
   const [side, setSide] = useState(false);
@@ -81,6 +83,7 @@ const OverviewScreen = () => {
   const [editcategory, seteditCategory] = useState("");
   const [editprice, seteditPrice] = useState("");
   const [editshow, seteditShow] = useState(false);
+  const [Returnedbranch, setReturnedbranch] = useState("");
 
   const edithandleClose = () => seteditShow(false);
   const edithandleShow = () => seteditShow(true);
@@ -143,7 +146,7 @@ const OverviewScreen = () => {
 
   //WAIT FOR IMAGE URL AND RETURN PRODUCT
   const imagereturn = async () => {
-    await createproduct(id, name, category, price, imageUrl);
+    await createproduct(id, name, category, price, imageUrl, selectedBranch);
     setImageUrl("");
     setImageAlt("");
     fetchproducts();
@@ -151,8 +154,19 @@ const OverviewScreen = () => {
   };
 
   useEffect(() => {
-    fetchproducts();
+    if (state.isAuthenticated === false) {
+      history.push("/");
+    } else {
+      fetchproducts();
+      fetchbranches();
+    }
   }, [change]);
+
+  const selectBFn = (e) => {
+    console.log("clicked");
+    setselectedBranch(e.target.value);
+    console.log(selectedBranch);
+  };
 
   const fetchproducts = async () => {
     const token = await localStorage.getItem("token");
@@ -251,6 +265,35 @@ const OverviewScreen = () => {
       setInitial(false);
       setiniempty("block");
     }
+  };
+
+  //FETCH BRANCHES
+  const fetchbranches = async () => {
+    const token = await localStorage.getItem("token");
+    // console.log(token);
+    try {
+      const response = await axios.get(
+        "http://12.96.91.34.bc.googleusercontent.com/api/branches/introtech",
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      const branchesPresent = response.data.map((branch) => {
+        return (
+          <>
+            <option value={branch.name}>{branch.name}</option>
+          </>
+        );
+      });
+
+      setReturnedbranch(branchesPresent);
+    } catch {}
   };
 
   //GET PRODUCTS FOR EDITING
@@ -530,7 +573,7 @@ const OverviewScreen = () => {
           all={all}
           roleswhite={roleswhite}
           brancheswhite={brancheswhite}
-          Logout={Logout}
+          Logout={logOut}
           exit={exit}
         />
 
@@ -873,6 +916,9 @@ const OverviewScreen = () => {
                 cloudinaryUpload={cloudinaryUpload}
                 submitting={submitting}
                 disabledBtn={disabledBtn}
+                Returnedbranch={Returnedbranch}
+                selectedBranch={selectedBranch}
+                selectBFn={selectBFn}
               />
               <Modal
                 size="sm"
@@ -936,7 +982,7 @@ const OverviewScreen = () => {
                           </Link>
                         </div>
                         <div className="col col-12 text-center mt-2 mb-4">
-                          <Link to="createbranch" className="linkTag">
+                          <Link onClick={logOut} className="linkTag">
                             <img
                               src={exit}
                               alt="exit"

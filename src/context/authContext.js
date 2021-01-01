@@ -25,6 +25,11 @@ const authReducer = (state, action) => {
         data: action.payload,
         showModal: true,
       };
+    case "logout":
+      return {
+        ...state,
+        isAuthenticated: false,
+      };
     case "viewroles":
       return {
         ...state,
@@ -108,11 +113,24 @@ export const Provider = ({ children }) => {
     }
   };
 
+  //   LOGOUT
+  const logOut = async () => {
+    localStorage.clear();
+    dispatch({ type: "logout" });
+  };
+
   //CREATE PRODUCT
-  const createproduct = async (id, name, category, price, imageUrl) => {
+  const createproduct = async (
+    id,
+    name,
+    category,
+    price,
+    imageUrl,
+    selectedBranch
+  ) => {
     const token = await localStorage.getItem("token");
     // console.log(token);
-    // console.log(id, name, category, price);
+    console.log(selectedBranch);
     try {
       const response = await axios.post(
         "http://12.96.91.34.bc.googleusercontent.com/api/products",
@@ -123,7 +141,7 @@ export const Provider = ({ children }) => {
               id: id,
               name: name,
               category: category,
-              branch: "odeku",
+              branch: selectedBranch,
               price: price,
               image: `${
                 imageUrl === "" ? (imageUrl = "empty") : (imageUrl = imageUrl)
@@ -148,6 +166,7 @@ export const Provider = ({ children }) => {
     signin,
     createUserRoles,
     createproduct,
+    logOut,
   };
 
   return (

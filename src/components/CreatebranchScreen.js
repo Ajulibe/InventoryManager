@@ -16,12 +16,18 @@ import Modal from "react-bootstrap/Modal";
 import Navbar from "./Bars/Navbar";
 import Sidebar from "./Bars/Sidebar";
 import { useHistory } from "react-router-dom";
+import authContext from "../context/authContext";
 
 const CreatebranchScreen = () => {
   let history = useHistory();
+  const { state, createUserRoles, logOut } = useContext(authContext);
 
   useEffect(() => {
-    fetchbranches();
+    if (state.isAuthenticated === false || !localStorage.getItem("token")) {
+      history.push("/");
+    } else {
+      fetchbranches();
+    }
   }, []);
 
   //   const { state, signup, clearErrorMessage } = useContext(authContext);
@@ -122,11 +128,6 @@ const CreatebranchScreen = () => {
     } catch {}
   };
 
-  const Logout = () => {
-    localStorage.removeItem("token");
-    history.push("/");
-  };
-
   return (
     <div
       class="container-fluid"
@@ -140,7 +141,7 @@ const CreatebranchScreen = () => {
           all={all}
           roleswhite={roleswhite}
           brancheswhite={brancheswhite}
-          Logout={Logout}
+          Logout={logOut}
           exit={exit}
         />
 

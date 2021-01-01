@@ -133,7 +133,11 @@ const SeeAll = (props) => {
             ) : (
               <div
                 className="col col-12 table-responsive disGuy"
-                style={{ display: `${props.tableShow}` }}
+                style={{
+                  display: `${props.tableShow}`,
+                  height: "65vh",
+                  overflow: "scroll",
+                }}
               >
                 <table
                   class="table table-hover text-center"

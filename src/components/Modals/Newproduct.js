@@ -141,6 +141,22 @@ const Newproduct = (props) => {
                     onChange={props.priceFn}
                   />
                 </div>
+                <div class="form-group">
+                  <label class="mr-sm-2" for="inlineFormCustomSelect">
+                    Select Branch:{" "}
+                  </label>
+                  <select
+                    required
+                    value={props.selectedBranch}
+                    onChange={props.selectBFn}
+                    class="custom-select mr-sm-2 retrunedBranch"
+                    id="inlineFormCustomSelect"
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    <option>select....</option>
+                    {props.Returnedbranch}
+                  </select>
+                </div>
                 <div
                   class="form-group"
                   style={{ color: "red", fontSize: "0.7rem" }}

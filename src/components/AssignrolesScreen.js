@@ -18,10 +18,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Navbar from "./Bars/Navbar";
 import Sidebar from "./Bars/Sidebar";
+import Congrats from "./Modals/Congrats";
 
 const AssignrolesScreen = () => {
   let history = useHistory();
-  const { state, createUserRoles } = useContext(authContext);
+  const { state, createUserRoles, logOut } = useContext(authContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState("");
@@ -57,7 +58,7 @@ const AssignrolesScreen = () => {
   useEffect(() => {
     console.log(state);
     if (state.isAuthenticated === false || !localStorage.getItem("token")) {
-      history.push("/Signin");
+      history.push("/");
     } else {
       localStorage.setItem("inventory", state.data.inventory);
       localStorage.setItem("modalState", state.data.showModal);
@@ -455,11 +456,6 @@ const AssignrolesScreen = () => {
     }
   };
 
-  const Logout = () => {
-    localStorage.removeItem("token");
-    history.push("/");
-  };
-
   return (
     <div
       class="container-fluid"
@@ -473,7 +469,7 @@ const AssignrolesScreen = () => {
           all={all}
           roleswhite={roleswhite}
           brancheswhite={brancheswhite}
-          Logout={Logout}
+          Logout={logOut}
           exit={exit}
         />
 
@@ -576,10 +572,17 @@ const AssignrolesScreen = () => {
           {/* CHECKBOXES */}
           <div className="row" style={{}}>
             <div className="col col-12" style={{}}>
-              <div className="row d-flex justify-content-center" style={{}}>
+              <div className="row d-flex justify-content-center">
                 <div className="col col-12 col-md-8 mt-5 ">
-                  <div className="row ">
-                    <div className="col col-4 text-center">
+                  <div
+                    className="row "
+                    style={{
+                      border: "1px solid rgb(112,112,112,0.2)",
+                      backgroundColor: "rgba(112,112,112,0.1)",
+                      borderRadius: "1rem",
+                    }}
+                  >
+                    <div className="col col-4 pt-3 text-center d-flex justify-content-center">
                       <div
                         class="form-check text-left"
                         style={{ position: "relative" }}
@@ -766,7 +769,7 @@ const AssignrolesScreen = () => {
                         </label>
                       </div>
                     </div>
-                    <div className="col col-4 text-center">
+                    <div className="col col-4 pt-3 text-center d-flex justify-content-center">
                       <div
                         class="form-check text-left"
                         style={{ position: "relative" }}
@@ -952,7 +955,7 @@ const AssignrolesScreen = () => {
                         </label>
                       </div>
                     </div>
-                    <div className="col col-4 text-center">
+                    <div className="col col-4 pt-3 text-center d-flex justify-content-center">
                       <div
                         class="form-check text-left"
                         style={{ position: "relative" }}
@@ -1085,70 +1088,7 @@ const AssignrolesScreen = () => {
               </div>
             </div>
           </div>
-
-          {/* 
-                    <div
-                      class="modal fade"
-                      id="exampleModalCenter"
-                      tabindex="-1"
-                      role="dialog"
-                      aria-labelledby="exampleModalCenterTitle"
-                      aria-hidden="true"
-                    >
-                      <div
-                        class="modal-dialog modal-dialog-centered"
-                        role="document"
-                      >
-                        <div
-                          class="modal-content"
-                          style={{
-                            // border: "1px solid red",
-                            position: "relative",
-                            borderRadius: "2rem",
-                            paddingTop: "3rem",
-                          }}
-                        >
-                          <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                            style={{
-                              position: "absolute",
-                              top: "1rem",
-                              right: "1rem",
-                              border: "1px solid black",
-                              padding: "0.3rem",
-                              borderRadius: "15px",
-                            }}
-                          >
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                          <div class="modal-body">
-                            <img
-                              className="successImg"
-                              src={success}
-                              alt="sucessfullycreated"
-                              style={{ width: "8rem" }}
-                            />
-                            <br />
-                            <br />
-
-                            <p>
-                              <b>Congratulations</b>
-                            </p>
-                            <p
-                              style={{ fontWeight: "200", fontSize: "0.8rem" }}
-                            >
-                              Jane John is now a Super Admin
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                   
-                    
-          </div> */}
+          <Congrats success={success} email={email} />
         </div>
       </div>
       <button

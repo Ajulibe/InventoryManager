@@ -97,7 +97,7 @@ const SignupScreen = () => {
         >
           <div class="row ">
             <div
-              class="col col-11 col-md-7 col-xl-7 signupForm"
+              class="col col-11 col-md-6 col-lg-5 col-xl-7 signupForm"
               style={{
                 backgroundColor: "#ffffff",
                 height: "80%",
