@@ -60,22 +60,22 @@ const SeeAll = (props) => {
                 }}
               >
                 <div
-                  className="col col-4"
+                  className="col col-md-4"
                   style={{
                     display: "flex",
                     alignItems: "center",
                   }}
                 ></div>
-                <div className="col col-5">
+                <div className="col col-12 col-md-5 ">
                   <i
-                    class="fa fa-search"
+                    class="fa fa-search "
                     style={{
                       position: "absolute",
                       zIndex: "1000",
                       right: "10%",
                       top: "20%",
                       width: "1rem",
-                      color: "rgb(21,20,35, 0.6)",
+                      color: "rgb(21,20,35,0.6)",
                     }}
                     onClick={props.clickme}
                   ></i>
@@ -88,7 +88,7 @@ const SeeAll = (props) => {
                       style={{ fontSize: "0.8rem" }}
                       type="text"
                       placeholder="Search for product by name.."
-                      class="form-control"
+                      class="form-control searchIcon"
                       name="search"
                       value={props.search}
                       onChange={props.changeSearch}

@@ -22,6 +22,9 @@ import {
   Placeholder,
 } from "cloudinary-react";
 import SeeAll from "./Modals/SeeAll";
+import Newproduct from "./Modals/Newproduct";
+import Navbar from "./Bars/Navbar";
+import Sidebar from "./Bars/Sidebar";
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
@@ -34,6 +37,7 @@ const override = css`
 
 const OverviewScreen = () => {
   let history = useHistory();
+
   const { createproduct } = useContext(authContext);
   const [imageUrl, setImageUrl] = useState("");
   const [imageAlt, setImageAlt] = useState("");
@@ -50,6 +54,8 @@ const OverviewScreen = () => {
   const [change, setChange] = useState(false);
   const [error, setError] = useState(false);
   const [initial, setInitial] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [disabledBtn, setdisabledBtn] = useState(true);
 
   const [iniempty, setiniempty] = useState("none");
 
@@ -92,24 +98,28 @@ const OverviewScreen = () => {
   const seeallhandleClose = () => setseeallShow(false);
   const seeallhandleShow = () => setseeallShow(true);
 
-  //WAIT FOR IMAGE URL AND RETURN PRODUCT
-  const imagereturn = () => {
-    setTimeout(function () {
-      createproduct(id, name, category, price, imageUrl);
-      setChange(true);
-    }, 4000);
+  const Logout = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+  };
+
+  const newProduct = (e) => {
+    e.preventDefault();
+    imagereturn();
+    handleClose();
   };
 
   //IMAGE UPLOAD
-  const imageUpload = async (e) => {
+  const imageUpload = (e) => {
     const imageDiv = imageRef.current;
-    console.log(imageDiv);
+    // console.log(imageDiv);
     imageDiv.src = URL.createObjectURL(e.target.files[0]);
+  };
 
-    console.log(imageDiv.src);
-
+  const cloudinaryUpload = async () => {
     const { files } = document.querySelector('input[type="file"]');
     const formData = new FormData();
+    setSubmitting(true);
     formData.append("file", files[0]);
     // replace this with your upload preset name
     formData.append("upload_preset", "knypfbbh");
@@ -120,17 +130,24 @@ const OverviewScreen = () => {
         formData
       );
       console.log(response.data);
-      // setImageUrl(response.data.secure_url);
-      setImageUrl(response.data.public_id);
+      setImageUrl(response.data.secure_url);
+      alert("Image Submitted");
+      setSubmitting(false);
+      // setImageUrl(response.data.public_id);
       setImageAlt(`An image of ${response.data.original_filename}`);
+      setdisabledBtn(false);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const Logout = () => {
-    localStorage.removeItem("token");
-    history.push("/Signin");
+  //WAIT FOR IMAGE URL AND RETURN PRODUCT
+  const imagereturn = async () => {
+    await createproduct(id, name, category, price, imageUrl);
+    setImageUrl("");
+    setImageAlt("");
+    fetchproducts();
+    setdisabledBtn(true);
   };
 
   useEffect(() => {
@@ -229,7 +246,10 @@ const OverviewScreen = () => {
       setInitial(false);
       setiniempty("block");
     } catch {
-      // history.push("/Signin");
+      setProduct("");
+      setProductAll("");
+      setInitial(false);
+      setiniempty("block");
     }
   };
 
@@ -314,9 +334,22 @@ const OverviewScreen = () => {
     }
   };
 
+  const namedFn = (e) => {
+    setName(e.target.value);
+  };
+
+  const catFn = (e) => {
+    setCategory(e.target.value);
+  };
+  const priceFn = (e) => {
+    setPrice(e.target.value);
+  };
+
   //INPUT SEARCH
   const searchFn = async () => {
+    settableShow("none");
     setloading(true);
+
     const token = await localStorage.getItem("token");
     // console.log(search);
 
@@ -491,179 +524,15 @@ const OverviewScreen = () => {
         position: "relative",
       }}
     >
+      <Navbar />
       <div class="row">
-        <div
-          class="col col-12 d-flex justify-content-between align-items-center overvw"
-          style={{
-            background: "#151423",
-            width: "100vw",
-            height: "3rem",
-            padding: "0",
-          }}
-        >
-          <p
-            className="overVw"
-            style={{
-              color: "white",
-              fontSize: "1rem",
-              marginTop: "1rem",
-              marginLeft: "2rem",
-            }}
-          >
-            <b>Overview</b>
-            <sup>TM</sup>
-          </p>
-          {/* 
-          <div
-            class="input-group input-group-sm "
-            style={{
-              width: "11rem",
-              marginRight: "11rem",
-              position: "relative",
-            }}
-          >
-            <i
-              class="fa fa-search"
-              style={{
-                position: "absolute",
-                zIndex: "1000",
-                right: "6%",
-                top: "20%",
-                width: "1rem",
-                color: "#C5D6EA",
-              }}
-            ></i>
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              placeholder="Search Inventory"
-              style={{
-                fontSize: "0.7rem",
-                paddingTop: "0.6rem",
-                paddingBottom: "0.6rem",
-                backgroundColor: "#44434F",
-                border: "none",
-              }}
-            ></input>
-          </div> */}
-        </div>
-      </div>
-      <div class="row">
-        <div
-          class="col col-1 col-md-1 slider"
-          style={{
-            height: "80vh",
-            marginTop: "40px",
-            borderTopRightRadius: "20px",
-            borderBottomRightRadius: "20px",
-            position: "fixed",
-          }}
-        >
-          {/* inside box */}
-          <div
-            class="row"
-            style={{
-              height: "100%",
-              width: "100%",
-            }}
-          >
-            <div
-              class="col col-md-10 text-center"
-              style={{
-                background: "#151423",
-                height: "100%",
-                borderTopRightRadius: "20px",
-                borderBottomRightRadius: "20px",
-                fontSize: "0.6rem",
-                color: "white",
-                // border: "1px solid blue",
-                paddingRight: "3.3rem",
-              }}
-            >
-              {/* first icons */}
-              <div
-                class="text-center d-flex align-content-between flex-column"
-                style={{
-                  //   border: "1px solid red",
-                  height: "15rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <Link to="overview" className="linkTag">
-                  <div
-                    className="mt-2 text-center"
-                    style={{
-                      borderLeft: "2px solid #006CF1",
-                      marginLeft: "-0.9rem",
-                      paddingLeft: "0.6rem",
-                    }}
-                  >
-                    <img
-                      src={all}
-                      alt="all"
-                      class="image"
-                      style={{ width: "1.5rem" }}
-                    />
-                    <p style={{ textDecoration: "none" }}>All Inventory</p>
-                  </div>
-                </Link>
-
-                <Link
-                  to="assignroles"
-                  className="linkTag"
-                  style={{ textDecoration: "none" }}
-                >
-                  <div className="mt-4">
-                    <img
-                      src={roleswhite}
-                      alt="roleswhite"
-                      class="image"
-                      style={{ width: "1.5rem" }}
-                    />
-                    <p style={{ textDecoration: "none" }}>Assign Roles</p>
-                  </div>
-                </Link>
-
-                <Link to="createbranch" className="linkTag">
-                  <div className="mt-4">
-                    <img
-                      src={brancheswhite}
-                      alt="branches"
-                      class="image"
-                      style={{ width: "1.5rem" }}
-                    />
-                    <p style={{ textAlign: "center", textDecoration: "none" }}>
-                      Create Branches
-                    </p>
-                  </div>
-                </Link>
-              </div>
-
-              {/* second set */}
-              <div
-                style={{
-                  marginTop: "8rem",
-                  textAlign: "center",
-                }}
-              >
-                <Link className="linkTag" onClick={Logout}>
-                  {" "}
-                  <div>
-                    <img
-                      src={exit}
-                      alt="exit"
-                      class="image"
-                      style={{ width: "1.5rem" }}
-                    />
-                    <p style={{ textDecoration: "none" }}>Log Out</p>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Sidebar
+          all={all}
+          roleswhite={roleswhite}
+          brancheswhite={brancheswhite}
+          Logout={Logout}
+          exit={exit}
+        />
 
         <div
           class="col col-10 col-md-11 marginadjust"
@@ -974,180 +843,6 @@ const OverviewScreen = () => {
                       changeSearch={changeSearch}
                       filteredSearch={filteredSearch}
                     />
-                    {/* <Modal
-                      size="lg"
-                      show={seeallshow}
-                      onHide={seeallhandleClose}
-                      animation={true}
-                      style={{}}
-                    >
-                      <Modal.Header
-                        closeButton
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItem: "center",
-                          borderBottom: "none",
-                        }}
-                      ></Modal.Header>
-                      <Modal.Body style={{}}>
-                        {product === "" ? (
-                          <div class="col col-md-12">
-                            <div className="row">
-                              <div
-                                className="col-6 mr-auto ml-auto mb-5"
-                                style={{
-                                  marginTop: "4%",
-                                }}
-                              >
-                                <div className="col-12 text-center">
-                                  <img
-                                    src={empty}
-                                    alt="nodata"
-                                    style={{ width: "5rem" }}
-                                  />
-                                </div>
-
-                                <div className="col-12 text-center mt-4">
-                                  <p style={{ fontSize: "0.8rem" }}>
-                                    You Have No Products Available!!!
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          <>
-                            <div className="row d-flex justify-content-center">
-                              <div
-                                className="col col-10"
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  alignItems: "center",
-                                  // border: "1px solid red",
-                                  marginBottom: "3rem",
-                                }}
-                              >
-                                <div
-                                  className="col col-4"
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                  }}
-                                ></div>
-                                <div className="col col-5">
-                                  <i
-                                    class="fa fa-search"
-                                    style={{
-                                      position: "absolute",
-                                      zIndex: "1000",
-                                      right: "10%",
-                                      top: "20%",
-                                      width: "1rem",
-                                      color: "rgb(21,20,35, 0.6)",
-                                    }}
-                                    onClick={() => {
-                                      setError(false);
-                                      searchFn();
-                                    }}
-                                  ></i>
-                                  <form
-                                    onSubmit={(e) => {
-                                      e.preventDefault();
-                                      setError(false);
-                                      searchFn();
-                                    }}
-                                  >
-                                    <input
-                                      autocomplete="off"
-                                      required
-                                      onFocus={() => {
-                                        settableShow("none");
-                                      }}
-                                      onBlur={() => {
-                                        setloading(false);
-                                        settableShow("block");
-                                        setError(false);
-                                      }}
-                                      style={{ fontSize: "0.8rem" }}
-                                      type="text"
-                                      placeholder="Search for product by name.."
-                                      class="form-control"
-                                      name="search"
-                                      value={search}
-                                      onChange={(e) =>
-                                        setsearch(e.target.value)
-                                      }
-                                    />
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="sweet-loading">
-                              <MoonLoader
-                                css={override}
-                                size={65}
-                                color={"#F14B22"}
-                                loading={loading}
-                              />
-                            </div>
-                            {error ? (
-                              <div class="col col-md-12">
-                                <div className="row">
-                                  <div
-                                    className="col-6 mr-auto ml-auto mb-5"
-                                    style={{
-                                      marginTop: "4%",
-                                    }}
-                                  >
-                                    <div className="col-12 text-center">
-                                      <img
-                                        src={empty}
-                                        alt="nodata"
-                                        style={{ width: "5rem" }}
-                                      />
-                                    </div>
-
-                                    <div className="col-12 text-center mt-4">
-                                      <p style={{ fontSize: "0.8rem" }}>
-                                        You Have No Products Available!!!
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ) : (
-                              <div
-                                className="col col-12 table-responsive disGuy"
-                                style={{ display: `${tableShow}` }}
-                              >
-                                <table
-                                  class="table table-hover text-center"
-                                  style={{
-                                    fontSize: "0.8rem",
-                                    border: "2px solid rgb(229,229,229)",
-                                  }}
-                                >
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">Image</th>
-                                      <th scope="col">Name</th>
-                                      <th scope="col">Category</th>
-                                      <th scope="col">ID</th>
-                                      <th scope="col">Price</th>
-                                      <th scope="col">Edit</th>
-                                      <th scope="col">Delete</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody className=""> {productAll}</tbody>
-                                </table>
-                              </div>
-                            )}
-                          </>
-                        )}
-                      </Modal.Body>
-                    </Modal> */}
                   </div>
                 </div>
               </div>
@@ -1160,159 +855,25 @@ const OverviewScreen = () => {
                 position: "relative",
               }}
             >
-              {/* new modal */}
-              <Modal show={show} onHide={handleClose} animation={true}>
-                <Modal.Header
-                  closeButton
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItem: "center",
-                    borderBottom: "none",
-                  }}
-                >
-                  <Modal.Title
-                    style={{
-                      fontSize: "1rem",
-                      position: "absolute",
-                    }}
-                  >
-                    ADD A NEW PRODUCT
-                  </Modal.Title>
-                </Modal.Header>
-                <Modal.Body style={{ fontSize: "0.8rem" }}>
-                  <div className="container">
-                    <div className="">
-                      <div className="col col-12">
-                        <div className="row justify-content-center mb-5">
-                          <div
-                            className="col col-3 align-items-center"
-                            style={{
-                              border: "1px solid #e9ecef",
-                              height: "7rem",
-                              textAlign: "center",
-                              fontSize: "0.6rem",
-                              padding: "0",
-                            }}
-                          >
-                            {/* <p style={{ marginTop: "50%" }}>
-                              No Uploaded Image
-                            </p> */}
-
-                            <img
-                              className="ImageSect"
-                              ref={imageRef}
-                              src={imageUrl}
-                              alt={imageAlt}
-                              style={{
-                                maxWidth: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <form
-                          onSubmit={(e) => {
-                            e.preventDefault();
-                            //createproduct(id, name, category, price, imageUrl);
-                            imagereturn();
-                            handleClose();
-                          }}
-                        >
-                          <div className="form-group">
-                            <input
-                              type="file"
-                              style={{ display: "block" }}
-                              onChange={imageUpload}
-                            />
-                            {/* <div class="custom-file">
-                              <input
-                                type="file"
-                                class="custom-file-input"
-                                id="customFile"
-                                onChange={imageUpload}
-                              />
-                              <label class="custom-file-label" for="customFile">
-                                Choose file
-                              </label>
-                            </div> */}
-                          </div>
-
-                          <div class="form-group">
-                            <label htmlFor="ItemIDSet">Item ID:</label>
-                            <input
-                              disabled
-                              required
-                              type="text"
-                              class="form-control form-control-sm"
-                              id="ItemIDSet"
-                              aria-describedby="emailHelp"
-                              name="id"
-                              value={id}
-                              // onChange={(e) => setId(e.target.value)}
-                            />
-                          </div>
-                          <div class="form-group">
-                            <label for="nameSet">Name:</label>
-                            <input
-                              required
-                              type="text"
-                              class="form-control form-control-sm"
-                              id="nameSet"
-                              aria-describedby="emailHelp"
-                              name="name"
-                              value={name}
-                              onChange={(e) => setName(e.target.value)}
-                            />
-                          </div>
-                          <div class="form-group">
-                            <label for="categorySet">Category:</label>
-                            <input
-                              required
-                              type="text"
-                              class="form-control form-control-sm"
-                              id="categorySet"
-                              aria-describedby="emailHelp"
-                              name="category"
-                              value={category}
-                              onChange={(e) => setCategory(e.target.value)}
-                            />
-                          </div>
-                          <div class="form-group">
-                            <label for="priceSet">Price:</label>
-                            <input
-                              required
-                              type="text"
-                              class="form-control form-control-sm"
-                              id="priceSet"
-                              aria-describedby="emailHelp"
-                              name="price"
-                              value={price}
-                              placeholder="N0.00"
-                              onChange={(e) => setPrice(e.target.value)}
-                            />
-                          </div>
-
-                          <button
-                            type="submit"
-                            class="btn"
-                            style={{
-                              backgroundColor: "#D94F00",
-                              color: "white",
-                              fontSize: "0.7rem",
-                              borderRadius: "0px",
-                            }}
-                          >
-                            Submit
-                          </button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </Modal.Body>
-              </Modal>
-              {/* SIDEBAR MODAL */}
+              <Newproduct
+                show={show}
+                handleClose={handleClose}
+                imageRef={imageRef}
+                imageUrl={imageUrl}
+                imageAlt={imageAlt}
+                newProduct={newProduct}
+                imageUpload={imageUpload}
+                id={id}
+                name={name}
+                namedFn={namedFn}
+                category={category}
+                catFn={catFn}
+                price={price}
+                priceFn={priceFn}
+                cloudinaryUpload={cloudinaryUpload}
+                submitting={submitting}
+                disabledBtn={disabledBtn}
+              />
               <Modal
                 size="sm"
                 show={side}
@@ -1547,6 +1108,7 @@ const OverviewScreen = () => {
                     >
                       <div className="col-12 text-center">
                         <img
+                          className="noProducts"
                           src={empty}
                           alt="nodata"
                           style={{ width: "5rem" }}
@@ -1554,7 +1116,7 @@ const OverviewScreen = () => {
                       </div>
 
                       <div className="col-12 text-center mt-4">
-                        <p style={{ fontSize: "0.8rem" }}>
+                        <p style={{ fontSize: "0.8rem" }} className="noPtext">
                           You Have No Products Available!!!
                         </p>
                       </div>
@@ -1604,8 +1166,8 @@ const OverviewScreen = () => {
         style={{
           border: "1px solid #151423",
           position: "absolute",
-          right: "2.8rem",
-          bottom: "-9rem",
+          right: "2.2rem",
+          bottom: "-8rem",
           height: "3rem",
           width: "3rem",
           backgroundColor: "#151423",

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   return (
@@ -8,8 +8,9 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
       render={(props) =>
         localStorage.getItem("token") ? (
           <Component {...rest} {...props} />
-        ) : //   <Redirect to="/Signin" />
-        null
+        ) : (
+          <Redirect to="/Signin" />
+        )
       }
     />
   );

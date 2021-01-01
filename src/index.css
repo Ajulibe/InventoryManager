@@ -24,7 +24,7 @@ html {
 
 .menuBtn {
   /* filter: drop-shadow(0 0 0.75rem rgb(150, 150, 160)); */
-  filter: drop-shadow(0 0 0.5rem rgb(0, 0, 0, 0.4));
+  filter: drop-shadow(0 0 0.4rem rgba(0, 0, 0, 0.4));
   display: none;
 }
 .sidedis {
@@ -33,6 +33,11 @@ html {
 .table thead th {
   border-bottom: none !important;
 }
+
+/* .menuBtn:hover {
+  filter: drop-shadow(0 0 0.4rem rgba(236, 5, 5, 0.6));
+  transform: scale(0.92);
+} */
 
 /* MEDIA QUERY */
 
@@ -45,6 +50,12 @@ html {
   }
   .cAll {
     font-size: 0.4rem !important;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .menuBtn {
+    bottom: -5rem !important ;
   }
 }
 
@@ -61,9 +72,7 @@ html {
   .slider {
     display: none;
   }
-  .marginadjust {
-    margin: 0 auto !important;
-  }
+
   .total {
     display: none;
   }
@@ -121,6 +130,23 @@ html {
   .overvw {
     height: 2rem !important;
   }
+  .noPtext {
+    font-size: 0.6rem !important;
+  }
+  .noProducts {
+    width: 4rem !important;
+    height: 4.4rem !important;
+  }
+  .searchIcon {
+    font-size: 0.6rem;
+  }
+  .marginadjust {
+    margin: 0 auto !important;
+  }
+
+  .marginadjust2 {
+    margin: 0 auto !important;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -159,6 +185,15 @@ html {
     height: 7rem !important;
     margin-bottom: 2rem;
   }
+  .resizeName {
+    font-size: 0.8rem !important;
+  }
+  .resizeNum {
+    font-size: 0.9rem !important;
+  }
+  .marginadjust2 {
+    margin-left: 4rem !important;
+  }
 }
 @media only screen and (max-width: 1023px) {
   .recentlyadded {
@@ -169,6 +204,12 @@ html {
 @media only screen and (max-width: 1024px) {
   .backOvr {
     display: none;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .marginadjust2 {
+    margin-left: 5rem !important;
   }
 }
 

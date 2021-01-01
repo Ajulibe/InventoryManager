@@ -13,8 +13,13 @@ import success from "../assets/success.svg";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
+import Navbar from "./Bars/Navbar";
+import Sidebar from "./Bars/Sidebar";
+import { useHistory } from "react-router-dom";
 
 const CreatebranchScreen = () => {
+  let history = useHistory();
+
   useEffect(() => {
     fetchbranches();
   }, []);
@@ -34,6 +39,11 @@ const CreatebranchScreen = () => {
   const handleOpen = () => {
     setshow(true);
   };
+
+  //SIDEBAR MODAL
+  const [side, setSide] = useState(false);
+  const sideClose = () => setSide(false);
+  const sideShow = () => setSide(true);
 
   //CREATE BRANCHES
   const createBranches = async () => {
@@ -112,129 +122,27 @@ const CreatebranchScreen = () => {
     } catch {}
   };
 
+  const Logout = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+  };
+
   return (
-    <div class="container-fluid">
+    <div
+      class="container-fluid"
+      style={{
+        position: "relative",
+      }}
+    >
+      <Navbar />
       <div class="row">
-        <div
-          class="col col-12 d-flex justify-content-between align-items-center"
-          style={{ background: "#151423", width: "100vw", height: "9vh" }}
-        >
-          <p
-            style={{
-              color: "white",
-              fontSize: "1rem",
-              marginTop: "1rem",
-              marginLeft: "2rem",
-            }}
-          >
-            <b>Overview</b>
-            <sup>TM</sup>
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div
-          class="col col-md-1 slider"
-          style={{
-            height: "80vh",
-            marginTop: "40px",
-            borderTopRightRadius: "20px",
-            borderBottomRightRadius: "20px",
-            position: "fixed",
-          }}
-        >
-          {/* inside box */}
-          <div
-            class="row"
-            style={{
-              height: "100%",
-              width: "100%",
-            }}
-          >
-            <div
-              class="col col-md-10 text-center"
-              style={{
-                background: "#151423",
-                height: "100%",
-                borderTopRightRadius: "20px",
-                borderBottomRightRadius: "20px",
-                fontSize: "0.6rem",
-                color: "white",
-                // border: "1px solid blue",
-                paddingRight: "15px",
-              }}
-            >
-              {/* first icons */}
-              <div
-                class="text-center d-flex align-content-between flex-column"
-                style={{
-                  //   border: "1px solid red",
-                  height: "15rem",
-                  marginTop: "1rem",
-                }}
-              >
-                <Link to="overview" className="linkTag">
-                  <div className="mt-2 text-center">
-                    <img
-                      src={all}
-                      alt="all"
-                      class="image"
-                      style={{ width: "1.5rem" }}
-                    />
-                    <p class="">All Inventory</p>
-                  </div>
-                </Link>
-
-                <Link to="assignroles" className="linkTag">
-                  <div className="mt-4">
-                    <img
-                      src={roleswhite}
-                      alt="roleswhite"
-                      class="image"
-                      style={{ width: "1.5rem" }}
-                    />
-                    <p>Assign Roles</p>
-                  </div>
-                </Link>
-
-                <Link to="createbranch" className="linkTag">
-                  <div
-                    className="mt-4"
-                    style={{
-                      borderLeft: "2px solid #006CF1",
-                      marginLeft: "-0.9rem",
-                      paddingLeft: "0.6rem",
-                    }}
-                  >
-                    <img
-                      src={brancheswhite}
-                      alt="branches"
-                      class="image"
-                      style={{ width: "1.5rem" }}
-                    />
-                    <p style={{ textAlign: "center" }}>Create Branches</p>
-                  </div>
-                </Link>
-              </div>
-
-              {/* second set */}
-              <div style={{ marginTop: "8rem" }}>
-                <Link to="/Signin" className="linkTag">
-                  {" "}
-                  <div>
-                    <img
-                      src={exit}
-                      alt="exit"
-                      class="image"
-                      style={{ width: "1.5rem" }}
-                    />
-                    <p>Log Out</p>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Sidebar
+          all={all}
+          roleswhite={roleswhite}
+          brancheswhite={brancheswhite}
+          Logout={Logout}
+          exit={exit}
+        />
 
         <div class="col col-md-11" style={{ marginLeft: "5rem" }}>
           <div className="row">
@@ -383,6 +291,25 @@ const CreatebranchScreen = () => {
           </div>
         </div>
       </div>
+      <button
+        // onClick={refreshToken}
+        onClick={sideShow}
+        className="btn rounded-circle menuBtn"
+        type="button"
+        style={{
+          border: "1px solid #151423",
+          position: "absolute",
+          right: "2.2rem",
+          bottom: "-8rem",
+          height: "3rem",
+          width: "3rem",
+          backgroundColor: "#151423",
+          color: "white",
+          fontSize: "0.8rem",
+        }}
+      >
+        &#5730;
+      </button>
     </div>
   );
 };

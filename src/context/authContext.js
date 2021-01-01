@@ -23,6 +23,7 @@ const authReducer = (state, action) => {
         ...state,
         isAuthenticated: true,
         data: action.payload,
+        showModal: true,
       };
     case "viewroles":
       return {
@@ -41,6 +42,7 @@ export const Provider = ({ children }) => {
     data: null,
     errorMessage: "",
     isAuthenticated: false,
+    showModal: false,
   });
 
   //ACTIONS
@@ -109,7 +111,7 @@ export const Provider = ({ children }) => {
   //CREATE PRODUCT
   const createproduct = async (id, name, category, price, imageUrl) => {
     const token = await localStorage.getItem("token");
-    console.log(token);
+    // console.log(token);
     // console.log(id, name, category, price);
     try {
       const response = await axios.post(
@@ -123,7 +125,9 @@ export const Provider = ({ children }) => {
               category: category,
               branch: "odeku",
               price: price,
-              image: imageUrl,
+              image: `${
+                imageUrl === "" ? (imageUrl = "empty") : (imageUrl = imageUrl)
+              }`,
             },
           ],
         },
