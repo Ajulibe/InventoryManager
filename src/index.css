@@ -40,6 +40,22 @@ html {
 } */
 
 /* MEDIA QUERY */
+.roleasigndiv {
+  animation: rolesTrans 0.5s infinite;
+  filter: drop-shadow(0 0 1rem rgb(255, 31, 79, 0.6));
+}
+
+@keyframes rolesTrans {
+  0% {
+    border: 1px solid rgb(255, 31, 79, 0.1);
+  }
+  50% {
+    border: 1px solid rgb(255, 31, 79, 0.5);
+  }
+  100% {
+    border: 1px solid rgb(255, 31, 79);
+  }
+}
 
 @media only screen and (min-width: 280px) {
   .resizeName {
@@ -176,6 +192,9 @@ html {
     margin-left: 32% !important;
   }
   .table {
+    font-size: 0.6rem !important;
+  }
+  .roleasign {
     font-size: 0.6rem !important;
   }
 }

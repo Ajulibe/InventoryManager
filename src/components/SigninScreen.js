@@ -49,7 +49,7 @@ const secondValues = {
 
 const SigninScreen = () => {
   let history = useHistory();
-  const { state, signin } = useContext(authContext);
+  const { state, signin, signinStaff } = useContext(authContext);
   // const [username, setUsername] = useState("");
   // const [password, setPassword] = useState("");
   //console.log(state.authRedirect, state);
@@ -59,7 +59,11 @@ const SigninScreen = () => {
 
   useEffect(() => {
     if (state.isAuthenticated) {
-      history.push("/overAdmin");
+      if (state.data.user == null) {
+        history.push("/overAdmin");
+      } else {
+        history.push("/auth");
+      }
     }
   }, [state.isAuthenticated]);
 
@@ -443,7 +447,7 @@ const SigninScreen = () => {
                   setnotloading("none");
                   const username = values.username1;
                   const password = values.password;
-                  signin(username, password);
+                  signinStaff(username, password);
                   disableloading();
                 }}
               >

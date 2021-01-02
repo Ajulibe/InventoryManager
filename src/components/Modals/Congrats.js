@@ -4,8 +4,8 @@ import Modal from "react-bootstrap/Modal";
 const Congrats = (props) => {
   return (
     <Modal
-      //   show={true}
-      //   onHide={props.seeallhandleClose}
+      show={props.modalState}
+      onHide={props.showModalClose}
       animation={true}
       style={{}}
     >
@@ -31,10 +31,19 @@ const Congrats = (props) => {
             <br />
 
             <p>
-              <b>Congratulations</b>
+              <b style={{ fontSize: "0.8rem" }}>Congratulations</b>
             </p>
-            <p style={{ fontWeight: "200", fontSize: "0.8rem" }}>
-              {props.email} is now a Super Admin
+            <p
+              style={{
+                fontWeight: "200",
+                fontSize: "0.7rem",
+              }}
+            >
+              A confirmation email has been sent to &nbsp;{" "}
+              <b style={{ color: "#D94F00", fontSize: "0.8rem" }}>
+                {" "}
+                {props.email}
+              </b>{" "}
             </p>
           </div>
         </div>

@@ -19,10 +19,13 @@ import Button from "react-bootstrap/Button";
 import Navbar from "./Bars/Navbar";
 import Sidebar from "./Bars/Sidebar";
 import Congrats from "./Modals/Congrats";
+import { setNestedObjectValues } from "formik";
 
 const AssignrolesScreen = () => {
   let history = useHistory();
-  const { state, createUserRoles, logOut } = useContext(authContext);
+  const { state, createUserRoles, logOut, closeModal } = useContext(
+    authContext
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState("");
@@ -55,6 +58,8 @@ const AssignrolesScreen = () => {
   const [deleteteller, setDeleteteller] = useState(false);
   const [updateteller, setUpdateteller] = useState(false);
 
+  const [roleError, setroleError] = useState(true);
+
   useEffect(() => {
     console.log(state);
     if (state.isAuthenticated === false || !localStorage.getItem("token")) {
@@ -78,9 +83,11 @@ const AssignrolesScreen = () => {
       console.log(response.data);
       const usersdetails = response.data.map((user) => {
         return (
-          <tr key={user.createdAt} style={{}}>
-            <td style={{ fontSize: "0.8rem" }}>{user.email}</td>
-            <td style={{ fontSize: "0.8rem" }}>
+          <tr key={user.createdAt} style={{ border: "1px solid #dee2e6" }}>
+            <td style={{ fontSize: "0.8rem", border: "1px solid #dee2e6" }}>
+              {user.email}
+            </td>
+            <td style={{ fontSize: "0.8rem", border: "1px solid #dee2e6" }}>
               {user.permissions.map((value) => {
                 return <p>{value}</p>;
               })}
@@ -120,6 +127,7 @@ const AssignrolesScreen = () => {
 
       // to filter out the false state values
       const filterOut = () => {
+        setroleError(false);
         const filteredArray = options.filter((option) => {
           return option.status === true;
         });
@@ -136,6 +144,7 @@ const AssignrolesScreen = () => {
 
         console.log(Object.keys(fillteredObject));
         const permissions = Object.keys(fillteredObject);
+
         createUserRoles(
           email,
           password,
@@ -145,6 +154,7 @@ const AssignrolesScreen = () => {
           permissions,
           redirectUri
         );
+        setroleError(true);
       };
 
       filterOut();
@@ -163,6 +173,7 @@ const AssignrolesScreen = () => {
       ];
 
       const filterOut = () => {
+        setroleError(false);
         const filteredArray = options.filter((option) => {
           return option.status === true;
         });
@@ -185,6 +196,7 @@ const AssignrolesScreen = () => {
           permissions,
           redirectUri
         );
+        setroleError(true);
       };
 
       filterOut();
@@ -200,6 +212,7 @@ const AssignrolesScreen = () => {
       ];
 
       const filterOut = () => {
+        setroleError(false);
         const filteredArray = options.filter((option) => {
           return option.status === true;
         });
@@ -223,6 +236,7 @@ const AssignrolesScreen = () => {
           redirectUri
         );
       };
+      setroleError(true);
 
       filterOut();
     }
@@ -456,6 +470,10 @@ const AssignrolesScreen = () => {
     }
   };
 
+  const showModalClose = () => {
+    closeModal();
+  };
+
   return (
     <div
       class="container-fluid"
@@ -568,6 +586,24 @@ const AssignrolesScreen = () => {
               </div>
             </div>
           </div>
+
+          {roleError && (
+            <div className="row mt-4 d-flex justify-content-center ">
+              <div className="col col-5 col-md-2  text-center">
+                <p
+                  className="roleasign roleasigndiv mb-2"
+                  style={{
+                    color: "red",
+                    fontSize: "0.8rem",
+                    background: "rgb(255,31,79, 0.4)",
+                    borderRadius: "0.7rem",
+                  }}
+                >
+                  Roles must be Assigned
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* CHECKBOXES */}
           <div className="row" style={{}}>
@@ -1088,7 +1124,12 @@ const AssignrolesScreen = () => {
               </div>
             </div>
           </div>
-          <Congrats success={success} email={email} />
+          <Congrats
+            success={success}
+            email={email}
+            showModalClose={showModalClose}
+            modalState={state.showModal}
+          />
         </div>
       </div>
       <button
@@ -1111,40 +1152,7 @@ const AssignrolesScreen = () => {
         &#5730;
       </button>
       {/* MODALS */}
-      <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton style={{}}>
-          <Modal.Title
-            style={{
-              fontSize: "1rem",
-              textAlign: "center",
-              margin: "auto",
-            }}
-          >
-            ASSIGNED ROLES
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div class="table-responsive">
-            <table
-              className="table table-bordered"
-              style={{ fontSize: "0.8rem" }}
-            >
-              <thead>
-                <tr>
-                  <th scope="col">Email</th>
-                  <th scope="col">Permissions</th>
-                </tr>
-              </thead>
-              <tbody>{users}</tbody>
-            </table>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Allrolesmodal users={users} show={show} handleClose={handleClose} />
     </div>
   );
 };

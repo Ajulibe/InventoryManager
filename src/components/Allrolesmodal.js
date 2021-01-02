@@ -1,57 +1,60 @@
 import React from "react";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
-const Allrolesmodal = () => {
+const Allrolesmodal = (props) => {
   return (
-    <div
-      className="container"
-      style={{
-        border: "1px solid red",
-        position: "relative",
-        marginLeft: "-25%",
-      }}
-    >
-      <div className="row">
-        <div
-          className="col col-10 table-responsive"
+    <Modal show={props.show} onHide={props.handleClose} animation={true}>
+      <Modal.Header closeButton style={{}}>
+        <Modal.Title
           style={{
-            height: "70vh",
-            zIndex: "30000",
-            border: "1px solid red",
-            width: "80vw",
+            fontSize: "1rem",
+            textAlign: "center",
+            margin: "auto",
+          }}
+        ></Modal.Title>
+      </Modal.Header>
+      <Modal.Body style={{ textAlign: "center" }}>
+        <p
+          style={{
+            fontSize: "0.8rem",
           }}
         >
-          <table class="table table-bordered">
-            <thead>
+          <b>ASSIGNED ROLES</b>
+        </p>
+        <div class="table-responsive">
+          <table
+            className="table table-bordered"
+            style={{ fontSize: "0.8rem", textAlign: "center" }}
+          >
+            <thead style={{ border: "1px solid #dee2e6" }}>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
+                <th scope="col">Email</th>
+                <th scope="col">Permissions</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
+            <tbody style={{ fontSize: "0.7rem", border: "1px solid #dee2e6" }}>
+              {props.users}
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <button
+          onClick={props.handleClose}
+          type="button"
+          class="btn"
+          style={{
+            backgroundColor: "#D94F00",
+            color: "white",
+            fontSize: "0.7rem",
+            // borderRadius: "0px",
+          }}
+        >
+          Close
+        </button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

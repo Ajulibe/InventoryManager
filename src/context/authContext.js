@@ -16,6 +16,13 @@ const authReducer = (state, action) => {
         errorMessage: "",
         data: action.payload,
       };
+    case "signinStaff":
+      return {
+        ...state,
+        isAuthenticated: true,
+        errorMessage: "",
+        data: action.payload,
+      };
     case "add_error":
       return { ...state, errorMessage: action.payload };
     case "createUserRoles":
@@ -29,6 +36,12 @@ const authReducer = (state, action) => {
       return {
         ...state,
         isAuthenticated: false,
+      };
+    case "closeModal":
+      return {
+        ...state,
+        isAuthenticated: true,
+        showModal: false,
       };
     case "viewroles":
       return {
@@ -60,6 +73,28 @@ export const Provider = ({ children }) => {
       });
       await localStorage.setItem("token", response.data.accessToken);
       dispatch({ type: "signin", payload: response.data });
+      console.log(response.data);
+    } catch (err) {
+      dispatch({
+        type: "add_error",
+        payload: "Something went wrong with sign in",
+      });
+
+      console.log(err);
+    }
+  };
+
+  //SIGN STAFF
+  const signinStaff = async (username, password) => {
+    console.log(username + password);
+    try {
+      const response = await trackerApi.post("/accounts/staffauthentication", {
+        email: username,
+        password: password,
+        inventory: "introtech",
+      });
+      await localStorage.setItem("token", response.data.accessToken);
+      dispatch({ type: "signinStaff", payload: response.data });
       console.log(response.data);
     } catch (err) {
       dispatch({
@@ -119,6 +154,10 @@ export const Provider = ({ children }) => {
     dispatch({ type: "logout" });
   };
 
+  const closeModal = () => {
+    dispatch({ type: "closeModal" });
+  };
+
   //CREATE PRODUCT
   const createproduct = async (
     id,
@@ -167,6 +206,8 @@ export const Provider = ({ children }) => {
     createUserRoles,
     createproduct,
     logOut,
+    closeModal,
+    signinStaff,
   };
 
   return (
