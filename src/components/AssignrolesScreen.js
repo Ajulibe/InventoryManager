@@ -20,6 +20,7 @@ import Navbar from "./Bars/Navbar";
 import Sidebar from "./Bars/Sidebar";
 import Congrats from "./Modals/Congrats";
 import { setNestedObjectValues } from "formik";
+import Sidenav from "./Modals/Sidenav";
 
 const AssignrolesScreen = () => {
   let history = useHistory();
@@ -62,12 +63,12 @@ const AssignrolesScreen = () => {
 
   useEffect(() => {
     console.log(state);
-    if (state.isAuthenticated === false || !localStorage.getItem("token")) {
-      history.push("/");
-    } else {
-      localStorage.setItem("inventory", state.data.inventory);
-      localStorage.setItem("modalState", state.data.showModal);
-    }
+    // if (state.isAuthenticated === false || !localStorage.getItem("token")) {
+    //   history.push("/");
+    // } else {
+    //   localStorage.setItem("inventory", state.data.inventory);
+    //   localStorage.setItem("modalState", state.data.showModal);
+    // }
   }, [state]);
 
   //SIDEBAR MODAL
@@ -609,7 +610,7 @@ const AssignrolesScreen = () => {
           <div className="row" style={{}}>
             <div className="col col-12" style={{}}>
               <div className="row d-flex justify-content-center">
-                <div className="col col-12 col-md-8 mt-5 ">
+                <div className="col col-12 col-md-8 mt-3 ">
                   <div
                     className="row "
                     style={{
@@ -948,7 +949,7 @@ const AssignrolesScreen = () => {
                               </label>
                             </div>
                             <br />
-                            <div class="form-check ">
+                            <div class="form-check d-none ">
                               <input
                                 class="form-check-input"
                                 type="checkbox"
@@ -968,7 +969,7 @@ const AssignrolesScreen = () => {
                               </label>
                             </div>
                             <br />
-                            <div class="form-check ">
+                            <div class="form-check d-none ">
                               <input
                                 class="form-check-input"
                                 type="checkbox"
@@ -1153,6 +1154,14 @@ const AssignrolesScreen = () => {
       </button>
       {/* MODALS */}
       <Allrolesmodal users={users} show={show} handleClose={handleClose} />
+      <Sidenav
+        show={side}
+        onHide={sideClose}
+        roles={roles}
+        branches={branches}
+        onClick={logOut}
+        exit={exit}
+      />
     </div>
   );
 };

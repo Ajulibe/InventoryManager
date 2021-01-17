@@ -19,9 +19,10 @@ function App() {
         <Route exact path="/Signin" component={SigninScreen} />
         <Route exact path="/Signup" component={SignupScreen} />
         <Route exact path="/auth" component={Userauth} />
-        <ProtectedRoute path="/overAdmin" component={OverviewScreen} />
-        <ProtectedRoute path="/createbranch" component={CreatebranchScreen} />
-        <ProtectedRoute path="/assignroles" component={AssignrolesScreen} />
+        {/* change the three below to protected route */}
+        <Route path="/overAdmin" component={OverviewScreen} />
+        <Route path="/createbranch" component={CreatebranchScreen} />
+        <Route path="/assignroles" component={AssignrolesScreen} />
 
         <ProtectedRoute
           path="/overview/teller"

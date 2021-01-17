@@ -17,17 +17,18 @@ import Navbar from "./Bars/Navbar";
 import Sidebar from "./Bars/Sidebar";
 import { useHistory } from "react-router-dom";
 import authContext from "../context/authContext";
+import Sidenav from "./Modals/Sidenav";
 
 const CreatebranchScreen = () => {
   let history = useHistory();
   const { state, createUserRoles, logOut } = useContext(authContext);
 
   useEffect(() => {
-    if (state.isAuthenticated === false || !localStorage.getItem("token")) {
-      history.push("/");
-    } else {
-      fetchbranches();
-    }
+    // if (state.isAuthenticated === false || !localStorage.getItem("token")) {
+    //   history.push("/");
+    // } else {
+    fetchbranches();
+    // }
   }, []);
 
   //   const { state, signup, clearErrorMessage } = useContext(authContext);
@@ -145,118 +146,139 @@ const CreatebranchScreen = () => {
           exit={exit}
         />
 
-        <div class="col col-md-11" style={{ marginLeft: "5rem" }}>
+        <div
+          class="col col-10 col-md-11 marginadjust "
+          style={{ marginLeft: "5rem" }}
+        >
           <div className="row">
             <div
               className="col col-9 mr-auto ml-auto"
               style={{ marginTop: "2%", textAlign: "center", color: "#707070" }}
             >
-              <p>
+              <p
+                style={{
+                  fontSize: "0.9rem",
+                }}
+              >
                 <b>Create a new Branch</b>
               </p>
             </div>
+          </div>
+          <div className="col col-10 mx-auto">
             <div
-              className="col col-6 mr-auto ml-auto d-flex justify-content-between"
-              style={{ marginTop: "2%", textAlign: "center" }}
+              className="row d-flex justify-content-center"
+              style={{
+                border: "1px solid rgb(112,112,112,0.2)",
+                backgroundColor: "rgba(112,112,112,0.1)",
+                borderRadius: "1rem",
+              }}
             >
-              <input
-                type="text"
-                placeholder="Company Name"
-                style={{
-                  border: "1px solid #E0E0E0",
-                  fontSize: "0.7rem",
-                  width: "13rem",
-                  paddingLeft: "0.5rem",
-                }}
-                id="companyName"
-                name="companyName"
-                value={companyName}
-                onChange={(e) => setcompanyName(e.target.value)}
-              />
-              <input
-                type="text"
-                placeholder="Address"
-                style={{
-                  border: "1px solid #E0E0E0",
-                  fontSize: "0.7rem",
-                  width: "13rem",
-                  paddingLeft: "0.5rem",
-                }}
-                id="Address"
-                name="Address"
-                value={Address}
-                onChange={(e) => setAddress(e.target.value)}
-              />
-              <button
-                className="btn btn-sm"
-                style={{
-                  backgroundColor: "#D94F00",
-                  color: "white",
-                  fontSize: "0.7rem",
-                  borderRadius: "3px",
-                }}
-                onClick={createBranches}
-              >
-                Create Branch
-              </button>
-
-              {/* modal */}
-              <Modal
-                show={show}
-                onHide={handleClose}
-                animation={true}
+              <div className="col col-7 mt-2 col-md-4 mb-2" style={{}}>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Company Name"
+                  style={{
+                    border: "1px solid #E0E0E0",
+                    fontSize: "0.7rem",
+                  }}
+                  id="companyName"
+                  name="companyName"
+                  value={companyName}
+                  onChange={(e) => setcompanyName(e.target.value)}
+                />
+              </div>
+              <div className="col col-7 mb-2 mt-4 mt-md-2 col-md-4" style={{}}>
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Address"
+                  style={{
+                    border: "1px solid #E0E0E0",
+                    fontSize: "0.7rem",
+                  }}
+                  id="Address"
+                  name="Address"
+                  value={Address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+              <div
+                className="col col-7 mb-2  mt-4 mt-md-2 col-md-4 d-flex align-items-center justify-content-center"
                 style={{}}
               >
-                <Modal.Header
-                  closeButton
+                <button
+                  className="btn btn-sm"
                   style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItem: "center",
-                    borderBottom: "none",
+                    backgroundColor: "#D94F00",
+                    color: "white",
+                    fontSize: "0.7rem",
+                    borderRadius: "3px",
                   }}
-                ></Modal.Header>
-
-                <Modal.Body style={{}}>
-                  <div className="row">
-                    <div className="col col-12 d-flex justify-content-center">
-                      <img
-                        className="successImg"
-                        src={success}
-                        alt="sucessfullycreated"
-                        style={{ width: "8rem" }}
-                      />
-                    </div>
-
-                    <div className="col col-12 d-flex justify-content-center mt-3">
-                      <p>
-                        <b>Congratulations</b>
-                      </p>
-                    </div>
-                    <div className="col col-12 d-flex justify-content-center">
-                      <p style={{ fontWeight: "200", fontSize: "0.8rem" }}>
-                        {Address} Branch had been created successfully
-                      </p>
-                    </div>
-                  </div>
-                </Modal.Body>
-              </Modal>
+                  onClick={createBranches}
+                >
+                  Create Branch
+                </button>
+              </div>
             </div>
+          </div>
 
-            <div
-              className="col col-9 mr-auto ml-auto"
+          {/* modal */}
+          <Modal show={show} onHide={handleClose} animation={true} style={{}}>
+            <Modal.Header
+              closeButton
               style={{
-                marginTop: "4%",
-                // border: "1px solid red",
+                display: "flex",
+                justifyContent: "center",
+                alignItem: "center",
+                borderBottom: "none",
               }}
+            ></Modal.Header>
+
+            <Modal.Body style={{}}>
+              <div className="row">
+                <div className="col col-12 d-flex justify-content-center">
+                  <img
+                    className="successImg"
+                    src={success}
+                    alt="sucessfullycreated"
+                    style={{ width: "8rem" }}
+                  />
+                </div>
+
+                <div className="col col-12 d-flex justify-content-center mt-3">
+                  <p>
+                    <b>Congratulations</b>
+                  </p>
+                </div>
+                <div className="col col-12 d-flex justify-content-center">
+                  <p style={{ fontWeight: "200", fontSize: "0.8rem" }}>
+                    {Address} Branch had been created successfully
+                  </p>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
+
+          <div className="row ">
+            <div
+              className="col col-12 col-md-10 mr-auto ml-auto mt-5"
+              style={
+                {
+                  // border: "1px solid red",
+                }
+              }
             >
               <div
                 className="col col-12 table-responsive"
-                style={{ height: "60vh", overflow: "scroll" }}
+                style={{ height: "20vh", overflow: "scroll" }}
               >
                 <table
-                  class="table table-hover table-striped table-bordered text-center"
-                  style={{ fontSize: "0.8rem" }}
+                  class="table table-hover  table-bordered text-center"
+                  style={{
+                    fontSize: "0.8rem",
+                    border: "1px solid rgb(229,229,229)",
+                  }}
                 >
                   <thead>
                     <tr>
@@ -281,7 +303,7 @@ const CreatebranchScreen = () => {
                             borderRadius: "3px",
                           }}
                         >
-                          Add Inventory
+                          Add <span className="removethis">Inventory</span>
                         </button>
                       </td>
                     </tr>
@@ -311,6 +333,14 @@ const CreatebranchScreen = () => {
       >
         &#5730;
       </button>
+      <Sidenav
+        show={side}
+        onHide={sideClose}
+        roles={roles}
+        branches={branches}
+        onClick={logOut}
+        exit={exit}
+      />
     </div>
   );
 };

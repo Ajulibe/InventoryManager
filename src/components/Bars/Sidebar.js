@@ -43,7 +43,7 @@ const Sidebar = (props) => {
               marginTop: "1rem",
             }}
           >
-            <Link to="overview" className="linkTag">
+            <Link to="overAdmin" className="linkTag">
               <div
                 className="mt-2 text-center"
                 style={{

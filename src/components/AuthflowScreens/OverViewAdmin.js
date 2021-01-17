@@ -967,20 +967,7 @@ const OverViewAdmin = () => {
                             </b>
                           </Link>
                         </div>
-                        <div className="col col-12 text-center mt-2">
-                          <Link to="createbranch" className="linkTag">
-                            <img
-                              src={branches}
-                              alt="branches"
-                              style={{ width: "1.5rem" }}
-                            />
-                            <b>
-                              <p style={{ color: "#151423" }}>
-                                Create Branches
-                              </p>
-                            </b>
-                          </Link>
-                        </div>
+
                         <div className="col col-12 text-center mt-2 mb-4">
                           <Link onClick={logOut} className="linkTag">
                             <img
