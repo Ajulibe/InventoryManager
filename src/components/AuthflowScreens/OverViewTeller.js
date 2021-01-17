@@ -24,7 +24,7 @@ import {
 import SeeAll from "../Modals/SeeAll";
 import Newproduct from "../Modals/Newproduct";
 import Navbar from "../Bars/Navbar";
-import Sidebar from "../Bars/Sidebar";
+import SidebarTeller from "../Bars/SidebarTeller";
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
@@ -154,12 +154,12 @@ const OverViewTeller = () => {
   };
 
   useEffect(() => {
-    if (state.isAuthenticated === false) {
-      history.push("/");
-    } else {
-      fetchproducts();
-      fetchbranches();
-    }
+    // if (state.isAuthenticated === false) {
+    //   history.push("/");
+    // } else {
+    //   fetchproducts();
+    //   fetchbranches();
+    // }
   }, [change]);
 
   const selectBFn = (e) => {
@@ -569,7 +569,7 @@ const OverViewTeller = () => {
     >
       <Navbar />
       <div class="row">
-        <Sidebar
+        <SidebarTeller
           all={all}
           roleswhite={roleswhite}
           brancheswhite={brancheswhite}

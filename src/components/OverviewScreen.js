@@ -155,12 +155,12 @@ const OverviewScreen = () => {
   };
 
   useEffect(() => {
-    // if (state.isAuthenticated === false) {
-    //   history.push("/");
-    // } else {
-    //   fetchproducts();
-    //   fetchbranches();
-    // }
+    if (state.isAuthenticated === false) {
+      history.push("/");
+    } else {
+      fetchproducts();
+      fetchbranches();
+    }
   }, [change]);
 
   const selectBFn = (e) => {

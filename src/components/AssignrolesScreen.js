@@ -63,12 +63,12 @@ const AssignrolesScreen = () => {
 
   useEffect(() => {
     console.log(state);
-    // if (state.isAuthenticated === false || !localStorage.getItem("token")) {
-    //   history.push("/");
-    // } else {
-    //   localStorage.setItem("inventory", state.data.inventory);
-    //   localStorage.setItem("modalState", state.data.showModal);
-    // }
+    if (state.isAuthenticated === false || !localStorage.getItem("token")) {
+      history.push("/");
+    } else {
+      localStorage.setItem("inventory", state.data.inventory);
+      localStorage.setItem("modalState", state.data.showModal);
+    }
   }, [state]);
 
   //SIDEBAR MODAL

@@ -24,7 +24,8 @@ import {
 import SeeAll from "../Modals/SeeAll";
 import Newproduct from "../Modals/Newproduct";
 import Navbar from "../Bars/Navbar";
-import Sidebar from "../Bars/Sidebar";
+import SidebarAdmin from "../Bars/SidebarAdmin";
+import Sidenav from "../Modals/Sidenav";
 
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`
@@ -154,12 +155,12 @@ const OverViewAdmin = () => {
   };
 
   useEffect(() => {
-    if (state.isAuthenticated === false) {
-      history.push("/");
-    } else {
-      fetchproducts();
-      fetchbranches();
-    }
+    // if (state.isAuthenticated === false) {
+    //   history.push("/");
+    // } else {
+    //   fetchproducts();
+    //   fetchbranches();
+    // }
   }, [change]);
 
   const selectBFn = (e) => {
@@ -569,7 +570,7 @@ const OverViewAdmin = () => {
     >
       <Navbar />
       <div class="row">
-        <Sidebar
+        <SidebarAdmin
           all={all}
           roleswhite={roleswhite}
           brancheswhite={brancheswhite}
@@ -920,71 +921,15 @@ const OverViewAdmin = () => {
                 selectedBranch={selectedBranch}
                 selectBFn={selectBFn}
               />
-              <Modal
-                size="sm"
+              <Sidenav
                 show={side}
                 onHide={sideClose}
-                animation={true}
-                className="sidedis"
-              >
-                <Modal.Body
-                  style={{
-                    fontSize: "0.8rem",
-                    border: "0.5px solid rgb(21,20,35, 0.5)",
-                    borderRadius: "1rem",
-                  }}
-                >
-                  <div className="container">
-                    <div
-                      className="row d-flex justify-content-center"
-                      style={{}}
-                    >
-                      <div
-                        className="col col-8 d-flex justify-content-center flex-column"
-                        style={{}}
-                      >
-                        <div className="col col-12 text-center mt-4">
-                          <Link to="overview" className="linkTag">
-                            <img
-                              src={all}
-                              alt="all"
-                              style={{ width: "1.5rem" }}
-                            />
-                            <b>
-                              <p style={{ color: "#151423" }}>All Inventory</p>
-                            </b>
-                          </Link>
-                        </div>
-                        <div className="col col-12 text-center mt-2">
-                          <Link to="assignroles" className="linkTag">
-                            <img
-                              src={roles}
-                              alt="roleswhite"
-                              style={{ width: "1.5rem" }}
-                            />
-                            <b>
-                              <p style={{ color: "#151423" }}>Assign Roles</p>
-                            </b>
-                          </Link>
-                        </div>
+                roles={roles}
+                branches={branches}
+                onClick={logOut}
+                exit={exit}
+              />
 
-                        <div className="col col-12 text-center mt-2 mb-4">
-                          <Link onClick={logOut} className="linkTag">
-                            <img
-                              src={exit}
-                              alt="exit"
-                              style={{ width: "1.5rem" }}
-                            />
-                            <b>
-                              <p style={{ color: "#151423" }}>Log Out</p>
-                            </b>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Modal.Body>
-              </Modal>
               {/* end modal */}
               {/* MODAL FOR EDITING */}
               <Modal
