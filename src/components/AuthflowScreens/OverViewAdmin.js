@@ -33,7 +33,7 @@ const override = css`
 const OverViewAdmin = () => {
   let history = useHistory();
 
-  const { state, createproduct, logOut } = useContext(authContext);
+  const { createproduct, logOut } = useContext(authContext);
   const [imageUrl, setImageUrl] = useState("");
   const [imageAlt, setImageAlt] = useState("");
 
@@ -96,10 +96,10 @@ const OverViewAdmin = () => {
   const seeallhandleClose = () => setseeallShow(false);
   const seeallhandleShow = () => setseeallShow(true);
 
-  const Logout = () => {
-    localStorage.removeItem("token");
-    history.push("/");
-  };
+  // const Logout = () => {
+  //   localStorage.removeItem("token");
+  //   history.push("/");
+  // };
 
   const newProduct = (e) => {
     e.preventDefault();
@@ -263,33 +263,33 @@ const OverViewAdmin = () => {
   };
 
   //FETCH BRANCHES
-  const fetchbranches = async () => {
-    const token = await localStorage.getItem("token");
-    // console.log(token);
-    try {
-      const response = await axios.get(
-        "http://12.96.91.34.bc.googleusercontent.com/api/branches/introtech",
+  // const fetchbranches = async () => {
+  //   const token = await localStorage.getItem("token");
+  //   // console.log(token);
+  //   try {
+  //     const response = await axios.get(
+  //       "http://12.96.91.34.bc.googleusercontent.com/api/branches/introtech",
 
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
 
-      console.log(response.data);
+  //     console.log(response.data);
 
-      const branchesPresent = response.data.map((branch) => {
-        return (
-          <>
-            <option value={branch.name}>{branch.name}</option>
-          </>
-        );
-      });
+  //     const branchesPresent = response.data.map((branch) => {
+  //       return (
+  //         <>
+  //           <option value={branch.name}>{branch.name}</option>
+  //         </>
+  //       );
+  //     });
 
-      setReturnedbranch(branchesPresent);
-    } catch {}
-  };
+  //     setReturnedbranch(branchesPresent);
+  //   } catch {}
+  // };
 
   //GET PRODUCTS FOR EDITING
   const editProduct = async (id) => {
@@ -320,22 +320,22 @@ const OverViewAdmin = () => {
   };
 
   //REFRESH TOKEN
-  const refreshToken = async () => {
-    const token = await localStorage.getItem("token");
+  // const refreshToken = async () => {
+  //   const token = await localStorage.getItem("token");
 
-    try {
-      const response = await axios.get(
-        "http://12.96.91.34.bc.googleusercontent.com/api/refreshtoken",
+  //   try {
+  //     const response = await axios.get(
+  //       "http://12.96.91.34.bc.googleusercontent.com/api/refreshtoken",
 
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(response.data);
-    } catch {
-      alert("an error occurred");
-    }
-  };
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     console.log(response.data);
+  //   } catch {
+  //     alert("an error occurred");
+  //   }
+  // };
 
   //DELETE PRODUCTS FOR EDITING
   const deleteProduct = async (id) => {
