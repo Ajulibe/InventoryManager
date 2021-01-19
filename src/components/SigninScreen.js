@@ -6,7 +6,7 @@ import whiteOver from "../assets/whiteOver.png";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
-import { Formik, Form, Field } from "formik";
+import { Formik, Field } from "formik";
 import { css } from "@emotion/core";
 import PropagateLoader from "react-spinners/PropagateLoader";
 
@@ -113,7 +113,7 @@ const SigninScreen = () => {
   };
 
   return (
-    <div class="container-fluid" style={{}}>
+    <div class="container-fluid signback" style={{}}>
       <div class="row">
         <div
           class="col col-lg-6 col-12 backOvr"

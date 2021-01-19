@@ -1,25 +1,18 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
-import empty from "../assets/empty.svg";
 import all from "../assets/all.png";
-import alldark from "../assets/alldark.png";
 import exit from "../assets/exit.png";
 import roles from "../assets/roles.png";
 import branches from "../assets/branches.png";
 import brancheswhite from "../assets/brancheswhite.png";
 import roleswhite from "../assets/roleswhite.png";
-import kadarko from "../assets/Kadarko.svg";
 import success from "../assets/success.svg";
 import authContext from "../context/authContext";
 import { useHistory } from "react-router-dom";
 import Allrolesmodal from "./Allrolesmodal";
 import trackerApi from "../api/tracker";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import Navbar from "./Bars/Navbar";
 import Sidebar from "./Bars/Sidebar";
 import Congrats from "./Modals/Congrats";
-import { setNestedObjectValues } from "formik";
 import Sidenav from "./Modals/Sidenav";
 
 const AssignrolesScreen = () => {

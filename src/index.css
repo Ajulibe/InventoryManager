@@ -274,3 +274,9 @@ html {
     display: none;
   }
 }
+
+@media (orientation: landscape) {
+  .signback {
+    background-color: #faf1ee;
+  }
+}

@@ -2,7 +2,6 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import empty from "../../assets/empty.svg";
 import all from "../../assets/all.png";
-import alldark from "../../assets/alldark.png";
 import exit from "../../assets/exit.png";
 import roles from "../../assets/roles.png";
 import branches from "../../assets/branches.png";
@@ -15,12 +14,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { css } from "@emotion/core";
 import MoonLoader from "react-spinners/MoonLoader";
-import {
-  CloudinaryContext,
-  Transformation,
-  Image,
-  Placeholder,
-} from "cloudinary-react";
+import { CloudinaryContext, Transformation, Image } from "cloudinary-react";
 import SeeAll from "../Modals/SeeAll";
 import Newproduct from "../Modals/Newproduct";
 import Navbar from "../Bars/Navbar";

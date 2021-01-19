@@ -1,16 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
-import empty from "../assets/empty.svg";
 import all from "../assets/all.png";
-import alldark from "../assets/alldark.png";
 import exit from "../assets/exit.png";
 import roles from "../assets/roles.png";
 import branches from "../assets/branches.png";
 import brancheswhite from "../assets/brancheswhite.png";
 import roleswhite from "../assets/roleswhite.png";
-import kadarko from "../assets/Kadarko.svg";
 import success from "../assets/success.svg";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Navbar from "./Bars/Navbar";

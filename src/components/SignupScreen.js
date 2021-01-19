@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import backdrop from "../assets/backdrop.png";
 import TransOver from "../assets/TransOver.png";
@@ -50,7 +50,7 @@ const SignupScreen = () => {
   };
 
   return (
-    <div class="container-fluid">
+    <div class="container-fluid signback">
       <div class="row">
         <div
           class="col col-lg-6 col-12 backOvr "
@@ -127,7 +127,6 @@ const SignupScreen = () => {
               <Formik
                 initialValues={initialValues}
                 validate={validate}
-                validationSchema={SignupSchema}
                 validationSchema={SignupSchema}
                 onSubmit={(values) => {
                   console.log(values);

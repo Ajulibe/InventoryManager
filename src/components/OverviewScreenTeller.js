@@ -1,13 +1,7 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import empty from "../assets/empty.svg";
 import all from "../assets/all.png";
-import alldark from "../assets/alldark.png";
 import exit from "../assets/exit.png";
-import roles from "../assets/roles.png";
-import branches from "../assets/branches.png";
-import brancheswhite from "../assets/brancheswhite.png";
-import roleswhite from "../assets/roleswhite.png";
 import kadarko from "../assets/Kadarko.svg";
 
 const OverviewScreenTeller = () => {
