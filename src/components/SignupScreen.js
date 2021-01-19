@@ -60,26 +60,29 @@ const SignupScreen = () => {
             backgroundSize: "cover",
           }}
         >
-          <img
-            src={TransOver}
-            alt="overview"
-            style={{
-              width: "26%",
-              height: "28%",
-              marginLeft: "37%",
-              marginTop: "10%",
-            }}
-          />
+          <div className="row" style={{}}>
+            <img
+              src={TransOver}
+              alt="overview"
+              style={{
+                width: "14.5rem",
+                height: "13rem",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "6rem",
+              }}
+            />
+          </div>
           <div className="row d-flex justify-content-center mt-5">
             <div className="col col-10 text-center" style={{ color: "white" }}>
               <p className="mt-5">
-                <h5>
+                <h3>
                   <b>Inventory Manager</b>
-                </h5>
+                </h3>
               </p>
               <div
                 style={{
-                  fontSize: "0.7rem",
+                  fontSize: "1.2rem",
                   marginTop: "10%",
                   fontWeight: "200",
                 }}
@@ -97,7 +100,7 @@ const SignupScreen = () => {
         >
           <div class="row ">
             <div
-              class="col col-11 col-md-6 col-lg-5 col-xl-7 signupForm"
+              class="col col-11 col-md-5  signupForm"
               style={{
                 backgroundColor: "#ffffff",
                 height: "80%",

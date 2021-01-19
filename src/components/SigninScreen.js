@@ -113,7 +113,7 @@ const SigninScreen = () => {
   };
 
   return (
-    <div class="container-fluid">
+    <div class="container-fluid" style={{}}>
       <div class="row">
         <div
           class="col col-lg-6 col-12 backOvr"
@@ -123,26 +123,30 @@ const SigninScreen = () => {
             backgroundSize: "cover",
           }}
         >
-          <img
-            src={TransOver}
-            alt="overview"
-            style={{
-              width: "26%",
-              height: "28%",
-              marginLeft: "37%",
-              marginTop: "10%",
-            }}
-          />
+          <div className="row" style={{}}>
+            <img
+              src={TransOver}
+              alt="overview"
+              style={{
+                width: "14.5rem",
+                height: "13rem",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: "6rem",
+              }}
+            />
+          </div>
+
           <div className="row d-flex justify-content-center mt-5">
             <div className="col col-10 text-center" style={{ color: "white" }}>
               <p className="mt-5">
-                <h5>
+                <h3>
                   <b>Inventory Manager</b>
-                </h5>
+                </h3>
               </p>
               <div
                 style={{
-                  fontSize: "0.7rem",
+                  fontSize: "1.2rem",
                   marginTop: "10%",
                   fontWeight: "200",
                 }}
@@ -160,7 +164,7 @@ const SigninScreen = () => {
         >
           <div class="row " id="blockRoot">
             <div
-              class="col col-11 col-md-6 col-lg-5 col-xl-7 loginForm"
+              class="col col-11 col-md-5  loginForm"
               style={{
                 backgroundColor: "rgb(0,0,0,0.1)",
                 height: "80%",
@@ -415,7 +419,7 @@ const SigninScreen = () => {
           {/* SECOND SIGN IN  */}
           <div class="row ownerLogin" id="blockAdmin">
             <div
-              class="col col-11 col-md-6 col-lg-5 col-xl-7 signupForm"
+              class="col col-11 col-md-5 signupForm"
               style={{
                 backgroundColor: "#ffffff",
                 height: "80%",

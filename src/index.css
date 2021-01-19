@@ -179,6 +179,14 @@ html {
   }
 }
 
+@media screen and (max-width: 767px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .recentlyadded {
     display: none !important;
@@ -261,15 +269,8 @@ html {
   }
 }
 
-/* ORIENTATION LOCK */
-/* @media screen and (min-width: 320px) and (max-width: 767px) and (orientation: landscape) {
-  html {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    width: 100vh;
-    overflow-x: hidden;
-    position: absolute;
-    top: 100%;
-    left: 0;
+@media only screen and (max-width: 1200px) {
+  .backOvr {
+    display: none;
   }
-} */
+}
